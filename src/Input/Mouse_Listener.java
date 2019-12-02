@@ -1,4 +1,4 @@
-package GameLogic;
+package Input;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

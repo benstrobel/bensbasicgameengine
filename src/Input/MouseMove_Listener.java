@@ -1,4 +1,6 @@
-package GameLogic;
+package Input;
+
+import GameLogic.Game;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -27,7 +29,7 @@ public class MouseMove_Listener implements MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         //System.out.println("Move X: " + e.getX() + " Y: " + e.getY());
-        mousex = e.getX()-Game.widthoffset;
+        mousex = e.getX()- Game.widthoffset;
         mousey = e.getY()-Game.heightoffset;
     }
 }

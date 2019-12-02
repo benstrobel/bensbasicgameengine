@@ -1,4 +1,4 @@
-package GameLogic;
+package Sound;
 
 public enum Sound {
     AUA("aua"), SWORD("swordslash"), ITEM("item"), MUSIC("music"), DIED("youdied");

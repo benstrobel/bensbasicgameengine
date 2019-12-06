@@ -3,6 +3,7 @@ package Physic;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 public abstract class PhysicsObject{
     protected Point2D position,centerofmass;
@@ -11,7 +12,7 @@ public abstract class PhysicsObject{
     protected double velocityY;
     protected double orientation;
     protected Shape shape;
-    protected PhysicsObject collides = null;
+    protected ArrayList <PhysicsObject> collides = new ArrayList<>();
     protected int tickcounter = 0;
     protected boolean unmoveable = false;
     protected int textureid = -1;
@@ -54,13 +55,19 @@ public abstract class PhysicsObject{
         this.unmoveable = unmoveable;
     }
 
-    public PhysicsObject iscolliding() {
-        return collides;
+    public boolean iscolliding() {
+        return (collides.size() != 0);
     }
 
-    public void setColliding(PhysicsObject collides) {
-        this.collides = collides;
+    public boolean isCollidingWith(PhysicsObject object){
+        return collides.contains(object);
     }
+
+    public void setColliding(PhysicsObject object) {
+        collides.add(object);
+    }
+
+    public void resetColliding(){collides.clear();}
 
     public abstract void updateShape();
 
@@ -228,9 +235,6 @@ public abstract class PhysicsObject{
     private static boolean insideOf(PhysicsRectangle obj0, PhysicsObject obj1){
         Point2D pos0 = obj0.getPosition();
         Point2D pos1 = obj1.getPosition();
-        if(pos0.getX() < pos1.getX() && pos0.getY() < pos1.getY() && pos0.getX()+obj0.getShape().getBounds2D().getWidth() > pos1.getX() && pos0.getY()+obj0.getShape().getBounds2D().getHeight() > pos1.getY()){
-            return true;
-        }
-        return false;
+        return (pos0.getX() < pos1.getX() && pos0.getY() < pos1.getY() && pos0.getX()+obj0.getShape().getBounds2D().getWidth() > pos1.getX() && pos0.getY()+obj0.getShape().getBounds2D().getHeight() > pos1.getY());
     }
 }

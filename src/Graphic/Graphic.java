@@ -66,6 +66,14 @@ public class Graphic {
         }
     }
 
+    public void clear(){
+        synchronized (objectlist){
+            for(ArrayList<GraphicObject> list: objectlist){
+                list.clear();
+            }
+        }
+    }
+
     public int addList() {
         synchronized (objectlist) {
             int ret = objectlist.size();

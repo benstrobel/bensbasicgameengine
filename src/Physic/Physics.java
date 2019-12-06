@@ -12,24 +12,14 @@ public class Physics {
     }
 
     public void tick(){
-        //ArrayList<PhysicsObject> fol = new ArrayList<>();
-        objectlist.forEach(obj -> obj.setColliding(null));
+        objectlist.forEach(obj -> obj.resetColliding());
+        //TODO Enable Collision Detection to be accurate on higher speeds, currently collisions can't be detected if moving object is faster then "length" in moving direction
         objectlist.forEach(obj -> {obj.getPosition().setLocation(obj.getPosition().getX()+obj.getVelocityX(), obj.getPosition().getY()+obj.getVelocityY()); obj.updateShape(); obj.tick();});
         for(PhysicsObject obj : objectlist){
             for(PhysicsObject iobj : objectlist){
                 obj.detectCollision(iobj);
             }
         }
-    }
-
-    public void tick(Consumer<PhysicsObject> lambda){
-        if(lambda != null){
-            for(PhysicsObject obj : objectlist){
-                lambda.accept(obj);
-                obj.updateShape();
-            }
-        }
-        tick();
     }
 
     public boolean addObject(PhysicsObject obj){

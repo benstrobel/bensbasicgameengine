@@ -5,12 +5,13 @@ import Physic.PhysicsObject;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 public class GraphicImage extends GraphicObject {
 
     private BufferedImage image;
-    private int x = 0,y = 0;
-    private int xoffset = 0, yoffset = 0;
+    private int x,y;
+    private int xoffset, yoffset;
     boolean centered = false;
     boolean subimage = false;
     public GraphicImage(BufferedImage image, Point2D position)
@@ -52,6 +53,7 @@ public class GraphicImage extends GraphicObject {
         this.alpha = alpha;
     }
 
+    /* TODO Replace PhysicObject with required arguments to ensure low coupling
     public GraphicImage(BufferedImage image, Point2D position, PhysicsObject physicsObject, boolean widghtoffset)
     {
 
@@ -74,7 +76,7 @@ public class GraphicImage extends GraphicObject {
         this.x = (int)physicsObject.getShape().getBounds2D().getX();
         this.y = (int)physicsObject.getShape().getBounds2D().getY();
         this.centered = true;
-    }
+    }*/
 
     public void setSubimage(boolean subimage) {
         this.subimage = subimage;

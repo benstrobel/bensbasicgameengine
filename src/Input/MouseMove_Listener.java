@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 
 public class MouseMove_Listener implements MouseMotionListener {
     private int mousex = 0,mousey = 0;
+    private boolean dragged = false;
 
     public int getMousex() {
         return mousex;
@@ -17,19 +18,26 @@ public class MouseMove_Listener implements MouseMotionListener {
         return mousey;
     }
 
+    public boolean isGettingDragged(){
+        return dragged;
+    }
+
     public Point2D getMousePos(){
         return new Point2D.Double(mousex,mousey);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
+        //TODO Check if MousePos is accurate
+        dragged = true;
+        mousex = e.getX();//- Game.widthoffset;
+        mousey = e.getY();//-Game.heightoffset;
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        //System.out.println("Move X: " + e.getX() + " Y: " + e.getY());
-        mousex = e.getX()- Game.widthoffset;
-        mousey = e.getY()-Game.heightoffset;
+        dragged = false;
+        mousex = e.getX();//- Game.widthoffset;
+        mousey = e.getY();//-Game.heightoffset;
     }
 }

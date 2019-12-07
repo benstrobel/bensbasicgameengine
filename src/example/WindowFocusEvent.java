@@ -5,7 +5,7 @@ import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.WindowFocusListener;
 
 public class WindowFocusEvent extends LogicEvent {
-d
+
     private WindowFocusListener windowFocusListener;
     private KeyListener keyListener;
 

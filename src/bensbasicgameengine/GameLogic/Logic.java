@@ -1,13 +1,13 @@
-package GameLogic;
+package bensbasicgameengine.GameLogic;
 
-import Graphic.Graphic;
-import Graphic.GraphicObject;
-import Input.KeyListener;
-import Input.MouseMove_Listener;
-import Input.Mouse_Listener;
-import Lib.Tools;
-import Physic.PhysicsObject;
-import Sound.SoundManager;
+import bensbasicgameengine.Graphic.Graphic;
+import bensbasicgameengine.Graphic.GraphicObject;
+import bensbasicgameengine.Input.KeyListener;
+import bensbasicgameengine.Input.MouseMove_Listener;
+import bensbasicgameengine.Input.Mouse_Listener;
+import bensbasicgameengine.Lib.Tools;
+import bensbasicgameengine.Physic.PhysicsObject;
+import bensbasicgameengine.Sound.SoundManager;
 
 import java.util.ArrayList;
 import java.util.Iterator;

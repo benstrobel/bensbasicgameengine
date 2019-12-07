@@ -1,11 +1,10 @@
-package Graphic;
+package bensbasicgameengine.Graphic;
 
-import Physic.PhysicsObject;
+import bensbasicgameengine.Physic.PhysicsObject;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
 public class GraphicImage extends GraphicObject {
 

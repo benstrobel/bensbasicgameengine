@@ -1,7 +1,7 @@
-package GameLogic;
+package bensbasicgameengine.GameLogic;
 
-import Graphic.GraphicObject;
-import Physic.PhysicsObject;
+import bensbasicgameengine.Graphic.GraphicObject;
+import bensbasicgameengine.Physic.PhysicsObject;
 
 public class GameObject {
 

@@ -1,4 +1,4 @@
-package Sound;
+package bensbasicgameengine.Sound;
 
 import javax.sound.sampled.*;
 import java.io.BufferedInputStream;

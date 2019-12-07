@@ -1,4 +1,4 @@
-package Lib;
+package bensbasicgameengine.Lib;
 
 public class Tools {
 

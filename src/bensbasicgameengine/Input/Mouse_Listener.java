@@ -1,4 +1,4 @@
-package Input;
+package bensbasicgameengine.Input;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

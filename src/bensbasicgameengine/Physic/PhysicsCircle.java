@@ -1,4 +1,4 @@
-package Physic;
+package bensbasicgameengine.Physic;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

@@ -1,6 +1,4 @@
-package Input;
-
-import GameLogic.Game;
+package bensbasicgameengine.Input;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;

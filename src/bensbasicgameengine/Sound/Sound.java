@@ -1,4 +1,4 @@
-package Sound;
+package bensbasicgameengine.Sound;
 
 public enum Sound {
     AUA("aua"), SWORD("swordslash"), ITEM("item"), MUSIC("music"), DIED("youdied");

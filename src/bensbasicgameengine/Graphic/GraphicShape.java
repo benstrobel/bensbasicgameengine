@@ -1,4 +1,4 @@
-package Graphic;
+package bensbasicgameengine.Graphic;
 
 import java.awt.*;
 

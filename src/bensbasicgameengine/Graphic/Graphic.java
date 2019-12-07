@@ -1,11 +1,9 @@
-package Graphic;
+package bensbasicgameengine.Graphic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Graphic {
 
@@ -21,10 +19,12 @@ public class Graphic {
             public void paint(java.awt.Graphics g) {
                 try {
                     Graphics2D g2d = ((Graphics2D) g);
-                    for (int y = 0; background != null && y < background.length; y++) {
-                        for (int x = 0; x < background[0].length; x++) {
-                            if (background[y][x] != null) {
-                                g2d.drawImage(background[y][x], x * tilesize, y * tilesize, null);
+                    if(background != null){
+                        for (int y = 0; y < background.length; y++) {
+                            for (int x = 0; x < background[0].length; x++) {
+                                if (background[y][x] != null) {
+                                    g2d.drawImage(background[y][x], x * tilesize, y * tilesize, null);
+                                }
                             }
                         }
                     }

@@ -1,4 +1,4 @@
-package GameLogic;
+package bensbasicgameengine.GameLogic;
 
 public abstract class LogicEvent {
 

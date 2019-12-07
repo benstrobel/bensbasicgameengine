@@ -168,5 +168,6 @@ public class KeyListener extends KeyAdapter {
         for(int i = 0; i < key.length;i++){
             key[i] = false;
         }
+        keypressed = true;
     }
 }

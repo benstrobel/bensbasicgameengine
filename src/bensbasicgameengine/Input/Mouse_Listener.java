@@ -4,6 +4,7 @@ package bensbasicgameengine.Input;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 
 public class Mouse_Listener implements MouseListener  {
 
@@ -12,12 +13,14 @@ public class Mouse_Listener implements MouseListener  {
      */
 
     private boolean mousePressed = false, mouseReleased = false, mouseEntered = false, mouseExited = false;
+    private Point2D pos;
 
     public void reset(){
         mousePressed = false;
         mouseEntered = false;
         mouseExited = false;
         mouseReleased = false;
+        pos = null;
     }
 
     public boolean isMousePressed() {
@@ -40,28 +43,37 @@ public class Mouse_Listener implements MouseListener  {
         return mouseReleased;
     }
 
+    public Point2D getPos() {
+        return pos;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         mousePressed = true;
+        pos = e.getPoint();
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         mousePressed = true;
+        pos = e.getPoint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         mouseReleased = true;
+        pos = e.getPoint();
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         mouseEntered = true;
+        pos = e.getPoint();
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         mouseExited = true;
+        pos = e.getPoint();
     }
 }

@@ -9,16 +9,16 @@ import java.awt.geom.Point2D;
 public class PhysicsCircle extends PhysicsObject{
 
     private double radius;
-    public PhysicsCircle(Point2D position, Point2D centerofmass, double mass, double radius)
+    public PhysicsCircle(Point2D position, double mass, double radius)
     {
-        super(position, centerofmass,mass);
+        super(position, mass);
         this.radius = radius;
         updateShape();
     }
 
-    public PhysicsCircle(Point2D position, Point2D centerofmass, double mass, double radius, int textureid)
+    public PhysicsCircle(Point2D position, double mass, double radius, int textureid)
     {
-        super(position, centerofmass,mass);
+        super(position, mass);
         this.radius = radius;
         this.textureid = textureid;
         updateShape();

@@ -10,17 +10,17 @@ public class PhysicsRectangle extends PhysicsObject{
 
     //TODO Remove centerofmass
 
-    public PhysicsRectangle(Point2D position, Point2D centerofmass, double mass, int height, int width)
+    public PhysicsRectangle(Point2D position, double mass, int height, int width)
     {
-        super(position, centerofmass, mass);
+        super(position, mass);
         this.height = height;
         this.width = width;
         updateShape();
     }
 
-    public PhysicsRectangle(Point2D position, Point2D centerofmass, double mass, int height, int width, int textureid)
+    public PhysicsRectangle(Point2D position, double mass, int height, int width, int textureid)
     {
-        super(position, centerofmass, mass);
+        super(position, mass);
         this.height = height;
         this.width = width;
         this.textureid = textureid;

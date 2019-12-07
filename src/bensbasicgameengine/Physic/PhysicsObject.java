@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public abstract class PhysicsObject{
-    protected Point2D position,centerofmass;
+    protected Point2D position;
     protected double mass;
     protected double velocityX;
     protected double velocityY;
@@ -21,10 +21,9 @@ public abstract class PhysicsObject{
     protected boolean removeflag = false;
     protected boolean ignoreinsidecollision = false;
     int protection = 0;
-    public PhysicsObject(Point2D position, Point2D centerofmass, double mass)
+    public PhysicsObject(Point2D position, double mass)
     {
         this.position = position;
-        this.centerofmass = centerofmass;
         this.mass = mass;
     }
 
@@ -79,10 +78,6 @@ public abstract class PhysicsObject{
         return position;
     }
 
-    public Point2D getCenterofmass() {
-        return centerofmass;
-    }
-
     public double getMass() {
         return mass;
     }
@@ -101,10 +96,6 @@ public abstract class PhysicsObject{
 
     public void setPosition(Point2D position) {
         this.position = position;
-    }
-
-    public void setCenterofmass(Point2D centerofmass) {
-        this.centerofmass = centerofmass;
     }
 
     public void setMass(double mass) {

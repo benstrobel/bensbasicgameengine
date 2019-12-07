@@ -8,6 +8,7 @@ import bensbasicgameengine.Graphic.GraphicImage;
 import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
+import bensbasicgameengine.Physic.Physics;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
 import bensbasicgameengine.Sound.SoundManager;
@@ -22,11 +23,12 @@ import java.net.URL;
 public class Example {
 
     Graphic graphic = new Graphic();
+    Physics physics = new Physics();
     //SoundManager soundManager = new SoundManager();
     KeyListener keyListener = new KeyListener();
     Mouse_Listener mouse_listener = new Mouse_Listener();
     MouseMove_Listener mouseMove_listener = new MouseMove_Listener();
-    Logic logic = new Logic(graphic,null,keyListener,mouse_listener,mouseMove_listener);
+    Logic logic = new Logic(graphic,physics,null,keyListener,mouse_listener,mouseMove_listener);
 
     String texturepaths [] = {"dude.png"};
     BufferedImage textures [];
@@ -61,8 +63,7 @@ public class Example {
 
     private void setupPlayer(){
         PhysicsObject playerrectangle = new PhysicsRectangle(new Point2D.Double(100,100), null, 1, 90, 70);
-        GraphicImage playerimage = new GraphicImage(textures[0],playerrectangle.getPosition(),playerrectangle);
-        player = new GameObject(playerrectangle,playerimage);
+        player = new GameObject(playerrectangle,textures[0]);
         player.setGraphiclayerid(0);
         logic.addGameObject(player);
     }

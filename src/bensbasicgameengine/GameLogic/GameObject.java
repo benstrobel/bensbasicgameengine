@@ -1,19 +1,22 @@
 package bensbasicgameengine.GameLogic;
 
+import bensbasicgameengine.Graphic.GraphicImage;
 import bensbasicgameengine.Graphic.GraphicObject;
 import bensbasicgameengine.Physic.PhysicsObject;
+
+import java.awt.image.BufferedImage;
 
 public class GameObject {
 
     private PhysicsObject physicsObject;
-    private GraphicObject graphicObject;
+    private BufferedImage bufferedImage;
     private int graphiclayerid;
 
     //TODO Replace GraphicObject with TextureID
 
-    public GameObject(PhysicsObject physicsObject, GraphicObject graphicObject){
+    public GameObject(PhysicsObject physicsObject, BufferedImage bufferedImage){
         this.physicsObject = physicsObject;
-        this.graphicObject = graphicObject;
+        this.bufferedImage = bufferedImage;
     }
 
     public void setGraphiclayerid(int graphiclayerid) {
@@ -29,6 +32,6 @@ public class GameObject {
     }
 
     public GraphicObject getGraphicObject() {
-        return graphicObject;
+        return new GraphicImage(bufferedImage, physicsObject.getPosition(), physicsObject);
     }
 }

@@ -43,6 +43,7 @@ public class KeyEvent extends LogicEvent {
                 player.getPhysicsObject().setVelocityX(0);
             }
         }
+
     }
 
     @Override

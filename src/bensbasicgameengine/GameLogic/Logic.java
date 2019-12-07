@@ -6,6 +6,7 @@ import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
 import bensbasicgameengine.Lib.Tools;
+import bensbasicgameengine.Physic.Physics;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Sound.SoundManager;
 
@@ -15,6 +16,7 @@ import java.util.Iterator;
 public class Logic {
 
     private Graphic graphic;
+    private Physics physics;
     private SoundManager soundManager;
     private KeyListener keyListener;
     private Mouse_Listener mouse_listener;
@@ -34,8 +36,9 @@ public class Logic {
 
     //TODO Show Hitbox
 
-    public Logic(Graphic graphic, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener){
+    public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener){
         this.graphic = graphic;
+        this.physics = physics;
         this.soundManager = soundManager;
         this.keyListener = keyListener;
         this.mouse_listener = mouse_listener;
@@ -65,6 +68,7 @@ public class Logic {
 
     private void logictick(){
         handleGlobalEvents();
+        physics.tick();
         tickcounter++;
     }
 
@@ -73,10 +77,6 @@ public class Logic {
         addgameObjects();
         addhudObjects();
         graphic.repaint();
-    }
-
-    private void clearGraphicss(){
-        graphic.clear();
     }
 
     private void addgameObjects(){
@@ -147,12 +147,14 @@ public class Logic {
     public void addGameObject(GameObject gameObject){
         synchronized (gameObjects){
             gameObjects.add(gameObject);
+            physics.addObject(gameObject.getPhysicsObject());
         }
     }
 
-    public void remvoeGameObject(GameObject gameObject){
+    public void removeGameObject(GameObject gameObject){
         synchronized (gameObjects){
             gameObjects.remove(gameObject);
+            physics.removeObject(gameObject.getPhysicsObject());
         }
     }
 

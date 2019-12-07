@@ -19,37 +19,38 @@ public class Graphic {
         panel = new JPanel() {
             @Override
             public void paint(java.awt.Graphics g) {
-                try {
-                    Graphics2D g2d = ((Graphics2D) g);
-                    if(background != null){
-                        for (int y = 0; y < background.length; y++) {
-                            for (int x = 0; x < background[0].length; x++) {
-                                if (background[y][x] != null) {
-                                    g2d.drawImage(background[y][x], x * tilesize, y * tilesize, null);
+                synchronized (objectlist){
+                    try {
+                        Graphics2D g2d = ((Graphics2D) g);
+                        if(background != null){
+                            for (int y = 0; y < background.length; y++) {
+                                for (int x = 0; x < background[0].length; x++) {
+                                    if (background[y][x] != null) {
+                                        g2d.drawImage(background[y][x], x * tilesize, y * tilesize, null);
+                                    }
                                 }
                             }
                         }
-                    }
-                    synchronized (objectlist) {
                         for (ArrayList<GraphicObject> list : objectlist) {
                             for (GraphicObject graphicObject : list) //ConcurrentEx
                             {
                                 graphicObject.paint(g2d);
                             }
                         }
+                        if (cursor != null) {
+                            cursor.paint(g2d);
+                        }
+                    } catch (java.util.ConcurrentModificationException ex) {
+                        System.out.println("#Graphics: Repainting too fast, graphics cant keep up");
                     }
-                    if (cursor != null) {
-                        cursor.paint(g2d);
-                    }
-                } catch (java.util.ConcurrentModificationException ex) {
-                    System.out.println("#Graphics: Repainting too fast, graphics cant keep up");
                 }
             }
         };
     }
 
     public void repaint() {
-        panel.repaint();
+        panel.getParent().repaint();
+        //panel.repaint();
     }
 
     public void setBackground(BufferedImage[][] background) {

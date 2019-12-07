@@ -1,3 +1,5 @@
+// Copyright 2019, Benedikt Strobel, All rights reserved.
+
 package bensbasicgameengine.Input;
 
 import java.awt.event.KeyAdapter;

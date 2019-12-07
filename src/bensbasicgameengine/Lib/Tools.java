@@ -1,3 +1,5 @@
+// Copyright 2019, Benedikt Strobel, All rights reserved.
+
 package bensbasicgameengine.Lib;
 
 public class Tools {

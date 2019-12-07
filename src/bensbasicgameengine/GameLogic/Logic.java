@@ -32,6 +32,7 @@ public class Logic {
     private ArrayList<GraphicObject> hudObjects;
     private ArrayList<PhysicsObject> triggerObjects;
 
+    //TODO Show Hitbox
 
     public Logic(Graphic graphic, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener){
         this.graphic = graphic;
@@ -43,9 +44,6 @@ public class Logic {
         gameObjects = new ArrayList<>();
         hudObjects = new ArrayList<>();
         triggerObjects = new ArrayList<>();
-        if(keyListener != null){
-            graphic.getPanel().addKeyListener(keyListener);
-        }
         if(mouse_listener != null){
             graphic.getPanel().addMouseListener(mouse_listener);
         }
@@ -71,11 +69,10 @@ public class Logic {
     }
 
     private void graphictick(){
-
+        graphic.clear();
         addgameObjects();
         addhudObjects();
         graphic.repaint();
-        graphic.clear();
     }
 
     private void clearGraphicss(){
@@ -87,7 +84,7 @@ public class Logic {
             synchronized (graphic.getObjectlist()){
                 for(GameObject gameObject : gameObjects){
                     if(gameObject.getGraphiclayerid() <= graphiclayers){
-                        graphic.getObjectlist().get(gameObject.getGraphiclayerid()).add(gameObject.getGraphicObject());
+                        graphic.add(gameObject.getGraphiclayerid(), gameObject.getGraphicObject());
                     }
                 }
             }
@@ -98,13 +95,13 @@ public class Logic {
         synchronized (hudObjects){
             synchronized (graphic.getObjectlist()){
                 for(GraphicObject graphicObject : hudObjects){
-                    graphic.getObjectlist().get(graphiclayers).add(graphicObject);
+                    graphic.add(graphiclayers,graphicObject);
                 }
             }
         }
     }
 
-    private void addGraphicLayer(){
+    public void addGraphicLayer(){
         graphiclayers = graphic.addList();
     }
 
@@ -157,5 +154,9 @@ public class Logic {
         synchronized (gameObjects){
             gameObjects.remove(gameObject);
         }
+    }
+
+    public void setGraphiclayers(int graphiclayers){
+        this.graphiclayers = graphiclayers;
     }
 }

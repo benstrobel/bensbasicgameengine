@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class SoundManager {
+
+    //TODO Adapt SoundManager
+
     private AudioInputStream audioIn;
     private HashMap<Sound, Clip> clips;
     private HashSet<Soundentry> toplay;

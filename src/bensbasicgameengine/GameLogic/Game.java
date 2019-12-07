@@ -3,9 +3,6 @@ package bensbasicgameengine.GameLogic;
 import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
-import Physics.Physics;
-import Physics.PhysicsObject;
-import Physics.PhysicsRectangle;
 import bensbasicgameengine.Sound.SoundManager;
 
 import javax.imageio.ImageIO;
@@ -24,7 +21,7 @@ import java.util.Random;
 
 public class Game {
 
-    public static int restrictionsize_low = 200;
+    /*public static int restrictionsize_low = 200;
     public static int restrictionsize_high = 600;
     public static int speed = 5;
     public static int radius = 5;
@@ -78,14 +75,14 @@ public class Game {
         setup();
         showcontrols();
         loop();
-    }
+    }*/
 
     public static void main(String [] args)
     {
         new Game();
     }
 
-    private void reset(){
+    /*private void reset(){
         g.getObjectlist().get(glistid).clear();
         p.getObjectList().clear();
         attacksprite = false;
@@ -841,6 +838,6 @@ public class Game {
             playerattack();
             mouse_listener.reset();
         }
-    }
+    }*/
 
 }

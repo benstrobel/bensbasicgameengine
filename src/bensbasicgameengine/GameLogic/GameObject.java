@@ -9,6 +9,8 @@ public class GameObject {
     private GraphicObject graphicObject;
     private int graphiclayerid;
 
+    //TODO Replace GraphicObject with TextureID
+
     public GameObject(PhysicsObject physicsObject, GraphicObject graphicObject){
         this.physicsObject = physicsObject;
         this.graphicObject = graphicObject;

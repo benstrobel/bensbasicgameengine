@@ -157,7 +157,8 @@ public class KeyListener extends KeyAdapter {
         return keypressed;
     }
 
-    public boolean[] getKeys() {
+    public boolean[] getKeysAndReset() {
+        keypressed = false;
         return key;
     }
 

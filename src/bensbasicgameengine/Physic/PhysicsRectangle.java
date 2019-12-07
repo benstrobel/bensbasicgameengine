@@ -5,6 +5,9 @@ import java.awt.geom.*;
 
 public class PhysicsRectangle extends PhysicsObject{
     private int height,width;
+
+    //TODO Remove centerofmass
+
     public PhysicsRectangle(Point2D position, Point2D centerofmass, double mass, int height, int width)
     {
         super(position, centerofmass, mass);

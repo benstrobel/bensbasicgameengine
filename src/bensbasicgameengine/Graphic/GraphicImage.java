@@ -37,8 +37,11 @@ public class GraphicImage extends GraphicObject {
         this.image = image;
         xoffset = differance(image.getWidth(),(int)(physicsObject.getShape().getBounds2D().getWidth()))/2;
         yoffset = differance(image.getHeight(),(int)(physicsObject.getShape().getBounds2D().getHeight()))/2;
-        this.x = (int)position.getX();
-        this.y = (int)position.getY();
+        //TODO
+        x = (int)physicsObject.getPosition().getX();
+        y = (int)physicsObject.getPosition().getY();
+        //this.x = (int)position.getX();
+        //this.y = (int)position.getY();
         this.centered = true;
     }
 

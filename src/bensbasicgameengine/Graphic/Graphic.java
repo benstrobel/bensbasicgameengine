@@ -13,6 +13,8 @@ public class Graphic {
     private final int tilesize = 64;
     private GraphicImage cursor = null;
 
+    //TODO Rewrite Graphics
+
     public Graphic() {
         panel = new JPanel() {
             @Override
@@ -79,6 +81,16 @@ public class Graphic {
             int ret = objectlist.size();
             objectlist.add(new ArrayList<>());
             return ret;
+        }
+    }
+
+    public boolean add(int listid, GraphicObject object){
+        synchronized (objectlist){
+            if(listid < objectlist.size() || listid == 0 && objectlist.size() == 0){
+                objectlist.get(listid).add(object);
+                return true;
+            }
+            return false;
         }
     }
 

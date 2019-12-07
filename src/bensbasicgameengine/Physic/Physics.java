@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Physics {
 
+    //TODO Add composits
+
     private ArrayList<PhysicsObject> objectlist = new ArrayList<>();
 
     public Physics(){

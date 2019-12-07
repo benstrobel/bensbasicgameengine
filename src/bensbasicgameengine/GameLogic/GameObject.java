@@ -14,8 +14,6 @@ public class GameObject {
     private BufferedImage bufferedImage;
     private int graphiclayerid;
 
-    //TODO Replace GraphicObject with TextureID
-
     public GameObject(PhysicsObject physicsObject, BufferedImage bufferedImage){
         this.physicsObject = physicsObject;
         this.bufferedImage = bufferedImage;

@@ -114,7 +114,7 @@ public class SoundManager {
     private void loadSound(Sound s)
     {
         Clip clip = null;
-        InputStream in = SoundManager.class.getResourceAsStream("/" + s.getSoundName() + ".wav");
+        InputStream in = SoundManager.class.getResourceAsStream("/" + s.getSoundFileName() + ".wav");
         InputStream bufferedIn = new BufferedInputStream(in);
         try
         {
@@ -125,7 +125,7 @@ public class SoundManager {
             e.printStackTrace();
         }
         catch (IOException | LineUnavailableException e) {
-            System.out.println(s.getSoundName());
+            System.out.println(s.getSoundFileName());
             e.printStackTrace();
         }
         try {

@@ -5,11 +5,11 @@ package bensbasicgameengine.Sound;
 public enum Sound {
     AUA("aua"), SWORD("swordslash"), ITEM("item"), MUSIC("music"), DIED("youdied");
 
-    private final String soundName;
+    private final String soundFileName;
 
-    private Sound(String soundName){this.soundName = soundName;};
+    private Sound(String soundFileName){this.soundFileName = soundFileName;};
 
-    public String getSoundName(){return this.soundName;};
+    public String getSoundFileName(){return this.soundFileName;};
 }
 
 

@@ -17,7 +17,6 @@ import bensbasicgameengine.Sound.SoundManager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.event.WindowEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -48,6 +47,7 @@ public class Example {
         setupPlayer();
         setupEvents();
         setupWindow();
+        logic.setShowhitbox(true);
         logic.startloop();
     }
 
@@ -61,8 +61,8 @@ public class Example {
         frame.addWindowFocusListener(windowFocusListener);
         //frame.setUndecorated(true);
         //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
         frame.setVisible(true);
+        graphic.setFrame(frame);
     }
 
     private void setupEvents(){

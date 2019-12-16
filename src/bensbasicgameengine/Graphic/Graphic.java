@@ -14,6 +14,7 @@ public class Graphic {
     private BufferedImage[][] background;
     private final int tilesize = 64;
     private GraphicImage cursor = null;
+    private JFrame frame;
 
     //TODO Rewrite Graphics
 
@@ -51,7 +52,11 @@ public class Graphic {
     }
 
     public void repaint() {
-        panel.getParent().repaint();
+        if(frame != null){
+            frame.repaint();
+        }else{
+            panel.getParent().repaint();
+        }
         //panel.repaint();
     }
 
@@ -62,6 +67,8 @@ public class Graphic {
     public void setCursor(GraphicImage cursor) {
         this.cursor = cursor;
     }
+
+    public void setFrame(JFrame frame){this.frame  = frame;}
 
     public void addObject(int listid, GraphicObject graphicObject) {
         synchronized (objectlist) {

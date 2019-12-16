@@ -4,6 +4,7 @@ package bensbasicgameengine.GameLogic;
 
 import bensbasicgameengine.Graphic.Graphic;
 import bensbasicgameengine.Graphic.GraphicObject;
+import bensbasicgameengine.Graphic.GraphicShape;
 import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
@@ -13,6 +14,7 @@ import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Sound.SoundManager;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -29,7 +31,7 @@ public class Logic {
     private long tickcounter = 0;
     private final int tickspersecond = 60;
     private final int waittime = 1000/tickspersecond; //in ms
-    private boolean run = true;
+    private boolean run = true, showhitbox = false;
     private int graphiclayers = -1;
 
     private ArrayList<LogicEvent> logicEvents;
@@ -95,6 +97,15 @@ public class Logic {
     }
 
     private void addhudObjects(){
+        synchronized (gameObjects){
+            synchronized (graphic.getObjectlist()){
+                for(GameObject gameObject : gameObjects){
+                    Color c = null;
+                    if(gameObject.getPhysicsObject().iscolliding()){c = Color.RED;}else{c = Color.GREEN;}
+                    graphic.add(graphiclayers,new GraphicShape(gameObject.getPhysicsObject().getShape(), c, false));
+                }
+            }
+        }
         synchronized (hudObjects){
             synchronized (graphic.getObjectlist()){
                 for(GraphicObject graphicObject : hudObjects){
@@ -163,5 +174,13 @@ public class Logic {
 
     public void setGraphiclayers(int graphiclayers){
         this.graphiclayers = graphiclayers;
+    }
+
+    public boolean isshowinghitboxes(){
+        return showhitbox;
+    }
+
+    public void setShowhitbox(boolean showhitbox){
+        this.showhitbox = showhitbox;
     }
 }

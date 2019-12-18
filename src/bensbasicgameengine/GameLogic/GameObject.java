@@ -5,6 +5,7 @@ package bensbasicgameengine.GameLogic;
 import bensbasicgameengine.Graphic.GraphicImage;
 import bensbasicgameengine.Graphic.GraphicObject;
 import bensbasicgameengine.Physic.PhysicsObject;
+import bensbasicgameengine.Physic.PhysicsRectangle;
 
 import java.awt.image.BufferedImage;
 
@@ -13,6 +14,7 @@ public class GameObject {
     private PhysicsObject physicsObject;
     private BufferedImage bufferedImage;
     private int graphiclayerid;
+    private double orientation = 0;
 
     public GameObject(PhysicsObject physicsObject, BufferedImage bufferedImage){
         this.physicsObject = physicsObject;
@@ -32,6 +34,17 @@ public class GameObject {
     }
 
     public GraphicObject getGraphicObject() {
-        return new GraphicImage(bufferedImage, physicsObject.getPosition(), physicsObject);
+        GraphicImage image = new GraphicImage(bufferedImage, physicsObject);
+        image.setOrientation(orientation);
+        return image;
+    }
+
+    public double getOrientation() {
+        return orientation;
+    }
+
+    public void rotate(double angle){
+        physicsObject.setOrientation(angle);
+        orientation = angle;
     }
 }

@@ -36,7 +36,7 @@ public class PhysicsRectangle extends PhysicsObject{
     }
 
     public void updateShape(){
-        shape = new Rectangle2D.Double(position.getX(), position.getY(), width, height);
+        setShape(new Rectangle2D.Double(position.getX(), position.getY(), width, height));
     }
 
     @Override
@@ -63,9 +63,8 @@ public class PhysicsRectangle extends PhysicsObject{
 
     private Shape rotate(double angle){
         AffineTransform t = new AffineTransform();
-        t.rotate(Math.toRadians(angle),shape.getBounds2D().getX(),shape.getBounds2D().getY());
+        t.rotate(Math.toRadians(angle),shape.getBounds2D().getX()+shape.getBounds2D().getWidth()/2,shape.getBounds2D().getY() + shape.getBounds2D().getHeight()/2);
         Path2D.Double p = (Path2D.Double) t.createTransformedShape(shape);
-        p.moveTo(shape.getBounds2D().getX(),shape.getBounds2D().getY());
         return p;
     }
 

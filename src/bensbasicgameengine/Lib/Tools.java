@@ -12,4 +12,12 @@ public class Tools {
             e.printStackTrace();
         }
     }
+
+    public static int differance(int a, int b){
+        if(a > b){
+            return Math.abs(a-b);
+        }else{
+            return Math.abs(b-a);
+        }
+    }
 }

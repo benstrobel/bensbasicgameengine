@@ -20,6 +20,7 @@ public abstract class PhysicsObject{
     protected int textureid = -1;
     protected boolean removeflag = false;
     protected boolean ignoreinsidecollision = false;
+    protected double originalwidth, originalheight;
     int protection = 0;
     public PhysicsObject(Point2D position, double mass)
     {
@@ -120,6 +121,16 @@ public abstract class PhysicsObject{
 
     public void setShape(Shape shape) {
         this.shape = shape;
+        originalheight = shape.getBounds2D().getHeight();
+        originalwidth = shape.getBounds2D().getWidth();
+    }
+
+    public double getOriginalHeight() {
+        return originalheight;
+    }
+
+    public double getOriginalWidth() {
+        return originalwidth;
     }
 
     public boolean ignoresinsidecollision() {

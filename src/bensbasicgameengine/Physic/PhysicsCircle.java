@@ -25,7 +25,7 @@ public class PhysicsCircle extends PhysicsObject{
     }
 
     public void updateShape(){
-        shape = new Ellipse2D.Double(position.getX(), position.getY(), radius, radius);
+        setShape(new Ellipse2D.Double(position.getX(), position.getY(), radius, radius));
     }
 
     @Override

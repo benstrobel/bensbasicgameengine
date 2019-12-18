@@ -5,16 +5,22 @@ package bensbasicgameengine.Graphic;
 import bensbasicgameengine.Physic.PhysicsObject;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+
+import static bensbasicgameengine.Lib.Tools.differance;
 
 public class GraphicImage extends GraphicObject {
 
     private BufferedImage image;
     private int x,y;
     private int xoffset, yoffset;
+    private double orientation;
     boolean centered = false;
     boolean subimage = false;
+    private PhysicsObject physicsObject;
     public GraphicImage(BufferedImage image, Point2D position)
     {
         this.image = image;
@@ -34,17 +40,15 @@ public class GraphicImage extends GraphicObject {
         this.centered = centered;
     }
 
-    public GraphicImage(BufferedImage image, Point2D position, PhysicsObject physicsObject)
+    public GraphicImage(BufferedImage image, PhysicsObject physicsObject)
     {
         this.image = image;
-        xoffset = differance(image.getWidth(),(int)(physicsObject.getShape().getBounds2D().getWidth()))/2;
-        yoffset = differance(image.getHeight(),(int)(physicsObject.getShape().getBounds2D().getHeight()))/2;
-        //TODO
+        xoffset = differance(image.getWidth(),(int)(physicsObject.getOriginalWidth()))/2;
+        yoffset = differance(image.getHeight(),(int)(physicsObject.getOriginalHeight()))/2;
         x = (int)physicsObject.getPosition().getX();
         y = (int)physicsObject.getPosition().getY();
-        //this.x = (int)position.getX();
-        //this.y = (int)position.getY();
         this.centered = true;
+        this.physicsObject = physicsObject;
     }
 
     public GraphicImage(BufferedImage image, Point2D position, float alpha)
@@ -56,31 +60,6 @@ public class GraphicImage extends GraphicObject {
         this.y = (int)position.getY();
         this.alpha = alpha;
     }
-
-    /* TODO Replace PhysicObject with required arguments to ensure low coupling
-    public GraphicImage(BufferedImage image, Point2D position, PhysicsObject physicsObject, boolean widghtoffset)
-    {
-
-
-        final int distancefromplayercentertosword = 145;
-        this.image = image;
-        xoffset = differance(image.getWidth(),(int)(physicsObject.getShape().getBounds2D().getWidth()))/2;
-        yoffset = differance(image.getHeight(),(int)(physicsObject.getShape().getBounds2D().getHeight()))/2;
-        double degree = physicsObject.getOrientation();
-        if(degree < 25){
-
-        }else if(degree < 45){
-            xoffset += 10;
-            yoffset -= 20;
-        }
-        else if(degree < 70){
-            xoffset += 15;
-            yoffset -= 25;
-        }
-        this.x = (int)physicsObject.getShape().getBounds2D().getX();
-        this.y = (int)physicsObject.getShape().getBounds2D().getY();
-        this.centered = true;
-    }*/
 
     public void setSubimage(boolean subimage) {
         this.subimage = subimage;
@@ -94,12 +73,12 @@ public class GraphicImage extends GraphicObject {
         this.y = y;
     }
 
-    private int differance(int a, int b){
-        if(a > b){
-            return Math.abs(a-b);
-        }else{
-            return Math.abs(b-a);
-        }
+    public double getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(double orientation) {
+        this.orientation = orientation;
     }
 
     @Override
@@ -109,17 +88,23 @@ public class GraphicImage extends GraphicObject {
         }
         if(centered){
             if(subimage){
-                g2d.drawImage(image.getSubimage(0,0,image.getWidth(),image.getHeight()), x-xoffset, y-yoffset, null);
+                g2d.drawImage(orientate(image.getSubimage(0,0,image.getWidth(),image.getHeight())), x-xoffset, y-yoffset, null);
             }else{
-                g2d.drawImage(image, x-xoffset, y-yoffset, null);
+                g2d.drawImage(orientate(image), x-xoffset, y-yoffset, null);
             }
         }else{
             if(subimage){
-                g2d.drawImage(image.getSubimage(0,0,image.getWidth(),image.getHeight()), x, y,null);
+                g2d.drawImage(orientate(image.getSubimage(0,0,image.getWidth(),image.getHeight())), x, y,null);
             }else{
-                g2d.drawImage(image, x, y,null);
+                g2d.drawImage(orientate(image), x, y,null);
             }
         }
         g2d.setComposite(AlphaComposite.SrcOver.derive(1.0F));
+    }
+
+    private BufferedImage orientate(BufferedImage image){
+        AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(orientation), image.getWidth()/2,image.getHeight()/2);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        return op.filter(image,null);
     }
 }

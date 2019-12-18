@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 public class KeyListener extends KeyAdapter {
     private boolean [] key;
-    private boolean keypressed = false;
+    private boolean keyupdate = false;
 
     public static final int Q = 0;
     public static final int W = 1;
@@ -60,107 +60,107 @@ public class KeyListener extends KeyAdapter {
     public void keyPressed(KeyEvent e){
         int keycode = e.getKeyCode();
         switch (keycode){
-            case KeyEvent.VK_Q:{key[Q] = true; keypressed = true; break;}
-            case KeyEvent.VK_W:{key[W] = true; keypressed = true; break;}
-            case KeyEvent.VK_E:{key[E] = true; keypressed = true; break;}
-            case KeyEvent.VK_R:{key[R] = true; keypressed = true; break;}
-            case KeyEvent.VK_T:{key[T] = true; keypressed = true; break;}
-            case KeyEvent.VK_Z:{key[Z] = true; keypressed = true; break;}
-            case KeyEvent.VK_U:{key[U] = true; keypressed = true; break;}
-            case KeyEvent.VK_I:{key[I] = true; keypressed = true; break;}
-            case KeyEvent.VK_O:{key[O] = true; keypressed = true; break;}
-            case KeyEvent.VK_P:{key[P] = true; keypressed = true; break;}
-            case KeyEvent.VK_A:{key[A] = true; keypressed = true; break;}
-            case KeyEvent.VK_S:{key[S] = true; keypressed = true; break;}
-            case KeyEvent.VK_D:{key[D] = true; keypressed = true; break;}
-            case KeyEvent.VK_F:{key[F] = true; keypressed = true; break;}
-            case KeyEvent.VK_G:{key[G] = true; keypressed = true; break;}
-            case KeyEvent.VK_H:{key[H] = true; keypressed = true; break;}
-            case KeyEvent.VK_J:{key[J] = true; keypressed = true; break;}
-            case KeyEvent.VK_K:{key[K] = true; keypressed = true; break;}
-            case KeyEvent.VK_L:{key[L] = true; keypressed = true; break;}
-            case KeyEvent.VK_Y:{key[Y] = true; keypressed = true; break;}
-            case KeyEvent.VK_X:{key[X] = true; keypressed = true; break;}
-            case KeyEvent.VK_C:{key[C] = true; keypressed = true; break;}
-            case KeyEvent.VK_V:{key[V] = true; keypressed = true; break;}
-            case KeyEvent.VK_B:{key[B] = true; keypressed = true; break;}
-            case KeyEvent.VK_N:{key[N] = true; keypressed = true; break;}
-            case KeyEvent.VK_M:{key[M] = true; keypressed = true; break;}
-            case KeyEvent.VK_1:{key[ONE] = true; keypressed = true; break;}
-            case KeyEvent.VK_2:{key[TWO] = true; keypressed = true; break;}
-            case KeyEvent.VK_3:{key[THREE] = true; keypressed = true; break;}
-            case KeyEvent.VK_4:{key[FOUR] = true; keypressed = true; break;}
-            case KeyEvent.VK_5:{key[FIVE] = true; keypressed = true; break;}
-            case KeyEvent.VK_6:{key[SIX] = true; keypressed = true; break;}
-            case KeyEvent.VK_7:{key[SEVEN] = true; keypressed = true; break;}
-            case KeyEvent.VK_8:{key[EIGHT] = true; keypressed = true; break;}
-            case KeyEvent.VK_9:{key[NINE] = true; keypressed = true; break;}
-            case KeyEvent.VK_0:{key[ZERO] = true; keypressed = true; break;}
-            case KeyEvent.VK_ESCAPE:{key[ESC] = true; keypressed = true; break;}
-            case KeyEvent.VK_SPACE:{key[SPACE] = true; keypressed = true; break;}
-            case KeyEvent.VK_SHIFT:{key[SHIFT] = true; keypressed = true; break;}
-            case KeyEvent.VK_ENTER:{key[ENTER] = true; keypressed = true; break;}
-            case KeyEvent.VK_CONTROL:{key[CTRL] = true; keypressed = true; break;}
-            case KeyEvent.VK_ALT:{key[ALT] = true; keypressed = true; break;}
-            case KeyEvent.VK_TAB:{key[TAB] = true; keypressed = true; break;}
+            case KeyEvent.VK_Q:{key[Q] = true; keyupdate = true; break;}
+            case KeyEvent.VK_W:{key[W] = true; keyupdate = true; break;}
+            case KeyEvent.VK_E:{key[E] = true; keyupdate = true; break;}
+            case KeyEvent.VK_R:{key[R] = true; keyupdate = true; break;}
+            case KeyEvent.VK_T:{key[T] = true; keyupdate = true; break;}
+            case KeyEvent.VK_Z:{key[Z] = true; keyupdate = true; break;}
+            case KeyEvent.VK_U:{key[U] = true; keyupdate = true; break;}
+            case KeyEvent.VK_I:{key[I] = true; keyupdate = true; break;}
+            case KeyEvent.VK_O:{key[O] = true; keyupdate = true; break;}
+            case KeyEvent.VK_P:{key[P] = true; keyupdate = true; break;}
+            case KeyEvent.VK_A:{key[A] = true; keyupdate = true; break;}
+            case KeyEvent.VK_S:{key[S] = true; keyupdate = true; break;}
+            case KeyEvent.VK_D:{key[D] = true; keyupdate = true; break;}
+            case KeyEvent.VK_F:{key[F] = true; keyupdate = true; break;}
+            case KeyEvent.VK_G:{key[G] = true; keyupdate = true; break;}
+            case KeyEvent.VK_H:{key[H] = true; keyupdate = true; break;}
+            case KeyEvent.VK_J:{key[J] = true; keyupdate = true; break;}
+            case KeyEvent.VK_K:{key[K] = true; keyupdate = true; break;}
+            case KeyEvent.VK_L:{key[L] = true; keyupdate = true; break;}
+            case KeyEvent.VK_Y:{key[Y] = true; keyupdate = true; break;}
+            case KeyEvent.VK_X:{key[X] = true; keyupdate = true; break;}
+            case KeyEvent.VK_C:{key[C] = true; keyupdate = true; break;}
+            case KeyEvent.VK_V:{key[V] = true; keyupdate = true; break;}
+            case KeyEvent.VK_B:{key[B] = true; keyupdate = true; break;}
+            case KeyEvent.VK_N:{key[N] = true; keyupdate = true; break;}
+            case KeyEvent.VK_M:{key[M] = true; keyupdate = true; break;}
+            case KeyEvent.VK_1:{key[ONE] = true; keyupdate = true; break;}
+            case KeyEvent.VK_2:{key[TWO] = true; keyupdate = true; break;}
+            case KeyEvent.VK_3:{key[THREE] = true; keyupdate = true; break;}
+            case KeyEvent.VK_4:{key[FOUR] = true; keyupdate = true; break;}
+            case KeyEvent.VK_5:{key[FIVE] = true; keyupdate = true; break;}
+            case KeyEvent.VK_6:{key[SIX] = true; keyupdate = true; break;}
+            case KeyEvent.VK_7:{key[SEVEN] = true; keyupdate = true; break;}
+            case KeyEvent.VK_8:{key[EIGHT] = true; keyupdate = true; break;}
+            case KeyEvent.VK_9:{key[NINE] = true; keyupdate = true; break;}
+            case KeyEvent.VK_0:{key[ZERO] = true; keyupdate = true; break;}
+            case KeyEvent.VK_ESCAPE:{key[ESC] = true; keyupdate = true; break;}
+            case KeyEvent.VK_SPACE:{key[SPACE] = true; keyupdate = true; break;}
+            case KeyEvent.VK_SHIFT:{key[SHIFT] = true; keyupdate = true; break;}
+            case KeyEvent.VK_ENTER:{key[ENTER] = true; keyupdate = true; break;}
+            case KeyEvent.VK_CONTROL:{key[CTRL] = true; keyupdate = true; break;}
+            case KeyEvent.VK_ALT:{key[ALT] = true; keyupdate = true; break;}
+            case KeyEvent.VK_TAB:{key[TAB] = true; keyupdate = true; break;}
         }
     }
 
     public void keyReleased(KeyEvent e){
         int keycode = e.getKeyCode();
         switch (keycode){
-            case KeyEvent.VK_Q:{key[Q] = false; keypressed = true; break;}
-            case KeyEvent.VK_W:{key[W] = false; keypressed = true; break;}
-            case KeyEvent.VK_E:{key[E] = false; keypressed = true; break;}
-            case KeyEvent.VK_R:{key[R] = false; keypressed = true; break;}
-            case KeyEvent.VK_T:{key[T] = false; keypressed = true; break;}
-            case KeyEvent.VK_Z:{key[Z] = false; keypressed = true; break;}
-            case KeyEvent.VK_U:{key[U] = false; keypressed = true; break;}
-            case KeyEvent.VK_I:{key[I] = false; keypressed = true; break;}
-            case KeyEvent.VK_O:{key[O] = false; keypressed = true; break;}
-            case KeyEvent.VK_P:{key[P] = false; keypressed = true; break;}
-            case KeyEvent.VK_A:{key[A] = false; keypressed = true; break;}
-            case KeyEvent.VK_S:{key[S] = false; keypressed = true; break;}
-            case KeyEvent.VK_D:{key[D] = false; keypressed = true; break;}
-            case KeyEvent.VK_F:{key[F] = false; keypressed = true; break;}
-            case KeyEvent.VK_G:{key[G] = false; keypressed = true; break;}
-            case KeyEvent.VK_H:{key[H] = false; keypressed = true; break;}
-            case KeyEvent.VK_J:{key[J] = false; keypressed = true; break;}
-            case KeyEvent.VK_K:{key[K] = false; keypressed = true; break;}
-            case KeyEvent.VK_L:{key[L] = false; keypressed = true; break;}
-            case KeyEvent.VK_Y:{key[Y] = false; keypressed = true; break;}
-            case KeyEvent.VK_X:{key[X] = false; keypressed = true; break;}
-            case KeyEvent.VK_C:{key[C] = false; keypressed = true; break;}
-            case KeyEvent.VK_V:{key[V] = false; keypressed = true; break;}
-            case KeyEvent.VK_B:{key[B] = false; keypressed = true; break;}
-            case KeyEvent.VK_N:{key[N] = false; keypressed = true; break;}
-            case KeyEvent.VK_M:{key[M] = false; keypressed = true; break;}
-            case KeyEvent.VK_1:{key[ONE] = false; keypressed = true; break;}
-            case KeyEvent.VK_2:{key[TWO] = false; keypressed = true; break;}
-            case KeyEvent.VK_3:{key[THREE] = false; keypressed = true; break;}
-            case KeyEvent.VK_4:{key[FOUR] = false; keypressed = true; break;}
-            case KeyEvent.VK_5:{key[FIVE] = false; keypressed = true; break;}
-            case KeyEvent.VK_6:{key[SIX] = false; keypressed = true; break;}
-            case KeyEvent.VK_7:{key[SEVEN] = false; keypressed = true; break;}
-            case KeyEvent.VK_8:{key[EIGHT] = false; keypressed = true; break;}
-            case KeyEvent.VK_9:{key[NINE] = false; keypressed = true; break;}
-            case KeyEvent.VK_0:{key[ZERO] = false; keypressed = true; break;}
-            case KeyEvent.VK_ESCAPE:{key[ESC] = false; keypressed = true; break;}
-            case KeyEvent.VK_SPACE:{key[SPACE] = false; keypressed = true; break;}
-            case KeyEvent.VK_SHIFT:{key[SHIFT] = false; keypressed = true; break;}
-            case KeyEvent.VK_ENTER:{key[ENTER] = false; keypressed = true; break;}
-            case KeyEvent.VK_CONTROL:{key[CTRL] = false; keypressed = true; break;}
-            case KeyEvent.VK_ALT:{key[ALT] = false; keypressed = true; break;}
-            case KeyEvent.VK_TAB:{key[TAB] = false; keypressed = true; break;}
+            case KeyEvent.VK_Q:{key[Q] = false; keyupdate = true; break;}
+            case KeyEvent.VK_W:{key[W] = false; keyupdate = true; break;}
+            case KeyEvent.VK_E:{key[E] = false; keyupdate = true; break;}
+            case KeyEvent.VK_R:{key[R] = false; keyupdate = true; break;}
+            case KeyEvent.VK_T:{key[T] = false; keyupdate = true; break;}
+            case KeyEvent.VK_Z:{key[Z] = false; keyupdate = true; break;}
+            case KeyEvent.VK_U:{key[U] = false; keyupdate = true; break;}
+            case KeyEvent.VK_I:{key[I] = false; keyupdate = true; break;}
+            case KeyEvent.VK_O:{key[O] = false; keyupdate = true; break;}
+            case KeyEvent.VK_P:{key[P] = false; keyupdate = true; break;}
+            case KeyEvent.VK_A:{key[A] = false; keyupdate = true; break;}
+            case KeyEvent.VK_S:{key[S] = false; keyupdate = true; break;}
+            case KeyEvent.VK_D:{key[D] = false; keyupdate = true; break;}
+            case KeyEvent.VK_F:{key[F] = false; keyupdate = true; break;}
+            case KeyEvent.VK_G:{key[G] = false; keyupdate = true; break;}
+            case KeyEvent.VK_H:{key[H] = false; keyupdate = true; break;}
+            case KeyEvent.VK_J:{key[J] = false; keyupdate = true; break;}
+            case KeyEvent.VK_K:{key[K] = false; keyupdate = true; break;}
+            case KeyEvent.VK_L:{key[L] = false; keyupdate = true; break;}
+            case KeyEvent.VK_Y:{key[Y] = false; keyupdate = true; break;}
+            case KeyEvent.VK_X:{key[X] = false; keyupdate = true; break;}
+            case KeyEvent.VK_C:{key[C] = false; keyupdate = true; break;}
+            case KeyEvent.VK_V:{key[V] = false; keyupdate = true; break;}
+            case KeyEvent.VK_B:{key[B] = false; keyupdate = true; break;}
+            case KeyEvent.VK_N:{key[N] = false; keyupdate = true; break;}
+            case KeyEvent.VK_M:{key[M] = false; keyupdate = true; break;}
+            case KeyEvent.VK_1:{key[ONE] = false; keyupdate = true; break;}
+            case KeyEvent.VK_2:{key[TWO] = false; keyupdate = true; break;}
+            case KeyEvent.VK_3:{key[THREE] = false; keyupdate = true; break;}
+            case KeyEvent.VK_4:{key[FOUR] = false; keyupdate = true; break;}
+            case KeyEvent.VK_5:{key[FIVE] = false; keyupdate = true; break;}
+            case KeyEvent.VK_6:{key[SIX] = false; keyupdate = true; break;}
+            case KeyEvent.VK_7:{key[SEVEN] = false; keyupdate = true; break;}
+            case KeyEvent.VK_8:{key[EIGHT] = false; keyupdate = true; break;}
+            case KeyEvent.VK_9:{key[NINE] = false; keyupdate = true; break;}
+            case KeyEvent.VK_0:{key[ZERO] = false; keyupdate = true; break;}
+            case KeyEvent.VK_ESCAPE:{key[ESC] = false; keyupdate = true; break;}
+            case KeyEvent.VK_SPACE:{key[SPACE] = false; keyupdate = true; break;}
+            case KeyEvent.VK_SHIFT:{key[SHIFT] = false; keyupdate = true; break;}
+            case KeyEvent.VK_ENTER:{key[ENTER] = false; keyupdate = true; break;}
+            case KeyEvent.VK_CONTROL:{key[CTRL] = false; keyupdate = true; break;}
+            case KeyEvent.VK_ALT:{key[ALT] = false; keyupdate = true; break;}
+            case KeyEvent.VK_TAB:{key[TAB] = false; keyupdate = true; break;}
         }
     }
 
-    public boolean isKeypressed() {
-        return keypressed;
+    public boolean isKeyupdate() {
+        return keyupdate;
     }
 
     public boolean[] getKeysAndReset() {
-        keypressed = false;
+        keyupdate = false;
         return key;
     }
 
@@ -168,6 +168,6 @@ public class KeyListener extends KeyAdapter {
         for(int i = 0; i < key.length;i++){
             key[i] = false;
         }
-        keypressed = true;
+        keyupdate = true;
     }
 }

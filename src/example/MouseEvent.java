@@ -20,7 +20,7 @@ public class MouseEvent extends LogicEvent {
     public void eventmethod() {
         //System.out.println(mouse_listener.getPos());
         mouse_listener.reset();
-        player.rotate(player.getOrientation()+15);
+        //player.rotate(player.getOrientation()+15);
     }
 
     @Override

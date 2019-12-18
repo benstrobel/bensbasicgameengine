@@ -44,11 +44,20 @@ public class KeyEvent extends LogicEvent {
                 player.getPhysicsObject().setVelocityX(0);
             }
         }
+        if(keys[KeyListener.Q]){
+            if(!keys[KeyListener.E]){
+                player.rotate(player.getOrientation()-5);
+            }
+        }else{
+            if(keys[KeyListener.E]){
+                player.rotate(player.getOrientation()+5);
+            }
+        }
 
     }
 
     @Override
     public boolean eventstate() {
-        return keyListener.isKeypressed();
+        return keyListener.isKeyupdate();
     }
 }

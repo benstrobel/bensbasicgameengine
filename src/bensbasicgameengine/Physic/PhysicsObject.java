@@ -3,8 +3,10 @@
 package bensbasicgameengine.Physic;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public abstract class PhysicsObject{
@@ -19,7 +21,6 @@ public abstract class PhysicsObject{
     protected boolean unmoveable = false;
     protected int textureid = -1;
     protected boolean removeflag = false;
-    protected boolean ignoreinsidecollision = false;
     protected double originalwidth, originalheight;
     int protection = 0;
     public PhysicsObject(Point2D position, double mass)
@@ -133,14 +134,6 @@ public abstract class PhysicsObject{
         return originalwidth;
     }
 
-    public boolean ignoresinsidecollision() {
-        return ignoreinsidecollision;
-    }
-
-    public void setIgnoreinsidecollision(boolean ignoreinsidecollision) {
-        this.ignoreinsidecollision = ignoreinsidecollision;
-    }
-
     public abstract boolean detectCollision(PhysicsObject object);
 
     private static void distributeVelocity(PhysicsObject o1, PhysicsObject o2){
@@ -197,7 +190,6 @@ public abstract class PhysicsObject{
         {
             if(Math.abs(line.ptSegDist(circle0.getPhysicsPosition())) < circle0.getRadius()*0.50)
             {
-                //System.out.println("Line starting from " + line.getP1() + " to " + line.getP2() + " is colliding with Circle @ " + circle0.getPhysicsPosition() + " with radius " + circle0.getRadius()*0.50);
                 circle0.setColliding(rectangle0);
                 rectangle0.setColliding(circle0);
                 return true;
@@ -207,38 +199,18 @@ public abstract class PhysicsObject{
     }
 
     public static boolean detectCollision(PhysicsRectangle rectangle0, PhysicsRectangle rectangle1){
-        if(rectangle1.equals(rectangle0)){return false;}
-        Line2D [] otherlines = rectangle1.getLines();
-        Line2D [] lines = rectangle0.getLines();
-        for(Line2D line : lines)
-        {
-            for(Line2D oline: otherlines)
-            {
-                if(line.intersectsLine(oline))
-                {
-                    rectangle0.setColliding(rectangle1);
-                    rectangle1.setColliding(rectangle0);
-                    return true;
-                }
-            }
-        }
-        if(!rectangle0.ignoresinsidecollision() && !rectangle1.ignoresinsidecollision()&& insideOf(rectangle0,rectangle1)){
-            rectangle0.setColliding(rectangle1);
-            rectangle1.setColliding(rectangle0);
-            return true;
-        }
-        if (!rectangle0.ignoresinsidecollision() && !rectangle1.ignoresinsidecollision()&& insideOf(rectangle1,rectangle0))
-        {
-            rectangle0.setColliding(rectangle1);
-            rectangle1.setColliding(rectangle0);
+        return detectCollisionGeneral(rectangle0,rectangle1);
+    }
+
+    public static boolean detectCollisionGeneral(PhysicsObject phyobj0, PhysicsObject phyobj1){
+        if(phyobj0 == phyobj1){return true;}
+        Area a = new Area(phyobj0.getShape());
+        a.intersect(new Area(phyobj1.getShape()));
+        if(!a.isEmpty()){
+            phyobj0.setColliding(phyobj1);
+            phyobj1.setColliding(phyobj0);
             return true;
         }
         return false;
-    }
-
-    private static boolean insideOf(PhysicsRectangle obj0, PhysicsObject obj1){
-        Point2D pos0 = obj0.getPosition();
-        Point2D pos1 = obj1.getPosition();
-        return (pos0.getX() < pos1.getX() && pos0.getY() < pos1.getY() && pos0.getX()+obj0.getShape().getBounds2D().getWidth() > pos1.getX() && pos0.getY()+obj0.getShape().getBounds2D().getHeight() > pos1.getY());
     }
 }

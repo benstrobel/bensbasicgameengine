@@ -11,6 +11,7 @@ import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
 import bensbasicgameengine.Input.WindowFocusListener;
 import bensbasicgameengine.Physic.Physics;
+import bensbasicgameengine.Physic.PhysicsCircle;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
 import bensbasicgameengine.Sound.SoundManager;
@@ -80,6 +81,10 @@ public class Example {
         player = new GameObject(playerrectangle,textures[0]);
         player.setGraphiclayerid(0);
         logic.addGameObject(player);
+        //PhysicsObject targetrectangle = new PhysicsCircle(new Point2D.Double(300,300), 1 , 50);
+        PhysicsObject targetrectangle = new PhysicsRectangle(new Point2D.Double(300,300), 1, 50, 50);
+        GameObject target = new GameObject(targetrectangle,null);
+        logic.addGameObject(target);
     }
 
     private void setupGraphics(){

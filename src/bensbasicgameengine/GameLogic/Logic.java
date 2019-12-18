@@ -88,7 +88,7 @@ public class Logic {
         synchronized (gameObjects){
             synchronized (graphic.getObjectlist()){
                 for(GameObject gameObject : gameObjects){
-                    if(gameObject.getGraphiclayerid() <= graphiclayers){
+                    if(gameObject.getGraphicObject() != null && gameObject.getGraphiclayerid() <= graphiclayers){
                         graphic.add(gameObject.getGraphiclayerid(), gameObject.getGraphicObject());
                     }
                 }

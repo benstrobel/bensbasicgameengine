@@ -34,6 +34,7 @@ public class GameObject {
     }
 
     public GraphicObject getGraphicObject() {
+        if(bufferedImage == null){return null;}
         GraphicImage image = new GraphicImage(bufferedImage, physicsObject);
         image.setOrientation(orientation);
         return image;

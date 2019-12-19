@@ -61,25 +61,25 @@ public class KeyEvent extends LogicEvent {
         if(keys[KeyListener.LEFT]){
             if(!keys[KeyListener.RIGHT]){
                 Point2D g = Graphic.getCameralocation();
-                graphic.setCameralocation(new Point2D.Double(g.getX()-5,g.getY()));
+                graphic.setCameralocation(new Point2D.Double(g.getX()+5,g.getY()));
             }
         }
         if(keys[KeyListener.RIGHT]){
             if(!keys[KeyListener.LEFT]){
                 Point2D g = Graphic.getCameralocation();
-                graphic.setCameralocation(new Point2D.Double(g.getX()+5,g.getY()));
+                graphic.setCameralocation(new Point2D.Double(g.getX()-5,g.getY()));
             }
         }
         if(keys[KeyListener.UP]){
             if(!keys[KeyListener.DOWN]){
                 Point2D g = Graphic.getCameralocation();
-                graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()-5));
+                graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()+5));
             }
         }
         if(keys[KeyListener.DOWN]){
             if(!keys[KeyListener.UP]){
                 Point2D g = Graphic.getCameralocation();
-                graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()+5));
+                graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()-5));
             }
         }
         Point2D g = Graphic.getCameralocation();

@@ -3,16 +3,21 @@ package example;
 
 import bensbasicgameengine.GameLogic.GameObject;
 import bensbasicgameengine.GameLogic.LogicEvent;
+import bensbasicgameengine.Graphic.Graphic;
 import bensbasicgameengine.Input.KeyListener;
+
+import java.awt.geom.Point2D;
 
 public class KeyEvent extends LogicEvent {
 
     KeyListener keyListener;
     GameObject player;
+    Graphic graphic;
 
-    public KeyEvent(KeyListener keyListener, GameObject player){
+    public KeyEvent(KeyListener keyListener, GameObject player,Graphic graphic){
         this.keyListener = keyListener;
         this.player = player;
+        this.graphic = graphic;
     }
 
     @Override
@@ -53,7 +58,32 @@ public class KeyEvent extends LogicEvent {
                 player.rotate(player.getOrientation()+5);
             }
         }
-
+        if(keys[KeyListener.LEFT]){
+            if(!keys[KeyListener.RIGHT]){
+                Point2D g = Graphic.getCameralocation();
+                graphic.setCameralocation(new Point2D.Double(g.getX()-5,g.getY()));
+            }
+        }
+        if(keys[KeyListener.RIGHT]){
+            if(!keys[KeyListener.LEFT]){
+                Point2D g = Graphic.getCameralocation();
+                graphic.setCameralocation(new Point2D.Double(g.getX()+5,g.getY()));
+            }
+        }
+        if(keys[KeyListener.UP]){
+            if(!keys[KeyListener.DOWN]){
+                Point2D g = Graphic.getCameralocation();
+                graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()-5));
+            }
+        }
+        if(keys[KeyListener.DOWN]){
+            if(!keys[KeyListener.UP]){
+                Point2D g = Graphic.getCameralocation();
+                graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()+5));
+            }
+        }
+        Point2D g = Graphic.getCameralocation();
+        System.out.println(g);
     }
 
     @Override

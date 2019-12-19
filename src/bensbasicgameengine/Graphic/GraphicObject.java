@@ -3,6 +3,7 @@
 package bensbasicgameengine.Graphic;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public abstract class GraphicObject {
 
@@ -13,4 +14,8 @@ public abstract class GraphicObject {
     }
 
     public abstract void paint(Graphics2D g2d);
+
+    public Point2D getCameralocation() {
+        return Graphic.getCameralocation();
+    }
 }

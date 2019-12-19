@@ -52,9 +52,14 @@ public class KeyListener extends KeyAdapter {
     public static final int CTRL = 40;
     public static final int ALT = 41;
     public static final int TAB = 42;
+    public static final int LEFT = 43;
+    public static final int UP = 44;
+    public static final int RIGHT = 45;
+    public static final int DOWN = 46;
+
 
     public KeyListener(){
-        key = new boolean [43];
+        key = new boolean [47];
     }
 
     public void keyPressed(KeyEvent e){
@@ -103,6 +108,10 @@ public class KeyListener extends KeyAdapter {
             case KeyEvent.VK_CONTROL:{key[CTRL] = true; keyupdate = true; break;}
             case KeyEvent.VK_ALT:{key[ALT] = true; keyupdate = true; break;}
             case KeyEvent.VK_TAB:{key[TAB] = true; keyupdate = true; break;}
+            case KeyEvent.VK_LEFT:{key[LEFT] = true; keyupdate = true; break;}
+            case KeyEvent.VK_UP:{key[UP] = true; keyupdate = true; break;}
+            case KeyEvent.VK_RIGHT:{key[RIGHT] = true; keyupdate = true; break;}
+            case KeyEvent.VK_DOWN:{key[DOWN] = true; keyupdate = true; break;}
         }
     }
 
@@ -152,6 +161,10 @@ public class KeyListener extends KeyAdapter {
             case KeyEvent.VK_CONTROL:{key[CTRL] = false; keyupdate = true; break;}
             case KeyEvent.VK_ALT:{key[ALT] = false; keyupdate = true; break;}
             case KeyEvent.VK_TAB:{key[TAB] = false; keyupdate = true; break;}
+            case KeyEvent.VK_LEFT:{key[LEFT] = false; keyupdate = true; break;}
+            case KeyEvent.VK_UP:{key[UP] = false; keyupdate = true; break;}
+            case KeyEvent.VK_RIGHT:{key[RIGHT] = false; keyupdate = true; break;}
+            case KeyEvent.VK_DOWN:{key[DOWN] = false; keyupdate = true; break;}
         }
     }
 

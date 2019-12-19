@@ -4,6 +4,7 @@ package bensbasicgameengine.Graphic;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -15,6 +16,8 @@ public class Graphic {
     private final int tilesize = 64;
     private GraphicImage cursor = null;
     private JFrame frame;
+    private Dimension framedimension;
+    private static Point2D cameralocation = new Point2D.Double(0,0);
 
     public Graphic() {
         panel = new JPanel() {
@@ -66,7 +69,10 @@ public class Graphic {
         this.cursor = cursor;
     }
 
-    public void setFrame(JFrame frame){this.frame  = frame;}
+    public void setFrame(JFrame frame){
+        this.frame  = frame;
+        framedimension = frame.getSize();
+    }
 
     public void addObject(int listid, GraphicObject graphicObject) {
         synchronized (objectlist) {
@@ -110,5 +116,17 @@ public class Graphic {
         synchronized (objectlist) {
             return objectlist;
         }
+    }
+
+    public Dimension getFramedimension() {
+        return framedimension;
+    }
+
+    public void setCameralocation(Point2D cameralocation) {
+        this.cameralocation = cameralocation;
+    }
+
+    public static Point2D getCameralocation() {
+        return cameralocation;
     }
 }

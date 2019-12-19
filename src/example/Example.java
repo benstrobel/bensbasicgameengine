@@ -61,14 +61,14 @@ public class Example {
         frame.addKeyListener(keyListener);
         frame.setResizable(false);
         frame.addWindowFocusListener(windowFocusListener);
-        //frame.setUndecorated(true);
-        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         graphic.setFrame(frame);
     }
 
     private void setupEvents(){
-        LogicEvent keyEvent = new KeyEvent(keyListener,player);
+        LogicEvent keyEvent = new KeyEvent(keyListener,player,graphic);
         logic.registerLogicEvent(keyEvent);
         LogicEvent mouseEvent = new MouseEvent(mouse_listener,logic);
         logic.registerLogicEvent(mouseEvent);

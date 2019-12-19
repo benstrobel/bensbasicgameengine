@@ -16,7 +16,6 @@ public class Physics {
 
     public void tick(){
         objectlist.forEach(obj -> obj.resetColliding());
-        //TODO Enable Collision Detection to be accurate on higher speeds, currently collisions can't be detected if moving object is faster then "length" in moving direction
         objectlist.forEach(obj -> {obj.getPosition().setLocation(obj.getPosition().getX()+obj.getVelocityX(), obj.getPosition().getY()+obj.getVelocityY()); obj.updateShape(); obj.tick();});
         for(PhysicsObject obj : objectlist){
             for(PhysicsObject iobj : objectlist){

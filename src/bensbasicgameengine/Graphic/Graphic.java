@@ -16,8 +16,6 @@ public class Graphic {
     private GraphicImage cursor = null;
     private JFrame frame;
 
-    //TODO Rewrite Graphics
-
     public Graphic() {
         panel = new JPanel() {
             @Override

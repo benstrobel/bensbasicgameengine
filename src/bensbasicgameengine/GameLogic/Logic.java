@@ -41,8 +41,6 @@ public class Logic {
     private ArrayList<GraphicObject> hudObjects;
     private ArrayList<PhysicsObject> triggerObjects;
 
-    //TODO Show Hitbox
-
     public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener){
         this.graphic = graphic;
         this.physics = physics;

@@ -28,7 +28,6 @@ public class MouseMove_Listener implements MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        //TODO Check if MousePos is accurate
         dragged = true;
         mousex = e.getX();//- Game.widthoffset;
         mousey = e.getY();//-Game.heightoffset;

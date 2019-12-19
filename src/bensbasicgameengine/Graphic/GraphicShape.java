@@ -2,6 +2,8 @@
 
 package bensbasicgameengine.Graphic;
 
+import bensbasicgameengine.Lib.Tools;
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.AffineTransformOp;
@@ -11,11 +13,13 @@ public class GraphicShape extends GraphicObject {
     private Shape shape;
     private Color color;
     private boolean fill;
+    private double orientation;
 
-    public GraphicShape(Shape shape, Color color, boolean fill) {
+    public GraphicShape(Shape shape, Color color, boolean fill, double orientation) {
         this.color = color;
         this.shape = shape;
         this.fill = fill;
+        this.orientation = orientation;
     }
 
     public void setColor(Color color) {
@@ -30,8 +34,10 @@ public class GraphicShape extends GraphicObject {
     public void paint(Graphics2D g2d) {
         g2d.setColor(color);
         Shape s = null;
-        if(shape instanceof Path2D){
-            Path2D h = (Path2D) ((Path2D)shape).clone();
+        if(shape instanceof Rectangle2D){
+            Rectangle2D h = (Rectangle2D) ((Rectangle2D)shape).clone();
+            h = new Rectangle2D.Double(h.getX()+getCameralocation().getX(),h.getY()+getCameralocation().getY(),h.getWidth(),h.getHeight());
+            s = Tools.rotateShape(orientation,h);
         }
         if(shape instanceof Ellipse2D){
             Ellipse2D h = ((Ellipse2D)shape);

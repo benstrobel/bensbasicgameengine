@@ -116,7 +116,12 @@ public class Logic {
                 for(GameObject gameObject : gameObjects){
                     Color c = null;
                     if(gameObject.getPhysicsObject().iscolliding()){c = Color.RED;}else{c = Color.GREEN;}
-                    graphic.add(graphiclayers,new GraphicShape(gameObject.getPhysicsObject().getShape(), c, false));
+                    PhysicsObject physicsObject = gameObject.getPhysicsObject();
+                    if(physicsObject instanceof PhysicsRectangle){
+                        graphic.add(graphiclayers,new GraphicShape(((PhysicsRectangle)physicsObject).getunrotatedShape(), c, false,physicsObject.getOrientation()));
+                    }else{
+                        graphic.add(graphiclayers,new GraphicShape(physicsObject.getShape(), c, false,physicsObject.getOrientation()));
+                    }
                 }
             }
         }

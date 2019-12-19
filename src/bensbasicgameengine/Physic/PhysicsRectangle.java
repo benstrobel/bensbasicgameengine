@@ -47,6 +47,8 @@ public class PhysicsRectangle extends PhysicsObject{
         return rotate(getOrientation());
     }
 
+    public Shape getunrotatedShape(){return shape;}
+
     public int getHeight() {
         return height;
     }
@@ -63,7 +65,7 @@ public class PhysicsRectangle extends PhysicsObject{
         this.width = width;
     }
 
-    private Shape rotate(double angle){
+    public Shape rotate(double angle){
         AffineTransform t = new AffineTransform();
         t.rotate(Math.toRadians(angle),shape.getBounds2D().getX()+shape.getBounds2D().getWidth()/2,shape.getBounds2D().getY() + shape.getBounds2D().getHeight()/2);
         Path2D.Double p = (Path2D.Double) t.createTransformedShape(shape);

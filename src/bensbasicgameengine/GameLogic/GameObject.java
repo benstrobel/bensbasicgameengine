@@ -18,6 +18,7 @@ public class GameObject {
     private int graphiclayerid;
     private double orientation = 0;
     private ArrayList<LogicEvent> logicEvents;
+    private boolean garbage = false;
 
     public GameObject(PhysicsObject physicsObject, BufferedImage bufferedImage){
         this.physicsObject = physicsObject;
@@ -81,5 +82,13 @@ public class GameObject {
         synchronized (logicEvents){
             logicEvents.remove(event);
         }
+    }
+
+    public boolean isGarbage() {
+        return garbage;
+    }
+
+    public void setGarbage(boolean garbage) {
+        this.garbage = garbage;
     }
 }

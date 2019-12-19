@@ -74,13 +74,16 @@ public class Logic {
     private void logictick(){
         handleGlobalEvents();
         physics.tick();
+        handleLocalEventsAndCollectGarbage();
         tickcounter++;
     }
 
-    private void handleLocalEvents(){
+    private void handleLocalEventsAndCollectGarbage(){
         synchronized (gameObjects){
-            for(GameObject gameObject : gameObjects){
+            for(Iterator i = gameObjects.iterator(); i.hasNext();){
+                GameObject gameObject = (GameObject) i.next();
                 gameObject.tick();
+                if(gameObject.isGarbage()){i.remove();}
             }
         }
     }

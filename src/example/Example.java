@@ -69,7 +69,7 @@ public class Example {
     private void setupEvents(){
         LogicEvent keyEvent = new KeyEvent(keyListener,player);
         logic.registerLogicEvent(keyEvent);
-        LogicEvent mouseEvent = new MouseEvent(mouse_listener,player);
+        LogicEvent mouseEvent = new MouseEvent(mouse_listener,logic);
         logic.registerLogicEvent(mouseEvent);
         LogicEvent windowFocusEvent = new WindowFocusEvent(windowFocusListener,keyListener);
         logic.registerLogicEvent(windowFocusEvent);

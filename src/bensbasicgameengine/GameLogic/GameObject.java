@@ -8,6 +8,8 @@ import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameObject {
 
@@ -15,10 +17,15 @@ public class GameObject {
     private BufferedImage bufferedImage;
     private int graphiclayerid;
     private double orientation = 0;
+    private ArrayList<LogicEvent> logicEvents;
 
     public GameObject(PhysicsObject physicsObject, BufferedImage bufferedImage){
         this.physicsObject = physicsObject;
         this.bufferedImage = bufferedImage;
+    }
+
+    public void tick(){
+        handleLocalEvents();
     }
 
     public void setGraphiclayerid(int graphiclayerid) {
@@ -47,5 +54,32 @@ public class GameObject {
     public void rotate(double angle){
         physicsObject.setOrientation(angle);
         orientation = angle;
+    }
+
+    private void handleLocalEvents(){
+        synchronized (logicEvents){
+            if(logicEvents == null){return;}
+            for(Iterator<LogicEvent> it = logicEvents.iterator(); it.hasNext();){
+                LogicEvent event = it.next();
+                if(event.isRemoveFlag()){it.remove();continue;}
+                if(event.eventstate()){
+                    event.eventmethod();
+                }
+            }
+        }
+    }
+
+    public void registerLogicEvent(LogicEvent event){
+        synchronized (logicEvents){
+            if(logicEvents == null){logicEvents = new ArrayList<>();}
+            logicEvents.add(event);
+        }
+    }
+
+    public void removeLogicEvent(LogicEvent event){
+        if(logicEvents == null){return;}
+        synchronized (logicEvents){
+            logicEvents.remove(event);
+        }
     }
 }

@@ -77,6 +77,14 @@ public class Logic {
         tickcounter++;
     }
 
+    private void handleLocalEvents(){
+        synchronized (gameObjects){
+            for(GameObject gameObject : gameObjects){
+                gameObject.tick();
+            }
+        }
+    }
+
     private void graphictick(){
         graphic.clear();
         addgameObjects();

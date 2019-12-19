@@ -46,6 +46,7 @@ public class Example {
     public Example(){
         setupGraphics();
         setupPlayer();
+        setupDeadZones();
         setupEvents();
         setupWindow();
         logic.setShowhitbox(true);
@@ -79,12 +80,17 @@ public class Example {
     private void setupPlayer(){
         PhysicsObject playerrectangle = new PhysicsRectangle(new Point2D.Double(100,100), 1, 90, 70);
         player = new GameObject(playerrectangle,textures[0]);
+        playerrectangle.setParent(player);
         player.setGraphiclayerid(0);
         logic.addGameObject(player);
-        //PhysicsObject targetrectangle = new PhysicsCircle(new Point2D.Double(300,300), 1 , 50);
         PhysicsObject targetrectangle = new PhysicsRectangle(new Point2D.Double(300,300), 1, 50, 50);
         GameObject target = new GameObject(targetrectangle,null);
+        targetrectangle.setParent(target);
         logic.addGameObject(target);
+    }
+
+    private void setupDeadZones(){
+        logic.addDeadZone(0,700,200,800);
     }
 
     private void setupGraphics(){

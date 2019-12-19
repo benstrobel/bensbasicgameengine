@@ -11,10 +11,12 @@ import bensbasicgameengine.Input.Mouse_Listener;
 import bensbasicgameengine.Lib.Tools;
 import bensbasicgameengine.Physic.Physics;
 import bensbasicgameengine.Physic.PhysicsObject;
+import bensbasicgameengine.Physic.PhysicsRectangle;
 import bensbasicgameengine.Sound.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -83,7 +85,10 @@ public class Logic {
             for(Iterator i = gameObjects.iterator(); i.hasNext();){
                 GameObject gameObject = (GameObject) i.next();
                 gameObject.tick();
-                if(gameObject.isGarbage()){i.remove();}
+                if(gameObject.isGarbage()){
+                    physics.removeObject(gameObject.getPhysicsObject());
+                    i.remove();
+                }
             }
         }
     }
@@ -193,5 +198,13 @@ public class Logic {
 
     public void setShowhitbox(boolean showhitbox){
         this.showhitbox = showhitbox;
+    }
+
+    public void addDeadZone(double x, double y, int height, int width){
+        PhysicsObject deadzonerect = new PhysicsRectangle(new Point2D.Double(x,y), 1, height, width);
+        GameObject deadzone = new GameObject(deadzonerect,null);
+        deadzone.registerLogicEvent(new CollisionDeleteEvent(deadzone));
+        deadzonerect.setParent(deadzone);
+        addGameObject(deadzone);
     }
 }

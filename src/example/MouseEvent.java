@@ -26,6 +26,7 @@ public class MouseEvent extends LogicEvent {
         mouse_listener.reset();
         PhysicsObject targetrectangle = new PhysicsRectangle(new Point2D.Double(300,300), 1, 10, 5);
         GameObject target = new GameObject(targetrectangle,null);
+        targetrectangle.setParent(target);
         logic.addGameObject(target);
         targetrectangle.setVelocityY(20);
     }

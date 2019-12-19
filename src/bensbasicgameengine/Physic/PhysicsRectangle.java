@@ -2,6 +2,8 @@
 
 package bensbasicgameengine.Physic;
 
+import bensbasicgameengine.GameLogic.GameObject;
+
 import java.awt.*;
 import java.awt.geom.*;
 

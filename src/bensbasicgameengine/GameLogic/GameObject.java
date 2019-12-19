@@ -58,8 +58,8 @@ public class GameObject {
     }
 
     private void handleLocalEvents(){
+        if(logicEvents == null){return;}
         synchronized (logicEvents){
-            if(logicEvents == null){return;}
             for(Iterator<LogicEvent> it = logicEvents.iterator(); it.hasNext();){
                 LogicEvent event = it.next();
                 if(event.isRemoveFlag()){it.remove();continue;}
@@ -71,8 +71,8 @@ public class GameObject {
     }
 
     public void registerLogicEvent(LogicEvent event){
+        if(logicEvents == null){logicEvents = new ArrayList<>();}
         synchronized (logicEvents){
-            if(logicEvents == null){logicEvents = new ArrayList<>();}
             logicEvents.add(event);
         }
     }

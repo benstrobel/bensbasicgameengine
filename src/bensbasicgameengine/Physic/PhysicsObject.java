@@ -2,6 +2,8 @@
 
 package bensbasicgameengine.Physic;
 
+import bensbasicgameengine.GameLogic.GameObject;
+
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
@@ -22,6 +24,7 @@ public abstract class PhysicsObject{
     protected int textureid = -1;
     protected boolean removeflag = false;
     protected double originalwidth, originalheight;
+    protected GameObject parent;
     int protection = 0;
     public PhysicsObject(Point2D position, double mass)
     {
@@ -212,5 +215,17 @@ public abstract class PhysicsObject{
             return true;
         }
         return false;
+    }
+
+    public ArrayList<PhysicsObject> getCollides() {
+        return collides;
+    }
+
+    public void setParent(GameObject parent) {
+        this.parent = parent;
+    }
+
+    public GameObject getParent() {
+        return parent;
     }
 }

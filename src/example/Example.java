@@ -79,7 +79,7 @@ public class Example {
     }
 
     private void setupPlayer(){
-        PhysicsObject playerrectangle = new PhysicsRectangle(new Point2D.Double(100,100), 1, 90, 70);
+        PhysicsObject playerrectangle = new PhysicsRectangle(new Point2D.Double(100,100), 1, 80, 60);
         player = new GameObject(playerrectangle,textures[0]);
         playerrectangle.setParent(player);
         player.setGraphiclayerid(0);

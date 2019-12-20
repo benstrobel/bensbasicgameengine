@@ -47,6 +47,12 @@ public class PhysicsRectangle extends PhysicsObject{
         return rotate(getOrientation());
     }
 
+    @Override
+    public Point2D getCenterPosition() {
+        Point2D p = (Point2D) getPosition().clone();
+        return new Point2D.Double(p.getX()+width/2,p.getY()+height/2);
+    }
+
     public Shape getunrotatedShape(){return shape;}
 
     public int getHeight() {

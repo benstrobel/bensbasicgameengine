@@ -50,6 +50,7 @@ public class Example {
         setupEvents();
         setupWindow();
         logic.setShowhitbox(true);
+        logic.forcecamfollow(player.getPhysicsObject());
         logic.startloop();
     }
 

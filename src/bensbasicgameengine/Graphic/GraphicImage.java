@@ -51,6 +51,7 @@ public class GraphicImage extends GraphicObject {
         this.physicsObject = physicsObject;
         x += Graphic.getCameralocation().getX();
         y += Graphic.getCameralocation().getY();
+        return;
     }
 
     public GraphicImage(BufferedImage image, Point2D position, float alpha)

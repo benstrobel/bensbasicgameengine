@@ -18,7 +18,7 @@ public class GameObject {
     private int graphiclayerid;
     private double orientation = 0;
     private ArrayList<LogicEvent> logicEvents;
-    private boolean garbage = false;
+    private boolean garbage = false, fill = false;
 
     public GameObject(PhysicsObject physicsObject, BufferedImage bufferedImage){
         this.physicsObject = physicsObject;
@@ -90,5 +90,13 @@ public class GameObject {
 
     public void setGarbage(boolean garbage) {
         this.garbage = garbage;
+    }
+
+    public boolean isFill() {
+        return fill;
+    }
+
+    public void setFill(boolean fill) {
+        this.fill = fill;
     }
 }

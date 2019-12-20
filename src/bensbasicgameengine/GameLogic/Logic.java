@@ -14,9 +14,9 @@ import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
 import bensbasicgameengine.Sound.SoundManager;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -35,6 +35,7 @@ public class Logic {
     private final int waittime = 1000/tickspersecond; //in ms
     private boolean run = true, showhitbox = false;
     private int graphiclayers = -1;
+    private PhysicsObject camfollowobject;
 
     private ArrayList<LogicEvent> logicEvents;
     private ArrayList<GameObject> gameObjects;
@@ -74,6 +75,10 @@ public class Logic {
     private void logictick(){
         handleGlobalEvents();
         physics.tick();
+        if(camfollowobject != null){
+            Dimension framedim = graphic.getFramedimension();
+            graphic.setCameralocation(new Point2D.Double(-camfollowobject.getCenterPosition().getX()+framedim.width/2,-camfollowobject.getCenterPosition().getY()+framedim.height/2));
+        }
         handleLocalEventsAndCollectGarbage();
         tickcounter++;
     }
@@ -112,15 +117,17 @@ public class Logic {
 
     private void addhudObjects(){
         synchronized (gameObjects){
-            synchronized (graphic.getObjectlist()){
-                for(GameObject gameObject : gameObjects){
-                    Color c = null;
-                    if(gameObject.getPhysicsObject().iscolliding()){c = Color.RED;}else{c = Color.GREEN;}
-                    PhysicsObject physicsObject = gameObject.getPhysicsObject();
-                    if(physicsObject instanceof PhysicsRectangle){
-                        graphic.add(graphiclayers,new GraphicShape(((PhysicsRectangle)physicsObject).getunrotatedShape(), c, false,physicsObject.getOrientation()));
-                    }else{
-                        graphic.add(graphiclayers,new GraphicShape(physicsObject.getShape(), c, false,physicsObject.getOrientation()));
+            if(showhitbox){
+                synchronized (graphic.getObjectlist()){
+                    for(GameObject gameObject : gameObjects){
+                        Color c = null;
+                        if(gameObject.getPhysicsObject().iscolliding()){c = Color.RED;}else{c = Color.GREEN;}
+                        PhysicsObject physicsObject = gameObject.getPhysicsObject();
+                        if(physicsObject instanceof PhysicsRectangle){
+                            graphic.add(graphiclayers,new GraphicShape(((PhysicsRectangle)physicsObject).getunrotatedShape(), c, gameObject.isFill(),physicsObject.getOrientation()));
+                        }else{
+                            graphic.add(graphiclayers,new GraphicShape(physicsObject.getShape(), c, gameObject.isFill(),physicsObject.getOrientation()));
+                        }
                     }
                 }
             }
@@ -203,11 +210,21 @@ public class Logic {
         this.showhitbox = showhitbox;
     }
 
+    public GameObject createGameObject(PhysicsObject physicsObject, BufferedImage bufferedImage){
+        GameObject gameObject = new GameObject(physicsObject,bufferedImage);
+        physicsObject.setParent(gameObject);
+        return gameObject;
+    }
+
     public void addDeadZone(double x, double y, int height, int width){
         PhysicsObject deadzonerect = new PhysicsRectangle(new Point2D.Double(x,y), 1, height, width);
-        GameObject deadzone = new GameObject(deadzonerect,null);
+        GameObject deadzone = createGameObject(deadzonerect,null);
         deadzone.registerLogicEvent(new CollisionDeleteEvent(deadzone));
-        deadzonerect.setParent(deadzone);
+        deadzone.setFill(true);
         addGameObject(deadzone);
+    }
+
+    public void forcecamfollow(PhysicsObject camcenterpos){
+        this.camfollowobject = camcenterpos;
     }
 }

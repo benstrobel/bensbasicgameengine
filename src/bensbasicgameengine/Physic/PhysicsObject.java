@@ -123,6 +123,8 @@ public abstract class PhysicsObject{
         this.velocityY+=velocityY;
     }
 
+    public abstract Point2D getCenterPosition();
+
     public void setShape(Shape shape) {
         this.shape = shape;
         originalheight = shape.getBounds2D().getHeight();

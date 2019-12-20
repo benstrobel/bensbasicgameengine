@@ -33,6 +33,12 @@ public class PhysicsCircle extends PhysicsObject{
         return shape;
     }
 
+    @Override
+    public Point2D getCenterPosition() {
+        Point2D p = (Point2D) getPosition().clone();
+        return new Point2D.Double(p.getX()+radius,p.getY()+radius);
+    }
+
     public void bump(){
         if(tickcounter > protection+10){
             velocityX = -velocityX;

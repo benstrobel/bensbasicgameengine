@@ -35,8 +35,8 @@ public class Mouse_Listener implements MouseListener  {
         return mouseExited;
     }
 
-    public boolean isMosueReleased() {
-        return mouseReleased;
+    public boolean isMosuePressed() {
+        return mousePressed;
     }
 
     public boolean isMouseReleased() {
@@ -49,7 +49,7 @@ public class Mouse_Listener implements MouseListener  {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        mousePressed = true;
+        //mousePressed = true;
         pos = e.getPoint();
     }
 
@@ -62,6 +62,7 @@ public class Mouse_Listener implements MouseListener  {
     @Override
     public void mouseReleased(MouseEvent e) {
         mouseReleased = true;
+        mousePressed = false;
         pos = e.getPoint();
     }
 

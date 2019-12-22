@@ -82,8 +82,6 @@ public class KeyEvent extends LogicEvent {
                 graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()-5));
             }
         }
-        Point2D g = Graphic.getCameralocation();
-        System.out.println(g);
     }
 
     @Override

@@ -1,7 +1,12 @@
 package bensbasicgameengine.GameLogic.Events;
 
 import bensbasicgameengine.GameLogic.GameObject;
+import bensbasicgameengine.Physic.PhysicsCircle;
 import bensbasicgameengine.Physic.PhysicsObject;
+import bensbasicgameengine.Physic.PhysicsRectangle;
+
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 public class CollisionBlockMovementEvent extends LogicEvent {
 
@@ -13,9 +18,7 @@ public class CollisionBlockMovementEvent extends LogicEvent {
 
     @Override
     public void eventmethod() {
-        for(PhysicsObject target : gameObject.getPhysicsObject().getCollides()){
-
-        }
+        //TODO
     }
 
     @Override

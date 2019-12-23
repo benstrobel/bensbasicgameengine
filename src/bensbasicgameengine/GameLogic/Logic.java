@@ -230,6 +230,7 @@ public class Logic {
         GameObject deadzone = createGameObject(deadzonerect,null);
         deadzone.registerLogicEvent(new CollisionDeleteEvent(deadzone));
         deadzone.setFill(true);
+        deadzone.setFlag("deadzone");
         addGameObject(deadzone);
     }
 
@@ -237,6 +238,7 @@ public class Logic {
         PhysicsObject wallrect = new PhysicsRectangle(new Point2D.Double(x,y),1, height,width);
         GameObject wall = createGameObject(wallrect,Color.GRAY, true);
         wall.registerLogicEvent(new CollisionBlockMovementEvent(wall));
+        wall.setFlag("wall");
         addGameObject(wall);
     }
 

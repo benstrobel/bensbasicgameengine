@@ -85,11 +85,17 @@ public class Example {
         GameObject target = new GameObject(targetrectangle,null);
         targetrectangle.setParent(target);
         logic.addGameObject(target);
-        logic.addWall(0,0,300,30);
+        logic.addWall(0,0,1000,30);
+        logic.addWall(0,970, 30, 1000);
+        logic.addWall(0,0,30,1000);
+        logic.addWall(970,0,1000,30);
     }
 
     private void setupDeadZones(){
-        logic.addDeadZone(0,700,200,800);
+        logic.addDeadZone(-100,-100,50,1200);
+        logic.addDeadZone(-100,-100,1200,50);
+        logic.addDeadZone(-100,1050,50,1200);
+        logic.addDeadZone(1050,-100, 1200, 50);
     }
 
     private void setupGraphics(){

@@ -23,6 +23,7 @@ public class GameObject {
     private ArrayList<LogicEvent> logicEvents;
     private Color graphicshapecolor;
     private boolean garbage = false, fill = false;
+    private String flag;
 
     public GameObject(PhysicsObject physicsObject, BufferedImage bufferedImage){
         this.physicsObject = physicsObject;
@@ -37,6 +38,14 @@ public class GameObject {
 
     public void tick(){
         handleLocalEvents();
+    }
+
+    public void setFlag(String flag){
+        this.flag = flag;
+    }
+
+    public String getFlag() {
+        return flag;
     }
 
     public void setGraphiclayerid(int graphiclayerid) {

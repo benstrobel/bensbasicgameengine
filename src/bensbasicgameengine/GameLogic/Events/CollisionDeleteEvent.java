@@ -14,7 +14,7 @@ public class CollisionDeleteEvent extends LogicEvent {
     @Override
     public void eventmethod() {
         for(PhysicsObject physicsObject : gameObject.getPhysicsObject().getCollides()){
-            if(!gameObject.getFlag().equals("deadzone")){
+            if(!physicsObject.getFlag().equals("deadzone")){
                 physicsObject.getParent().setGarbage(true);
             }
         }

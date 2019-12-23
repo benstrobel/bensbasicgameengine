@@ -7,6 +7,7 @@ import bensbasicgameengine.Input.Mouse_Listener;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class MouseEvent extends LogicEvent {
@@ -24,7 +25,7 @@ public class MouseEvent extends LogicEvent {
         //System.out.println(mouse_listener.getPos());
         mouse_listener.reset();
         PhysicsObject targetrectangle = new PhysicsRectangle(new Point2D.Double(300,300), 1, 10, 5);
-        GameObject target = new GameObject(targetrectangle,null);
+        GameObject target = new GameObject(targetrectangle, Color.black, true);
         targetrectangle.setParent(target);
         logic.addGameObject(target);
         targetrectangle.setVelocityY(20);

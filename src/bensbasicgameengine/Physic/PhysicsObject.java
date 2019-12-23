@@ -25,11 +25,20 @@ public abstract class PhysicsObject{
     protected boolean removeflag = false;
     protected double originalwidth, originalheight;
     protected GameObject parent;
+    private String flag = "";
     int protection = 0;
     public PhysicsObject(Point2D position, double mass)
     {
         this.position = position;
         this.mass = mass;
+    }
+
+    public void setFlag(String flag){
+        this.flag = flag;
+    }
+
+    public String getFlag() {
+        return flag;
     }
 
     public int getTextureid() {

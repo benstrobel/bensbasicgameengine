@@ -94,7 +94,7 @@ public class Example {
     private void setupDeadZones(){
         logic.addDeadZone(-100,-100,50,1200);
         logic.addDeadZone(-100,-100,1200,50);
-        logic.addDeadZone(-100,1050,50,1200);
+        logic.addDeadZone(-100,1150,50,1200);
         logic.addDeadZone(1050,-100, 1200, 50);
     }
 

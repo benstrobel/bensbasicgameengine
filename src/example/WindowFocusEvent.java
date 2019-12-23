@@ -1,6 +1,6 @@
 package example;
 
-import bensbasicgameengine.GameLogic.LogicEvent;
+import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.WindowFocusListener;
 

@@ -2,8 +2,7 @@ package example;
 
 import bensbasicgameengine.GameLogic.GameObject;
 import bensbasicgameengine.GameLogic.Logic;
-import bensbasicgameengine.GameLogic.LogicEvent;
-import bensbasicgameengine.Input.MouseMove_Listener;
+import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Input.Mouse_Listener;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;

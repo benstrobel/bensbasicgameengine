@@ -1,6 +1,6 @@
 // Copyright 2019, Benedikt Strobel, All rights reserved.
 
-package bensbasicgameengine.GameLogic;
+package bensbasicgameengine.GameLogic.Events;
 
 public abstract class LogicEvent {
 

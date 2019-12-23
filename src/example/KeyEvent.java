@@ -2,7 +2,7 @@
 package example;
 
 import bensbasicgameengine.GameLogic.GameObject;
-import bensbasicgameengine.GameLogic.LogicEvent;
+import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Graphic.Graphic;
 import bensbasicgameengine.Input.KeyListener;
 

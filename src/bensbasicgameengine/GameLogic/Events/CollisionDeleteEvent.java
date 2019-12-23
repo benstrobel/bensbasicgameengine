@@ -1,5 +1,6 @@
-package bensbasicgameengine.GameLogic;
+package bensbasicgameengine.GameLogic.Events;
 
+import bensbasicgameengine.GameLogic.GameObject;
 import bensbasicgameengine.Physic.PhysicsObject;
 
 public class CollisionDeleteEvent extends LogicEvent {

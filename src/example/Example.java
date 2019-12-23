@@ -3,18 +3,15 @@ package example;
 
 import bensbasicgameengine.GameLogic.GameObject;
 import bensbasicgameengine.GameLogic.Logic;
-import bensbasicgameengine.GameLogic.LogicEvent;
+import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Graphic.Graphic;
-import bensbasicgameengine.Graphic.GraphicImage;
 import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
 import bensbasicgameengine.Input.WindowFocusListener;
 import bensbasicgameengine.Physic.Physics;
-import bensbasicgameengine.Physic.PhysicsCircle;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
-import bensbasicgameengine.Sound.SoundManager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

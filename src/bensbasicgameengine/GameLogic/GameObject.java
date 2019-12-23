@@ -2,11 +2,13 @@
 
 package bensbasicgameengine.GameLogic;
 
+import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Graphic.GraphicImage;
 import bensbasicgameengine.Graphic.GraphicObject;
+import bensbasicgameengine.Graphic.GraphicShape;
 import bensbasicgameengine.Physic.PhysicsObject;
-import bensbasicgameengine.Physic.PhysicsRectangle;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,11 +20,18 @@ public class GameObject {
     private int graphiclayerid;
     private double orientation = 0;
     private ArrayList<LogicEvent> logicEvents;
+    private Color graphicshapecolor;
     private boolean garbage = false, fill = false;
 
     public GameObject(PhysicsObject physicsObject, BufferedImage bufferedImage){
         this.physicsObject = physicsObject;
         this.bufferedImage = bufferedImage;
+    }
+
+    public GameObject(PhysicsObject physicsObject, Color graphicshapecolor, boolean fill){
+        this.physicsObject = physicsObject;
+        this.graphicshapecolor = graphicshapecolor;
+        this.fill = fill;
     }
 
     public void tick(){
@@ -42,10 +51,14 @@ public class GameObject {
     }
 
     public GraphicObject getGraphicObject() {
-        if(bufferedImage == null){return null;}
-        GraphicImage image = new GraphicImage(bufferedImage, physicsObject);
-        image.setOrientation(orientation);
-        return image;
+        if(graphicshapecolor != null){
+            return new GraphicShape(physicsObject.getShape(),graphicshapecolor, isFill(),orientation);
+        }else{
+            if(bufferedImage == null){return null;}
+            GraphicImage image = new GraphicImage(bufferedImage, physicsObject);
+            image.setOrientation(orientation);
+            return image;
+        }
     }
 
     public double getOrientation() {

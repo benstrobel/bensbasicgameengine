@@ -2,6 +2,9 @@
 
 package bensbasicgameengine.GameLogic;
 
+import bensbasicgameengine.GameLogic.Events.CollisionBlockMovementEvent;
+import bensbasicgameengine.GameLogic.Events.CollisionDeleteEvent;
+import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Graphic.Graphic;
 import bensbasicgameengine.Graphic.GraphicObject;
 import bensbasicgameengine.Graphic.GraphicShape;
@@ -216,12 +219,25 @@ public class Logic {
         return gameObject;
     }
 
+    public GameObject createGameObject(PhysicsObject physicsObject, Color color, boolean fill){
+        GameObject gameObject = new GameObject(physicsObject,color,fill);
+        physicsObject.setParent(gameObject);
+        return gameObject;
+    }
+
     public void addDeadZone(double x, double y, int height, int width){
         PhysicsObject deadzonerect = new PhysicsRectangle(new Point2D.Double(x,y), 1, height, width);
         GameObject deadzone = createGameObject(deadzonerect,null);
         deadzone.registerLogicEvent(new CollisionDeleteEvent(deadzone));
         deadzone.setFill(true);
         addGameObject(deadzone);
+    }
+
+    public void addWall(double x, double y, int height, int width){
+        PhysicsObject wallrect = new PhysicsRectangle(new Point2D.Double(x,y),1, height,width);
+        GameObject wall = createGameObject(wallrect,Color.GRAY, true);
+        wall.registerLogicEvent(new CollisionBlockMovementEvent(wall));
+        addGameObject(wall);
     }
 
     public void forcecamfollow(PhysicsObject camcenterpos){

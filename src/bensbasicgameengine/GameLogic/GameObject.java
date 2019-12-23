@@ -7,6 +7,7 @@ import bensbasicgameengine.Graphic.GraphicImage;
 import bensbasicgameengine.Graphic.GraphicObject;
 import bensbasicgameengine.Graphic.GraphicShape;
 import bensbasicgameengine.Physic.PhysicsObject;
+import bensbasicgameengine.Physic.PhysicsRectangle;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -52,7 +53,11 @@ public class GameObject {
 
     public GraphicObject getGraphicObject() {
         if(graphicshapecolor != null){
-            return new GraphicShape(physicsObject.getShape(),graphicshapecolor, isFill(),orientation);
+            if(physicsObject instanceof PhysicsRectangle){
+                return new GraphicShape(((PhysicsRectangle)physicsObject).getunrotatedShape(),graphicshapecolor, isFill(),orientation);
+            }else{
+                return new GraphicShape(physicsObject.getShape(),graphicshapecolor, isFill(),orientation);
+            }
         }else{
             if(bufferedImage == null){return null;}
             GraphicImage image = new GraphicImage(bufferedImage, physicsObject);

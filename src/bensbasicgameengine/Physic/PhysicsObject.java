@@ -20,6 +20,7 @@ public abstract class PhysicsObject{
     protected Shape shape;
     protected ArrayList <PhysicsObject> collides = new ArrayList<>();
     protected int tickcounter = 0;
+    private boolean upblocked,rightblocked,downblocked,leftblocked;
     protected boolean unmoveable = false;
     protected int textureid = -1;
     protected boolean removeflag = false;
@@ -31,6 +32,38 @@ public abstract class PhysicsObject{
     {
         this.position = position;
         this.mass = mass;
+    }
+
+    public boolean isUpblocked() {
+        return upblocked;
+    }
+
+    public boolean isRightblocked() {
+        return rightblocked;
+    }
+
+    public boolean isDownblocked() {
+        return downblocked;
+    }
+
+    public boolean isLeftblocked() {
+        return leftblocked;
+    }
+
+    public void setUpblocked(boolean upblocked) {
+        this.upblocked = upblocked;
+    }
+
+    public void setRightblocked(boolean rightblocked) {
+        this.rightblocked = rightblocked;
+    }
+
+    public void setLeftblocked(boolean leftblocked) {
+        this.leftblocked = leftblocked;
+    }
+
+    public void setDownblocked(boolean downblocked) {
+        this.downblocked = downblocked;
     }
 
     public void setFlag(String flag){
@@ -187,7 +220,7 @@ public abstract class PhysicsObject{
     }
 
     public static boolean detectCollision(PhysicsCircle circle0, PhysicsCircle circle1){
-        if(circle0.equals(circle1)){return false;}
+        /*if(circle0.equals(circle1)){return false;}
         if(circle1.getRadius()*0.75 > circle0.getPhysicsPosition().distance(circle1.getPhysicsPosition()) || circle0.getRadius()*0.75 > circle1.getPhysicsPosition().distance(circle0.getPhysicsPosition()))
         {
             circle0.setColliding(circle1);
@@ -195,11 +228,12 @@ public abstract class PhysicsObject{
             //distributeVelocity(circle0,circle1);
             return true;
         }
-        return false;
+        return false;*/
+        return detectCollisionGeneral(circle0,circle1);
     }
 
     public static boolean detectCollision(PhysicsCircle circle0, PhysicsRectangle rectangle0){
-        Line2D[] lines = rectangle0.getLines();
+        /*Line2D[] lines = rectangle0.getLines();
         for(Line2D line : lines)
         {
             if(Math.abs(line.ptSegDist(circle0.getPhysicsPosition())) < circle0.getRadius()*0.50)
@@ -209,7 +243,8 @@ public abstract class PhysicsObject{
                 return true;
             }
         }
-        return false;
+        return false;*/
+        return detectCollisionGeneral(circle0,rectangle0);
     }
 
     public static boolean detectCollision(PhysicsRectangle rectangle0, PhysicsRectangle rectangle1){
@@ -217,10 +252,14 @@ public abstract class PhysicsObject{
     }
 
     public static boolean detectCollisionGeneral(PhysicsObject phyobj0, PhysicsObject phyobj1){
-        if(phyobj0 == phyobj1){return true;}
+        if(phyobj0 == phyobj1){return false;}
+        //Possible performance increase: first check if bounds itersect, if they dont false, if they do then return result area intersect check
         Area a = new Area(phyobj0.getShape());
         a.intersect(new Area(phyobj1.getShape()));
         if(!a.isEmpty()){
+            //TODO
+            //Cut the original area in 4 overlapping parts (up,right,down,left), check these areas for intersection with the
+            //area resulted out of the intersection with the other object, set block flags accordingly
             phyobj0.setColliding(phyobj1);
             phyobj1.setColliding(phyobj0);
             return true;

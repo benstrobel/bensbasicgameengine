@@ -180,6 +180,7 @@ public class Logic {
             time = System.currentTimeMillis();
             tick();
             timepassed = System.currentTimeMillis() - time;
+            //System.out.println(waittime-timepassed);
             Tools.threadsleep(waittime-timepassed);
         }
     }
@@ -248,6 +249,7 @@ public class Logic {
 
     public void addDeadZone(double x, double y, int height, int width){
         PhysicsObject deadzonerect = new PhysicsRectangle(new Point2D.Double(x,y), 1, height, width);
+        deadzonerect.setUnmoveable(true);
         GameObject deadzone = createGameObject(deadzonerect,null);
         deadzone.registerLogicEvent(new CollisionDeleteEvent(deadzone));
         deadzone.setFill(true);
@@ -257,6 +259,7 @@ public class Logic {
 
     public void addWall(double x, double y, int height, int width){
         PhysicsObject wallrect = new PhysicsRectangle(new Point2D.Double(x,y),1, height,width);
+        wallrect.setUnmoveable(true);
         GameObject wall = createGameObject(wallrect,Color.GRAY, true);
         wall.registerLogicEvent(new CollisionBlockMovementEvent(wall));
         wall.setFlag("wall");

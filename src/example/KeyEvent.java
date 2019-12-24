@@ -3,6 +3,7 @@ package example;
 
 import bensbasicgameengine.GameLogic.GameObject;
 import bensbasicgameengine.GameLogic.Events.LogicEvent;
+import bensbasicgameengine.GameLogic.HudObject;
 import bensbasicgameengine.Graphic.Graphic;
 import bensbasicgameengine.Input.KeyListener;
 
@@ -13,11 +14,13 @@ public class KeyEvent extends LogicEvent {
     KeyListener keyListener;
     GameObject player;
     Graphic graphic;
+    HudObject testmenu;
 
-    public KeyEvent(KeyListener keyListener, GameObject player,Graphic graphic){
+    public KeyEvent(KeyListener keyListener, GameObject player, Graphic graphic, HudObject testmenu){
         this.keyListener = keyListener;
         this.player = player;
         this.graphic = graphic;
+        this.testmenu = testmenu;
     }
 
     @Override
@@ -81,6 +84,9 @@ public class KeyEvent extends LogicEvent {
                 Point2D g = Graphic.getCameralocation();
                 graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()-5));
             }
+        }
+        if(keys[KeyListener.ESC]){
+            testmenu.setEnabled(!testmenu.isEnabled());
         }
     }
 

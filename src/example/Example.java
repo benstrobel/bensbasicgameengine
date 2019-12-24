@@ -2,9 +2,11 @@
 package example;
 
 import bensbasicgameengine.GameLogic.GameObject;
+import bensbasicgameengine.GameLogic.HudObject;
 import bensbasicgameengine.GameLogic.Logic;
 import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Graphic.Graphic;
+import bensbasicgameengine.Graphic.GraphicShape;
 import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
@@ -15,7 +17,9 @@ import bensbasicgameengine.Physic.PhysicsRectangle;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +39,8 @@ public class Example {
     private BufferedImage textures [];
     private GameObject player;
 
+    HudObject testmenu;
+
 
     public static void main(String[] args) {
         new Example();
@@ -42,6 +48,7 @@ public class Example {
 
     public Example(){
         setupGraphics();
+        setupHUD();
         setupPlayer();
         setupDeadZones();
         setupEvents();
@@ -66,7 +73,7 @@ public class Example {
     }
 
     private void setupEvents(){
-        LogicEvent keyEvent = new KeyEvent(keyListener,player,graphic);
+        LogicEvent keyEvent = new KeyEvent(keyListener,player,graphic,testmenu);
         logic.registerLogicEvent(keyEvent);
         LogicEvent mouseEvent = new MouseEvent(mouse_listener,logic);
         logic.registerLogicEvent(mouseEvent);
@@ -89,6 +96,16 @@ public class Example {
         logic.addWall(0,970, 30, 1000);
         logic.addWall(0,0,30,1000);
         logic.addWall(970,0,1000,30);
+    }
+
+    private void setupHUD(){
+        testmenu = new HudObject(300,300,300,100, new GraphicShape(new Rectangle2D.Double(300,300,300,100), Color.black, true, 0, true)) {
+            @Override
+            public void activationMethod() {
+                System.out.println("Hud Object Clicked");
+            }
+        };
+        logic.addHudObject(testmenu);
     }
 
     private void setupDeadZones(){

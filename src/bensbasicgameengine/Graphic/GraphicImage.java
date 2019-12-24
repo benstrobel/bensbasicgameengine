@@ -54,6 +54,22 @@ public class GraphicImage extends GraphicObject {
         return;
     }
 
+    public GraphicImage(BufferedImage image, PhysicsObject physicsObject, boolean isStatic)
+    {
+        this.image = image;
+        xoffset = differance(image.getWidth(),(int)(physicsObject.getOriginalWidth()))/2;
+        yoffset = differance(image.getHeight(),(int)(physicsObject.getOriginalHeight()))/2;
+        x = (int)physicsObject.getPosition().getX();
+        y = (int)physicsObject.getPosition().getY();
+        this.centered = true;
+        this.physicsObject = physicsObject;
+        if(!isStatic){
+            x += Graphic.getCameralocation().getX();
+            y += Graphic.getCameralocation().getY();
+        }
+        return;
+    }
+
     public GraphicImage(BufferedImage image, Point2D position, float alpha)
     {
         this.image = image;

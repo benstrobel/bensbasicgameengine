@@ -36,13 +36,13 @@ public class Logic {
     private long tickcounter = 0;
     private final int tickspersecond = 60;
     private final int waittime = 1000/tickspersecond; //in ms
-    private boolean run = true, showhitbox = false;
+    private boolean run = true, showhitbox = false, pause = false;
     private int graphiclayers = -1;
     private PhysicsObject camfollowobject;
 
     private ArrayList<LogicEvent> logicEvents;
     private ArrayList<GameObject> gameObjects;
-    private ArrayList<GraphicObject> hudObjects;
+    private ArrayList<HudObject> hudObjects;
     private ArrayList<PhysicsObject> triggerObjects;
 
     public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener){
@@ -67,8 +67,18 @@ public class Logic {
     private void tick(){
         if(graphic != null){graphic.repaint();}
         if(soundManager != null){soundManager.tick();}
-        logictick();
+        if(!pause){
+            logictick();
+        }
         graphictick();
+    }
+
+    public void setPause(boolean pause){
+        this.pause = pause;
+    }
+
+    public boolean isPause() {
+        return pause;
     }
 
     public void startloop(){
@@ -118,7 +128,7 @@ public class Logic {
         }
     }
 
-    private void addhudObjects(){
+    public void addhudObjects(){
         synchronized (gameObjects){
             if(showhitbox){
                 synchronized (graphic.getObjectlist()){
@@ -137,8 +147,10 @@ public class Logic {
         }
         synchronized (hudObjects){
             synchronized (graphic.getObjectlist()){
-                for(GraphicObject graphicObject : hudObjects){
-                    graphic.add(graphiclayers,graphicObject);
+                for(HudObject hudObject : hudObjects){
+                    if(hudObject.isEnabled()){
+                        graphic.add(graphiclayers,hudObject.getGraphicObject());
+                    }
                 }
             }
         }
@@ -199,6 +211,14 @@ public class Logic {
             gameObjects.remove(gameObject);
             physics.removeObject(gameObject.getPhysicsObject());
         }
+    }
+
+    public void addHudObject(HudObject hudObject){
+        hudObjects.add(hudObject);
+    }
+
+    public void removeHudObject(HudObject hudObject){
+        hudObjects.remove(hudObject);
     }
 
     public void setGraphiclayers(int graphiclayers){

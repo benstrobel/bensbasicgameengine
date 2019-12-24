@@ -1,6 +1,7 @@
 // Copyright 2019, Benedikt Strobel, All rights reserved.
 package example;
 
+import bensbasicgameengine.GameLogic.Events.HudClickEvent;
 import bensbasicgameengine.GameLogic.GameObject;
 import bensbasicgameengine.GameLogic.HudObject;
 import bensbasicgameengine.GameLogic.Logic;
@@ -79,6 +80,8 @@ public class Example {
         logic.registerLogicEvent(mouseEvent);
         LogicEvent windowFocusEvent = new WindowFocusEvent(windowFocusListener,keyListener);
         logic.registerLogicEvent(windowFocusEvent);
+        LogicEvent hudclick0 = new HudClickEvent(testmenu,mouse_listener);
+        logic.registerLogicEvent(hudclick0);
 
     }
 

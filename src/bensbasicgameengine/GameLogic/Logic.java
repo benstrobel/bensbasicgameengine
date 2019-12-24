@@ -93,6 +93,7 @@ public class Logic {
             graphic.setCameralocation(new Point2D.Double(-camfollowobject.getCenterPosition().getX()+framedim.width/2,-camfollowobject.getCenterPosition().getY()+framedim.height/2));
         }
         handleLocalEventsAndCollectGarbage();
+        mouse_listener.resetAll();
         tickcounter++;
     }
 

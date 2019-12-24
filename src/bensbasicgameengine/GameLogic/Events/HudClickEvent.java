@@ -23,7 +23,10 @@ public class HudClickEvent extends LogicEvent{
     @Override
     public boolean eventstate() {
         Point2D mousepos = mouse_listener.getPos();
-        return hudObject.isEnabled()&& mouse_listener.isLeftMousePressed() && (mousepos.getX() > hudObject.getX()) && (mousepos.getY() > hudObject.getY())
-                && (mousepos.getX() < hudObject.getX()+hudObject.getWidth()) && (mousepos.getY() < hudObject.getY()+hudObject.getHeight());
+        if(mouse_listener.isLeftMousePressed()){
+            return hudObject.isEnabled()&& (mousepos.getX() > hudObject.getX()) && (mousepos.getY() > hudObject.getY())
+                    && (mousepos.getX() < hudObject.getX()+hudObject.getWidth()) && (mousepos.getY() < hudObject.getY()+hudObject.getHeight());
+        }
+        return false;
     }
 }

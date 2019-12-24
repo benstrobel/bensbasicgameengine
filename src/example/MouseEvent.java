@@ -23,7 +23,7 @@ public class MouseEvent extends LogicEvent {
     @Override
     public void eventmethod() {
         //System.out.println(mouse_listener.getPos());
-        mouse_listener.resetLeftMouse();
+        //mouse_listener.resetLeftMouse();
         PhysicsObject targetrectangle = new PhysicsRectangle(new Point2D.Double(300,300), 1, 10, 5);
         GameObject target = new GameObject(targetrectangle, Color.black, true);
         targetrectangle.setParent(target);

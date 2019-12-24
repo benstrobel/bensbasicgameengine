@@ -22,7 +22,6 @@ public class Mouse_Listener implements MouseListener  {
         mouseEntered = false;
         mouseExited = false;
         mouseReleased = false;
-        pos = null;
     }
 
     public void resetLeftMouse(){

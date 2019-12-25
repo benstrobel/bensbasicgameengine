@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-public abstract class PhysicsObject{
+public abstract class PhysicsObject implements Cloneable{
     protected Point2D position;
     protected double mass;
     protected double velocityX;
@@ -26,12 +26,21 @@ public abstract class PhysicsObject{
     protected boolean removeflag = false;
     protected double originalwidth, originalheight;
     protected GameObject parent;
+    private boolean hypothetical = false;
     private String flag = "";
     int protection = 0;
     public PhysicsObject(Point2D position, double mass)
     {
         this.position = position;
         this.mass = mass;
+    }
+
+    public void setHypothetical(){
+        hypothetical = true;
+    }
+
+    public boolean isHypothetical(){
+        return hypothetical;
     }
 
     public boolean isUpblocked() {
@@ -112,7 +121,9 @@ public abstract class PhysicsObject{
     }
 
     public void setColliding(PhysicsObject object) {
-        collides.add(object);
+        if(!collides.contains(object)){
+            collides.add(object);
+        }
     }
 
     public void resetColliding(){collides.clear();}
@@ -260,8 +271,10 @@ public abstract class PhysicsObject{
             //TODO
             //Cut the original area in 4 overlapping parts (up,right,down,left), check these areas for intersection with the
             //area resulted out of the intersection with the other object, set block flags accordingly
-            phyobj0.setColliding(phyobj1);
-            phyobj1.setColliding(phyobj0);
+            if(!(phyobj0.isHypothetical() || phyobj1.isHypothetical())){
+                phyobj0.setColliding(phyobj1);
+                phyobj1.setColliding(phyobj0);
+            }
             return true;
         }
         return false;
@@ -277,5 +290,11 @@ public abstract class PhysicsObject{
 
     public GameObject getParent() {
         return parent;
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        PhysicsObject c = (PhysicsObject) super.clone();
+        c.setPosition((Point2D) position.clone());
+        return c;
     }
 }

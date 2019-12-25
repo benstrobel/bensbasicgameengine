@@ -87,12 +87,12 @@ public class Logic {
 
     private void logictick(){
         handleGlobalEvents();
+        handleLocalEventsAndCollectGarbage();
         physics.tick();
         if(camfollowobject != null){
             Dimension framedim = graphic.getFramedimension();
             graphic.setCameralocation(new Point2D.Double(-camfollowobject.getCenterPosition().getX()+framedim.width/2,-camfollowobject.getCenterPosition().getY()+framedim.height/2));
         }
-        handleLocalEventsAndCollectGarbage();
         mouse_listener.resetAll();
         tickcounter++;
     }

@@ -264,6 +264,8 @@ public abstract class PhysicsObject implements Cloneable{
 
     public static boolean detectCollisionGeneral(PhysicsObject phyobj0, PhysicsObject phyobj1){
         if(phyobj0 == phyobj1){return false;}
+        if(phyobj0.getFlag().equals("wall") && phyobj1.getFlag().equals("wall")){return false;}
+        if(phyobj0.getFlag().equals("deadzone") && phyobj1.getFlag().equals("deadzone")){return false;}
         //Possible performance increase: first check if bounds itersect, if they dont false, if they do then return result area intersect check
         Area a = new Area(phyobj0.getShape());
         a.intersect(new Area(phyobj1.getShape()));

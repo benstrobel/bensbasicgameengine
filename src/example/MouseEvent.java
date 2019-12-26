@@ -29,6 +29,7 @@ public class MouseEvent extends LogicEvent {
         targetrectangle.setParent(target);
         logic.addGameObject(target);
         targetrectangle.setVelocityY(20);
+        target.registerLogicEvent(new DeleteProjectilesEvent(target));
     }
 
     @Override

@@ -80,8 +80,9 @@ public class PhysicsRectangle extends PhysicsObject{
 
     @Override
     public boolean detectCollision(PhysicsObject object) {
-        if(object instanceof PhysicsCircle){return PhysicsObject.detectCollision((PhysicsCircle)object, this);}
-        if(object instanceof PhysicsRectangle){return PhysicsObject.detectCollision(this, (PhysicsRectangle) object);}
-        return false;
+        return detectCollisionGeneral(this,object);
+        //if(object instanceof PhysicsCircle){return PhysicsObject.detectCollision((PhysicsCircle)object, this);}
+        //if(object instanceof PhysicsRectangle){return PhysicsObject.detectCollision(this, (PhysicsRectangle) object);}
+        //return false;
     }
 }

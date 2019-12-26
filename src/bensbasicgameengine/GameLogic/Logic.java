@@ -2,7 +2,6 @@
 
 package bensbasicgameengine.GameLogic;
 
-import bensbasicgameengine.GameLogic.Events.CollisionBlockMovementEvent;
 import bensbasicgameengine.GameLogic.Events.CollisionDeleteEvent;
 import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Graphic.Graphic;
@@ -261,7 +260,8 @@ public class Logic {
         PhysicsObject wallrect = new PhysicsRectangle(new Point2D.Double(x,y),1, height,width);
         wallrect.setUnmoveable(true);
         GameObject wall = createGameObject(wallrect,Color.GRAY, true);
-        wall.registerLogicEvent(new CollisionBlockMovementEvent(wall));
+        //wall.registerLogicEvent(new CollisionBlockMovementEvent(wall));
+        wallrect.setSolid(true);
         wall.setFlag("wall");
         addGameObject(wall);
     }

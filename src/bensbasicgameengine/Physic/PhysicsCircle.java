@@ -62,7 +62,8 @@ public class PhysicsCircle extends PhysicsObject{
 
     @Override
     public boolean detectCollision(PhysicsObject object) {
-        if(object instanceof PhysicsCircle){return PhysicsObject.detectCollision(this, (PhysicsCircle)object);}
-        return false;
+        return detectCollisionGeneral(this,object);
+        //if(object instanceof PhysicsCircle){return PhysicsObject.detectCollision(this, (PhysicsCircle)object);}
+        //return false;
     }
 }

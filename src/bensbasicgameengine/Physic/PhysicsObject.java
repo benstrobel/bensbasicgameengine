@@ -27,6 +27,7 @@ public abstract class PhysicsObject implements Cloneable{
     protected double originalwidth, originalheight;
     protected GameObject parent;
     private boolean hypothetical = false;
+    private boolean solid = false;
     private String flag = "";
     int protection = 0;
     public PhysicsObject(Point2D position, double mass)
@@ -37,6 +38,14 @@ public abstract class PhysicsObject implements Cloneable{
 
     public void setHypothetical(){
         hypothetical = true;
+    }
+
+    public boolean isSolid() {
+        return solid;
+    }
+
+    public void setSolid(boolean solid) {
+        this.solid = solid;
     }
 
     public boolean isHypothetical(){
@@ -165,6 +174,7 @@ public abstract class PhysicsObject implements Cloneable{
     }
 
     public void setVelocityY(double velocityY) {
+
         this.velocityY = velocityY;
     }
 
@@ -193,42 +203,6 @@ public abstract class PhysicsObject implements Cloneable{
     }
 
     public abstract boolean detectCollision(PhysicsObject object);
-
-    private static void distributeVelocity(PhysicsObject o1, PhysicsObject o2){
-        if(o1.isUnmoveable()){
-            if(o2.isUnmoveable()){
-
-            }else{
-                if(o2.tickcounter > o2.protection+10)
-                {
-                    o2.velocityX = -o2.velocityX;
-                    o2.velocityY = -o2.velocityY;
-                    o2.protection = o2.tickcounter;
-                }
-            }
-        }else{
-            if(o2.isUnmoveable()){
-                if(o1.tickcounter > o1.protection+10)
-                {
-                    o1.velocityX = -o1.velocityX;
-                    o1.velocityY = -o1.velocityY;
-                    o1.protection = o1.tickcounter;
-                }
-            }else{
-                if(o1.tickcounter > o1.protection+10 && o2.tickcounter > o2.protection+10)
-                {
-                    double oldo1x = o1.velocityX;
-                    double oldo1y = o1.velocityY;
-                    o1.setVelocityX(o1.getVelocityX()+(o1.getMass()*o1.getVelocityX() + o2.getMass() * o2.getVelocityX())/2);
-                    o1.setVelocityY(o1.getVelocityY()+(o1.getMass()*o1.getVelocityY() + o2.getMass() * o2.getVelocityY())/2);
-                    o2.setVelocityX(o2.getVelocityX()+ (o1.getMass()*oldo1x + o2.getMass() * o2.getVelocityX())/2);
-                    o2.setVelocityY(o2.getVelocityY()+ (o1.getMass()*oldo1y + o2.getMass() * o2.getVelocityY())/2);
-                    o2.protection = o2.tickcounter;
-                    o1.protection = o1.tickcounter;
-                }
-            }
-        }
-    }
 
     public static boolean detectCollision(PhysicsCircle circle0, PhysicsCircle circle1){
         /*if(circle0.equals(circle1)){return false;}
@@ -262,21 +236,30 @@ public abstract class PhysicsObject implements Cloneable{
         return detectCollisionGeneral(rectangle0,rectangle1);
     }
 
-    public static boolean detectCollisionGeneral(PhysicsObject phyobj0, PhysicsObject phyobj1){
-        if(phyobj0 == phyobj1){return false;}
-        if(phyobj0.getFlag().equals("wall") && phyobj1.getFlag().equals("wall")){return false;}
-        if(phyobj0.getFlag().equals("deadzone") && phyobj1.getFlag().equals("deadzone")){return false;}
+    public static boolean detectCollisionGeneral(PhysicsObject obj0, PhysicsObject phyobj1){
+        if(obj0 == phyobj1){return false;}
+        if(obj0.getFlag().equals("wall") && phyobj1.getFlag().equals("wall")){return false;}
+        if(obj0.getFlag().equals("deadzone") && phyobj1.getFlag().equals("deadzone")){return false;}
+        PhysicsObject phyobj0 = null;
+        try {
+            phyobj0 = (PhysicsObject) obj0.clone();
+            phyobj0.setHypothetical();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        phyobj0.getPosition().setLocation(phyobj0.getPosition().getX()+phyobj0.getVelocityX(), phyobj0.getPosition().getY()+phyobj0.getVelocityY());
+        phyobj0.updateShape();
         //Possible performance increase: first check if bounds itersect, if they dont false, if they do then return result area intersect check
+        //Possible performance increase: Currently each collision is being checked twice, from perspectives of the objects
         Area a = new Area(phyobj0.getShape());
         a.intersect(new Area(phyobj1.getShape()));
         if(!a.isEmpty()){
-            //TODO
-            //Cut the original area in 4 overlapping parts (up,right,down,left), check these areas for intersection with the
-            //area resulted out of the intersection with the other object, set block flags accordingly
-            if(!(phyobj0.isHypothetical() || phyobj1.isHypothetical())){
-                phyobj0.setColliding(phyobj1);
-                phyobj1.setColliding(phyobj0);
-            }
+                obj0.setColliding(phyobj1);
+                phyobj1.setColliding(obj0);
+                if(phyobj1.isSolid()){
+                    obj0.setVelocityY(0);
+                    obj0.setVelocityX(0);
+                }
             return true;
         }
         return false;

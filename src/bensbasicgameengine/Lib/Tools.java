@@ -20,14 +20,14 @@ public class Tools {
         }
     }
 
-    public static Point2D calculateDirection(Point2D from, Point2D to){
-        return mulVector(normVector(new Point2D.Double(to.getX()-from.getX(),to.getY()-from.getY())),5);    //Get vector on length 5
+    public static Point2D calculateDirection(Point2D from, Point2D to, int vectorlength){
+        return mulVector(normVector(new Point2D.Double(to.getX()-from.getX(),to.getY()-from.getY())),vectorlength);    //Get vector on length 5
     }
 
-    public static Point2D calculateDirection(PhysicsObject from, PhysicsObject to){
+    public static Point2D calculateDirection(PhysicsObject from, PhysicsObject to, int vectorlength){
         Point2D source = getMiddle(from);
         Point2D target = (Point2D) to.getPosition().clone();
-        return  calculateDirection(source,target);
+        return  calculateDirection(source,target,vectorlength);
     }
 
     public static Point2D getMiddle(PhysicsObject from){

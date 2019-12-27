@@ -236,33 +236,53 @@ public abstract class PhysicsObject implements Cloneable{
         return detectCollisionGeneral(rectangle0,rectangle1);
     }
 
+    private static boolean checkForFuturCollision(PhysicsObject futur, PhysicsObject stat){
+        PhysicsObject phyobj0 = null;
+        PhysicsObject phyobj00 = null;
+        try {
+            phyobj0 = (PhysicsObject) futur.clone();
+            phyobj0.setHypothetical();
+            phyobj00 = (PhysicsObject) futur.clone();
+            phyobj00.setHypothetical();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        //--------------Checking for X
+        phyobj0.getPosition().setLocation(phyobj0.getPosition().getX()+phyobj0.getVelocityX(), phyobj0.getPosition().getY());
+        phyobj0.updateShape();
+        Area a = new Area(phyobj0.getShape());
+        a.intersect(new Area(stat.getShape()));
+        if(!a.isEmpty()){
+            futur.setColliding(stat);
+            stat.setColliding(futur);
+            if(stat.isSolid()){
+                futur.setVelocityX(0);
+            }
+            return true;
+        }
+        //------------Checking For Y
+        phyobj00.getPosition().setLocation(phyobj00.getPosition().getX(), phyobj00.getPosition().getY()+phyobj00.getVelocityY());
+        phyobj00.updateShape();
+        a = new Area(phyobj00.getShape());
+        a.intersect(new Area(stat.getShape()));
+        if(!a.isEmpty()){
+            futur.setColliding(stat);
+            stat.setColliding(futur);
+            if(stat.isSolid()){
+                futur.setVelocityY(0);
+            }
+            return true;
+        }
+        return false;
+    }
+
     public static boolean detectCollisionGeneral(PhysicsObject obj0, PhysicsObject phyobj1){
         if(obj0 == phyobj1){return false;}
         if(obj0.getFlag().equals("wall") && phyobj1.getFlag().equals("wall")){return false;}
         if(obj0.getFlag().equals("deadzone") && phyobj1.getFlag().equals("deadzone")){return false;}
-        PhysicsObject phyobj0 = null;
-        try {
-            phyobj0 = (PhysicsObject) obj0.clone();
-            phyobj0.setHypothetical();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        phyobj0.getPosition().setLocation(phyobj0.getPosition().getX()+phyobj0.getVelocityX(), phyobj0.getPosition().getY()+phyobj0.getVelocityY());
-        phyobj0.updateShape();
+        return checkForFuturCollision(obj0,phyobj1);
         //Possible performance increase: first check if bounds itersect, if they dont false, if they do then return result area intersect check
         //Possible performance increase: Currently each collision is being checked twice, from perspectives of the objects
-        Area a = new Area(phyobj0.getShape());
-        a.intersect(new Area(phyobj1.getShape()));
-        if(!a.isEmpty()){
-                obj0.setColliding(phyobj1);
-                phyobj1.setColliding(obj0);
-                if(phyobj1.isSolid()){
-                    obj0.setVelocityY(0);
-                    obj0.setVelocityX(0);
-                }
-            return true;
-        }
-        return false;
     }
 
     public ArrayList<PhysicsObject> getCollides() {

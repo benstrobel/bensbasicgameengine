@@ -37,6 +37,7 @@ public class Logic {
     private boolean run = true, showhitbox = false, pause = false;
     private int graphiclayers = -1;
     private PhysicsObject camfollowobject;
+    private Point2D camlocation = new Point2D.Double(0,0);
 
     private ArrayList<LogicEvent> logicEvents;
     private ArrayList<GameObject> gameObjects;
@@ -45,6 +46,7 @@ public class Logic {
 
     public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener){
         this.graphic = graphic;
+        graphic.setCameralocation(camlocation);
         this.physics = physics;
         this.soundManager = soundManager;
         this.keyListener = keyListener;
@@ -89,6 +91,7 @@ public class Logic {
         physics.tick();
         if(camfollowobject != null){
             Dimension framedim = graphic.getFramedimension();
+            camlocation.setLocation(camfollowobject.getCenterPosition().getX()-framedim.width/2,camfollowobject.getCenterPosition().getY()-framedim.height/2);
             graphic.setCameralocation(new Point2D.Double(-camfollowobject.getCenterPosition().getX()+framedim.width/2,-camfollowobject.getCenterPosition().getY()+framedim.height/2));
         }
         mouse_listener.resetAll();
@@ -267,5 +270,9 @@ public class Logic {
 
     public void forcecamfollow(PhysicsObject camcenterpos){
         this.camfollowobject = camcenterpos;
+    }
+
+    public Point2D getCamlocation(){
+        return camlocation;
     }
 }

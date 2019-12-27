@@ -4,6 +4,7 @@ import bensbasicgameengine.GameLogic.GameObject;
 import bensbasicgameengine.GameLogic.Logic;
 import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Input.Mouse_Listener;
+import bensbasicgameengine.Lib.Tools;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
 
@@ -14,22 +15,29 @@ public class MouseEvent extends LogicEvent {
 
     private Mouse_Listener mouse_listener;
     private Logic logic;
+    private GameObject player;
+    private Point2D camlocation;
 
-    public MouseEvent(Mouse_Listener mouse_listener, Logic logic){
+    public MouseEvent(Mouse_Listener mouse_listener, Logic logic, GameObject player, Point2D camlocation){
         this.mouse_listener = mouse_listener;
         this.logic = logic;
+        this.player = player;
+        this.camlocation = camlocation;
     }
 
     @Override
     public void eventmethod() {
-        //System.out.println(mouse_listener.getPos());
-        //mouse_listener.resetLeftMouse();
-        PhysicsObject targetrectangle = new PhysicsRectangle(new Point2D.Double(300,300), 1, 10, 5);
-        GameObject target = new GameObject(targetrectangle, Color.black, true);
-        targetrectangle.setParent(target);
-        logic.addGameObject(target);
-        targetrectangle.setVelocityY(20);
-        target.registerLogicEvent(new DeleteProjectilesEvent(target));
+        PhysicsObject projectilerectangle = new PhysicsRectangle(Tools.getMiddle(player.getPhysicsObject()), 1, 10, 5);
+        GameObject projectile = new GameObject(projectilerectangle, Color.black, true);
+        projectilerectangle.setParent(projectile);
+        Point2D mousePos = (Point2D) mouse_listener.getPos().clone();
+        mousePos.setLocation(mousePos.getX()+camlocation.getX(),mousePos.getY()+camlocation.getY());
+        Point2D direction = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),mousePos);
+        projectilerectangle.setVelocityX(direction.getX());
+        projectilerectangle.setVelocityY(direction.getY());
+        projectilerectangle.setOrientation(Tools.getDegree(direction));
+        projectile.registerLogicEvent(new DeleteProjectilesEvent(projectile));
+        logic.addGameObject(projectile);
     }
 
     @Override

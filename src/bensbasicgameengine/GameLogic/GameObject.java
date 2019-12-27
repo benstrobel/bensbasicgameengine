@@ -64,7 +64,7 @@ public class GameObject {
     public GraphicObject getGraphicObject() {
         if(graphicshapecolor != null){
             if(physicsObject instanceof PhysicsRectangle){
-                return new GraphicShape(((PhysicsRectangle)physicsObject).getunrotatedShape(),graphicshapecolor, isFill(),orientation);
+                return new GraphicShape(((PhysicsRectangle)physicsObject).getunrotatedShape(),graphicshapecolor, isFill(),((PhysicsRectangle)physicsObject).getOrientation());
             }else{
                 return new GraphicShape(physicsObject.getShape(),graphicshapecolor, isFill(),orientation);
             }

@@ -41,6 +41,9 @@ public class GraphicShape extends GraphicObject {
     public void paint(Graphics2D g2d) {
         g2d.setColor(color);
         Shape s = null;
+        if(getAlpha() != 1.0F){
+            g2d.setComposite(AlphaComposite.SrcOver.derive(getAlpha()));
+        }
         if(!isStatic){
             if(shape instanceof Rectangle2D){
                 Rectangle2D h = (Rectangle2D) ((Rectangle2D)shape).clone();
@@ -68,7 +71,7 @@ public class GraphicShape extends GraphicObject {
                 g2d.fill(shape);
             }
         }
-
+        g2d.setComposite(AlphaComposite.SrcOver.derive(1.0F));
     }
 }
 

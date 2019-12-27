@@ -1,3 +1,4 @@
+// Copyright 2019, Benedikt Strobel, All rights reserved.
 package example;
 
 import bensbasicgameengine.GameLogic.Events.LogicEvent;

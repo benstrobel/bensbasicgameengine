@@ -1,3 +1,4 @@
+// Copyright 2019, Benedikt Strobel, All rights reserved.
 package bensbasicgameengine.GameLogic.Events;
 
 import bensbasicgameengine.GameLogic.HudObject;

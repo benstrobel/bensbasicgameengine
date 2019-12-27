@@ -6,7 +6,6 @@ import bensbasicgameengine.Lib.Tools;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.awt.image.AffineTransformOp;
 
 public class GraphicShape extends GraphicObject {
 

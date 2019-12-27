@@ -5,7 +5,6 @@ package bensbasicgameengine.GameLogic;
 import bensbasicgameengine.GameLogic.Events.CollisionDeleteEvent;
 import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Graphic.Graphic;
-import bensbasicgameengine.Graphic.GraphicObject;
 import bensbasicgameengine.Graphic.GraphicShape;
 import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.MouseMove_Listener;

@@ -179,7 +179,7 @@ public class Logic {
             time = System.currentTimeMillis();
             tick();
             timepassed = System.currentTimeMillis() - time;
-            //System.out.println(waittime-timepassed);
+            if(waittime < timepassed){System.out.println("Can't keep up, timediff: " + (waittime-timepassed));}
             Tools.threadsleep(waittime-timepassed);
         }
     }

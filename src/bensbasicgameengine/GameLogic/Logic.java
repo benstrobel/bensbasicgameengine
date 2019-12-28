@@ -112,9 +112,11 @@ public class Logic {
     }
 
     private void graphictick(){
-        graphic.clear();
-        addgameObjects();
-        addhudObjects();
+        synchronized (graphic.getObjectlist()){
+            graphic.clear();
+            addgameObjects();
+            addhudObjects();
+        }
         graphic.repaint();
     }
 

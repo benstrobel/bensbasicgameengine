@@ -2,6 +2,8 @@
 
 package bensbasicgameengine.Graphic;
 
+import bensbasicgameengine.Lib.Tools;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -24,6 +26,14 @@ public class Graphic {
             @Override
             public void paint(java.awt.Graphics g) {
                 synchronized (objectlist){
+                    int i = 0;
+                    for(ArrayList<GraphicObject> list : objectlist){
+                        i += list.size();
+                    }
+                    if(i == 0){
+                        System.out.println("GraphicError");
+                        //return;
+                    }
                     try {
                         Graphics2D g2d = ((Graphics2D) g);
                         if(background != null){
@@ -47,8 +57,9 @@ public class Graphic {
                     } catch (java.util.ConcurrentModificationException ex) {
                         System.out.println("#Graphics: Repainting too fast, graphics cant keep up");
                     }
+                    //clearallowed = true;
                 }
-            }
+        }
         };
     }
 
@@ -58,7 +69,6 @@ public class Graphic {
         }else{
             panel.getParent().repaint();
         }
-        //panel.repaint();
     }
 
     public void setBackground(BufferedImage[][] background) {

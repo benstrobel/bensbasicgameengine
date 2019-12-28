@@ -33,8 +33,9 @@ public class MouseEvent extends LogicEvent {
         Point2D mousePos = (Point2D) mouse_listener.getPos().clone();
         mousePos.setLocation(mousePos.getX()+camlocation.getX(),mousePos.getY()+camlocation.getY());
         Point2D direction = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),mousePos,20);
-        Point2D adddirection = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),mousePos,45);
+        Point2D adddirection = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),mousePos,60);
         projectilerectangle.getPosition().setLocation(Tools.addVector(projectilerectangle.getPosition(),adddirection));
+        projectile.getPhysicsObject().updateShape();
         projectilerectangle.setVelocityX(direction.getX());
         projectilerectangle.setVelocityY(direction.getY());
         projectilerectangle.setOrientation(Tools.getDegree(direction));

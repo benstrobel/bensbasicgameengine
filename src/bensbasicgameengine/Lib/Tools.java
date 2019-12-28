@@ -60,6 +60,10 @@ public class Tools {
         }
     }
 
+    public static Point2D addVector(Point2D v1, Point2D v2){
+        return new Point2D.Double(v1.getX()+v2.getX(),v1.getY()+v2.getY());
+    }
+
     public static Point2D mulVector(Point2D vector, double factor){
         return new Point2D.Double(vector.getX()*factor,vector.getY()*factor);
     }

@@ -54,7 +54,7 @@ public class Example {
         setupDeadZones();
         setupEvents();
         setupWindow();
-        //logic.setShowhitbox(true);
+        logic.setShowhitbox(true);
         logic.forcecamfollow(player.getPhysicsObject());
         logic.startloop();
     }

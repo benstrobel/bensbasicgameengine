@@ -1,5 +1,5 @@
 // Copyright 2019, Benedikt Strobel, All rights reserved.
-package example;
+package bensbasicgameengine.GameLogic.Events;
 
 import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.GameLogic.GameObject;

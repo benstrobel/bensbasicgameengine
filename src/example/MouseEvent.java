@@ -1,5 +1,6 @@
 package example;
 
+import bensbasicgameengine.GameLogic.Events.DeleteProjectilesEvent;
 import bensbasicgameengine.GameLogic.GameObject;
 import bensbasicgameengine.GameLogic.Logic;
 import bensbasicgameengine.GameLogic.Events.LogicEvent;

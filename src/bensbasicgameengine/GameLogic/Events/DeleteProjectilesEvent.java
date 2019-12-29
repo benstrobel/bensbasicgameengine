@@ -16,6 +16,11 @@ public class DeleteProjectilesEvent extends LogicEvent {
     }
 
     @Override
+    public String getTransmissionData() {
+        return "1";
+    }
+
+    @Override
     public void eventmethod() {
         gameObject.setGarbage(true);
     }

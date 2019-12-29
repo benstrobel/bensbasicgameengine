@@ -48,4 +48,9 @@ public class MouseEvent extends LogicEvent {
     public boolean eventstate() {
         return mouse_listener.isLeftMousePressed();
     }
+
+    @Override
+    public String getTransmissionData() {
+        return "-";
+    }
 }

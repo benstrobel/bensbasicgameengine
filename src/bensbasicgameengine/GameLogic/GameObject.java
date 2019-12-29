@@ -26,8 +26,25 @@ public class GameObject {
     private String flag = "";
     private int iD;
 
-    public String getTransmissionData(){
-        return null;
+    public String getTransmissionData(char delimiter){
+        String c;
+        if(graphicshapecolor == null){
+            c = "0";
+        }else{
+            c = graphicshapecolor.toString();
+        }
+        return iD + delimiter + orientation + delimiter + c + delimiter + garbage + delimiter + fill + delimiter + flag + delimiter + physicsObject.getTransmissionData(delimiter) + delimiter + getTransmissionData(logicEvents,delimiter);
+    }
+
+    public String getTransmissionData(ArrayList<LogicEvent> logicEvents, char delimiter){
+        String s = "";
+        for(LogicEvent logicEvent : logicEvents){
+            String logs = logicEvent.getTransmissionData();
+            if(!logs.equals("-")){
+                s += (logs + delimiter);
+            }
+        }
+        return s.substring(0,s.length()-1);
     }
 
     public GameObject(int iD, PhysicsObject physicsObject, BufferedImage bufferedImage){

@@ -15,6 +15,11 @@ public class WindowFocusEvent extends LogicEvent {
     }
 
     @Override
+    public String getTransmissionData() {
+        return "-";
+    }
+
+    @Override
     public void eventmethod() {
         keyListener.lostFocus();
     }

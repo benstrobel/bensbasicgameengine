@@ -10,6 +10,8 @@ public abstract class LogicEvent {
         return removeFlag;
     }
 
+    public abstract String getTransmissionData();
+
     public abstract void eventmethod();
 
     public abstract boolean eventstate();

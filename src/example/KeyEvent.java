@@ -94,4 +94,9 @@ public class KeyEvent extends LogicEvent {
     public boolean eventstate() {
         return keyListener.isKeyupdate();
     }
+
+    @Override
+    public String getTransmissionData() {
+        return "-";
+    }
 }

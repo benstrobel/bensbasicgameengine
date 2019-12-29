@@ -29,6 +29,11 @@ public class PhysicsCircle extends PhysicsObject{
     }
 
     @Override
+    public String getTransmissionData(char delimiter){
+        return super.getTransmissionData(delimiter) + delimiter + "c" + delimiter + radius;
+    }
+
+    @Override
     public Shape getShape() {
         return shape;
     }

@@ -17,6 +17,11 @@ public class HudClickEvent extends LogicEvent{
     }
 
     @Override
+    public String getTransmissionData() {
+        return "-";
+    }
+
+    @Override
     public void eventmethod(){
         hudObject.activationMethod();
     }

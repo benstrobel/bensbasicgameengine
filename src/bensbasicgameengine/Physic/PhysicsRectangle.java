@@ -35,6 +35,11 @@ public class PhysicsRectangle extends PhysicsObject{
         return lines;
     }
 
+    @Override
+    public String getTransmissionData(char delimiter){
+        return super.getTransmissionData(delimiter) + delimiter + "r" + delimiter + width + delimiter + height;
+    }
+
     public void updateShape(){
         setShape(new Rectangle2D.Double(position.getX(), position.getY(), width, height));
     }

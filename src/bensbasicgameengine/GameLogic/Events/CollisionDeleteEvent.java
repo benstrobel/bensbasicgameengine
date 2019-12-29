@@ -13,6 +13,11 @@ public class CollisionDeleteEvent extends LogicEvent {
     }
 
     @Override
+    public String getTransmissionData() {
+        return "0";
+    }
+
+    @Override
     public void eventmethod() {
         for(PhysicsObject physicsObject : gameObject.getPhysicsObject().getCollides()){
             if(!physicsObject.getFlag().equals("deadzone")){

@@ -18,20 +18,22 @@ public abstract class PhysicsObject implements Cloneable{
     protected Shape shape;
     protected ArrayList <PhysicsObject> collides = new ArrayList<>();
     protected int tickcounter = 0;
-    private boolean upblocked,rightblocked,downblocked,leftblocked;
-    protected boolean unmoveable = false;
+    protected boolean unmoveable = false, removeflag = false, hypothetical = false, solid = false;
     protected int textureid = -1;
-    protected boolean removeflag = false;
     protected double originalwidth, originalheight;
     protected GameObject parent;
-    private boolean hypothetical = false;
-    private boolean solid = false;
     private String flag = "";
     int protection = 0;
     public PhysicsObject(Point2D position, double mass)
     {
         this.position = position;
         this.mass = mass;
+    }
+
+    public String getTransmissionData(char delimiter){
+        return "" + position.getX() + delimiter + position.getY() + delimiter + velocityX + delimiter + velocityY + delimiter + orientation + delimiter +
+                tickcounter + delimiter + unmoveable + delimiter + removeflag + delimiter + hypothetical + delimiter + solid + delimiter + textureid +
+                delimiter + originalwidth + delimiter + originalheight + delimiter + flag;
     }
 
     public void setHypothetical(){
@@ -48,38 +50,6 @@ public abstract class PhysicsObject implements Cloneable{
 
     public boolean isHypothetical(){
         return hypothetical;
-    }
-
-    public boolean isUpblocked() {
-        return upblocked;
-    }
-
-    public boolean isRightblocked() {
-        return rightblocked;
-    }
-
-    public boolean isDownblocked() {
-        return downblocked;
-    }
-
-    public boolean isLeftblocked() {
-        return leftblocked;
-    }
-
-    public void setUpblocked(boolean upblocked) {
-        this.upblocked = upblocked;
-    }
-
-    public void setRightblocked(boolean rightblocked) {
-        this.rightblocked = rightblocked;
-    }
-
-    public void setLeftblocked(boolean leftblocked) {
-        this.leftblocked = leftblocked;
-    }
-
-    public void setDownblocked(boolean downblocked) {
-        this.downblocked = downblocked;
     }
 
     public void setFlag(String flag){

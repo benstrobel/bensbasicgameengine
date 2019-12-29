@@ -24,16 +24,23 @@ public class GameObject {
     private Color graphicshapecolor;
     private boolean garbage = false, fill = false;
     private String flag = "";
+    private int iD;
 
-    public GameObject(PhysicsObject physicsObject, BufferedImage bufferedImage){
-        this.physicsObject = physicsObject;
-        this.bufferedImage = bufferedImage;
+    public String getTransmissionData(){
+        return null;
     }
 
-    public GameObject(PhysicsObject physicsObject, Color graphicshapecolor, boolean fill){
+    public GameObject(int iD, PhysicsObject physicsObject, BufferedImage bufferedImage){
+        this.physicsObject = physicsObject;
+        this.bufferedImage = bufferedImage;
+        this.iD = iD;
+    }
+
+    public GameObject(int iD, PhysicsObject physicsObject, Color graphicshapecolor, boolean fill){
         this.physicsObject = physicsObject;
         this.graphicshapecolor = graphicshapecolor;
         this.fill = fill;
+        this.iD = iD;
     }
 
     public void tick(){

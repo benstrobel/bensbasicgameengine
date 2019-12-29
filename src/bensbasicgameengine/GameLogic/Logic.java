@@ -38,6 +38,7 @@ public class Logic {
     private int graphiclayers = -1;
     private PhysicsObject camfollowobject;
     private Point2D camlocation = new Point2D.Double(0,0);
+    private int currentid = 0;
 
     private ArrayList<LogicEvent> logicEvents;
     private ArrayList<GameObject> gameObjects;
@@ -62,6 +63,10 @@ public class Logic {
         if(mouseMove_listener != null){
             graphic.getPanel().addMouseMotionListener(mouseMove_listener);
         }
+    }
+
+    public int getNextID(){
+        return currentid++;
     }
 
     private void tick(){
@@ -239,13 +244,13 @@ public class Logic {
     }
 
     public GameObject createGameObject(PhysicsObject physicsObject, BufferedImage bufferedImage){
-        GameObject gameObject = new GameObject(physicsObject,bufferedImage);
+        GameObject gameObject = new GameObject(getNextID(),physicsObject,bufferedImage);
         physicsObject.setParent(gameObject);
         return gameObject;
     }
 
     public GameObject createGameObject(PhysicsObject physicsObject, Color color, boolean fill){
-        GameObject gameObject = new GameObject(physicsObject,color,fill);
+        GameObject gameObject = new GameObject(getNextID(),physicsObject,color,fill);
         physicsObject.setParent(gameObject);
         return gameObject;
     }

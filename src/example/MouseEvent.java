@@ -29,7 +29,7 @@ public class MouseEvent extends LogicEvent {
     @Override
     public void eventmethod() {
         PhysicsObject projectilerectangle = new PhysicsRectangle(Tools.getMiddle(player.getPhysicsObject()), 1, 10, 5);
-        GameObject projectile = new GameObject(projectilerectangle, Color.black, true);
+        GameObject projectile = new GameObject(logic.getNextID(),projectilerectangle, Color.black, true);
         projectilerectangle.setParent(projectile);
         Point2D mousePos = (Point2D) mouse_listener.getPos().clone();
         mousePos.setLocation(mousePos.getX()+camlocation.getX(),mousePos.getY()+camlocation.getY());

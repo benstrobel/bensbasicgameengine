@@ -87,12 +87,12 @@ public class Example {
 
     private void setupPlayer(){
         PhysicsObject playerrectangle = new PhysicsRectangle(new Point2D.Double(100,100), 1, 80, 60);
-        player = new GameObject(playerrectangle,textures[0]);
+        player = new GameObject(logic.getNextID(),playerrectangle,textures[0]);
         playerrectangle.setParent(player);
         player.setGraphiclayerid(0);
         logic.addGameObject(player);
         PhysicsObject targetrectangle = new PhysicsRectangle(new Point2D.Double(300,300), 1, 50, 50);
-        GameObject target = new GameObject(targetrectangle,null);
+        GameObject target = new GameObject(logic.getNextID(),targetrectangle,null);
         targetrectangle.setParent(target);
         logic.addGameObject(target);
         logic.addWall(0,0,1000,30);

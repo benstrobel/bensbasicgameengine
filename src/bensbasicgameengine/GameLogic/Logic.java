@@ -22,6 +22,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Logic {
 
@@ -50,8 +51,10 @@ public class Logic {
     private String transmitstring = "";
     private Client client;
     private boolean isserver = false;
+    private AtomicInteger menustatus;
 
-    public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener, Client client){
+    public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener, Client client, AtomicInteger menustatus){
+        this.menustatus = menustatus;
         this.graphic = graphic;
         graphic.setCameralocation(camlocation);
         this.physics = physics;
@@ -69,6 +72,16 @@ public class Logic {
         }
         if(mouseMove_listener != null){
             graphic.getPanel().addMouseMotionListener(mouseMove_listener);
+        }
+    }
+
+    public void updateHUDObjects(){
+        for(HudObject hudObject : hudObjects){
+            if(hudObject.getMenuid() == menustatus.get()){
+                hudObject.setEnabled(true);
+            }else{
+                hudObject.setEnabled(false);
+            }
         }
     }
 

@@ -8,7 +8,7 @@ import bensbasicgameengine.Graphic.GraphicObject;
 import bensbasicgameengine.Graphic.GraphicShape;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
-import example.Example;
+import example.Game;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -44,7 +44,7 @@ public class GameObject {
         int imgid = Integer.parseInt(array[1]);
         BufferedImage img = null;
         if(imgid != -1 ){
-            img = Example.textures[imgid];
+            img = Game.textures[imgid];
         }
         double orientation = Double.parseDouble(array[2]);
         Color c;
@@ -86,8 +86,8 @@ public class GameObject {
         this.physicsObject = physicsObject;
         this.bufferedImage = bufferedImage;
         this.iD = iD;
-        for(int i = 0; i < Example.textures.length; i++){
-            if(Example.textures[i] == bufferedImage){
+        for(int i = 0; i < Game.textures.length; i++){
+            if(Game.textures[i] == bufferedImage){
                 imgid = i;
                 break;
             }

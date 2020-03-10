@@ -26,8 +26,11 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class Example {
+public class Game {
+
+    AtomicInteger menustatus = new AtomicInteger(0);
 
     private Graphic graphic = new Graphic();
     private Physics physics = new Physics();
@@ -37,7 +40,7 @@ public class Example {
     private MouseMove_Listener mouseMove_listener = new MouseMove_Listener();
     private WindowFocusListener windowFocusListener = new WindowFocusListener();
     private Client client = new Client();
-    private Logic logic = new Logic(graphic,physics,null,keyListener,mouse_listener,mouseMove_listener,client);
+    private Logic logic = new Logic(graphic,physics,null,keyListener,mouse_listener,mouseMove_listener,client,menustatus);
     private boolean isserver = true;
     private Server server = null;
 
@@ -45,20 +48,22 @@ public class Example {
     public static BufferedImage textures [];
     private GameObject player;
 
-    HudObject testmenu;
-
 
     public static void main(String[] args) {
-        new Example();
+        new Game();
     }
 
-    public Example(){
+    public Game(){
         setupGraphics();
-        setupHUD();
+        setupWindow();
         setupPlayer();
+        setupInGameHUD();
         setupDeadZones();
         setupEvents();
-        setupWindow();
+        setupInGame();
+    }
+
+    private void setupInGame(){
         //logic.setShowhitbox(true);
         logic.forcecamfollow(player.getPhysicsObject());
         if(isserver){
@@ -85,15 +90,12 @@ public class Example {
     }
 
     private void setupEvents(){
-        LogicEvent keyEvent = new KeyEvent(keyListener,player,graphic,testmenu);
+        LogicEvent keyEvent = new KeyEvent(keyListener,player,graphic,menustatus,logic);
         logic.registerLogicEvent(keyEvent);
-        LogicEvent mouseEvent = new MouseEvent(mouse_listener,logic,player,logic.getCamlocation());
+        LogicEvent mouseEvent = new MouseEvent(mouse_listener,logic,player,logic.getCamlocation(),menustatus);
         logic.registerLogicEvent(mouseEvent);
         LogicEvent windowFocusEvent = new WindowFocusEvent(windowFocusListener,keyListener);
         logic.registerLogicEvent(windowFocusEvent);
-        LogicEvent hudclick0 = new HudClickEvent(testmenu,mouse_listener);
-        logic.registerLogicEvent(hudclick0);
-
     }
 
     private void setupPlayer(){
@@ -112,13 +114,15 @@ public class Example {
         logic.addWall(970,0,1000,30);
     }
 
-    private void setupHUD(){
-        testmenu = new HudObject(300,300,300,100, new GraphicShape(new Rectangle2D.Double(300,300,300,100), Color.black, false, 0, true), "Menu Test") {
+    private void setupInGameHUD(){
+        HudObject testmenu = new HudObject(300,300,300,100, new GraphicShape(new Rectangle2D.Double(300,300,300,100), Color.black, false, 0, true), "Menu Test", 1) {
             @Override
             public void activationMethod() {
                 System.out.println("Hud Object Clicked");
             }
         };
+        LogicEvent hudclick0 = new HudClickEvent(testmenu,mouse_listener);
+        logic.registerLogicEvent(hudclick0);
         logic.addHudObject(testmenu);
     }
 

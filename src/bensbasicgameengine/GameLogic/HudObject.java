@@ -9,14 +9,16 @@ public abstract class HudObject {
     private boolean enabled = false;
     private GraphicObject graphicObject;
     private String text;
+    private int menuid;
 
-    public HudObject(int x, int y, int width, int height, GraphicObject graphicObject, String text){
+    public HudObject(int x, int y, int width, int height, GraphicObject graphicObject, String text, int menuid){
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.graphicObject = graphicObject;
         this.text = text;
+        this.menuid = menuid;
     }
 
     public abstract void activationMethod();
@@ -51,6 +53,10 @@ public abstract class HudObject {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public int getMenuid() {
+        return menuid;
     }
 
     public GraphicObject getGraphicObject() {

@@ -12,6 +12,7 @@ import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
 import bensbasicgameengine.Lib.Tools;
 import bensbasicgameengine.Net.Client.Client;
+import bensbasicgameengine.Net.Server.Server;
 import bensbasicgameengine.Physic.Physics;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
@@ -50,7 +51,8 @@ public class Logic {
 
     private String transmitstring = "";
     private Client client;
-    private boolean isserver = false;
+    private Server server;
+    private boolean isserver;
     private AtomicInteger menustatus;
 
     public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener, Client client, AtomicInteger menustatus){
@@ -73,6 +75,10 @@ public class Logic {
         if(mouseMove_listener != null){
             graphic.getPanel().addMouseMotionListener(mouseMove_listener);
         }
+    }
+
+    public void setServer(Server server){
+        this.server = server;
     }
 
     public void updateHUDObjects(){
@@ -102,6 +108,7 @@ public class Logic {
             s += " ";
         }
         transmitstring = s;
+        server.publish(transmitstring);
     }
 
     public void updateFromTransmitData(String data){
@@ -127,7 +134,9 @@ public class Logic {
         if(!pause){
             if(isserver){
                 logictick();
-                updateTransmitData();
+                if(tickcounter%1 == 0){
+                    updateTransmitData();
+                }
             }else{
                 updateFromTransmitData(client.getConnectionHandler().getData());
             }
@@ -250,6 +259,7 @@ public class Logic {
             tick();
             timepassed = System.currentTimeMillis() - time;
             if(waittime < timepassed){System.out.println("Can't keep up, timediff: " + (waittime-timepassed));}
+            System.out.println(timepassed);
             Tools.threadsleep(waittime-timepassed);
         }
     }

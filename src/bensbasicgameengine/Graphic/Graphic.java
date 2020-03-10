@@ -2,7 +2,6 @@
 
 package bensbasicgameengine.Graphic;
 
-import bensbasicgameengine.Lib.Tools;
 
 import javax.swing.*;
 import java.awt.*;

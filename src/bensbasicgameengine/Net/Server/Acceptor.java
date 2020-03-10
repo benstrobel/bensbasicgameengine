@@ -40,7 +40,7 @@ public class Acceptor extends Thread {
         Socket clientsocket = null;
         try{
             clientsocket = serverSocket.accept();
-            clientsocket.setSoTimeout(2000);
+            //clientsocket.setSoTimeout(2000);
         }catch(SocketTimeoutException ex){
             return null;
         }catch (IOException ex){

@@ -15,6 +15,10 @@ public class Client {
         clientHandler.start();
     }
 
+    public void sendMsg(String msg){
+        clientHandler.sendMsg(msg);
+    }
+
     public int getId() {
         return id;
     }

@@ -32,7 +32,6 @@ public class ConnectionHandler extends Thread{
         if(setup()){
             System.out.println("Connected");
             while(true){
-                out.println("update");
                 try {
                     data = in.readLine();
                 } catch (IOException e) {

@@ -41,7 +41,7 @@ public class Game {
     private WindowFocusListener windowFocusListener = new WindowFocusListener();
     private Client client = new Client();
     private Logic logic = new Logic(graphic,physics,null,keyListener,mouse_listener,mouseMove_listener,client,menustatus);
-    private boolean isserver = true;
+    private boolean isserver = false;
     private Server server = null;
 
     private String texturepaths [] = {"dude.png"};
@@ -69,6 +69,7 @@ public class Game {
         if(isserver){
             server = new Server(logic);
             server.startup();
+            logic.setServer(server);
         }else{
             client.startup(logic);
         }

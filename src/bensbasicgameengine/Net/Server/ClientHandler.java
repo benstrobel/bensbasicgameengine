@@ -69,10 +69,17 @@ public class ClientHandler extends Thread{
         }
     }
 
+    public void sendMsg(String msg){
+        if(status == 1){
+            out.println(msg);
+            //System.out.println("Sent, " + socket);
+        }
+    }
+
     private void handleMsg(String msg){
+        if(msg == null){return;}
         if(msg.equals("update")){
             out.println(gamelogic.getTransmitData());
-            //System.out.println(gamelogic.getTransmitData());
         } else if(msg.equals("quit")){
             disconnected();
         }else{

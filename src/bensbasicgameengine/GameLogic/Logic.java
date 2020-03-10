@@ -6,6 +6,7 @@ import bensbasicgameengine.GameLogic.Events.CollisionDeleteEvent;
 import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Graphic.Graphic;
 import bensbasicgameengine.Graphic.GraphicShape;
+import bensbasicgameengine.Graphic.GraphicString;
 import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
@@ -48,6 +49,7 @@ public class Logic {
 
     private String transmitstring = "";
     private Client client;
+    private boolean isserver = false;
 
     public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener, Client client){
         this.graphic = graphic;
@@ -110,9 +112,12 @@ public class Logic {
         if(graphic != null){graphic.repaint();}
         if(soundManager != null){soundManager.tick();}
         if(!pause){
-            //logictick();
-            //updateTransmitData();
-            updateFromTransmitData(client.getConnectionHandler().getData());
+            if(isserver){
+                logictick();
+                updateTransmitData();
+            }else{
+                updateFromTransmitData(client.getConnectionHandler().getData());
+            }
         }
         graphictick();
     }
@@ -125,7 +130,8 @@ public class Logic {
         return pause;
     }
 
-    public void startloop(){
+    public void startloop(boolean isserver){
+        this.isserver = isserver;
         loop();
     }
 
@@ -198,6 +204,9 @@ public class Logic {
                 for(HudObject hudObject : hudObjects){
                     if(hudObject.isEnabled()){
                         graphic.add(graphiclayers,hudObject.getGraphicObject());
+                        if(!hudObject.getText().equals("")){
+                            graphic.add(graphiclayers, new GraphicString(hudObject.getText(),hudObject.getX(),hudObject.getY()));
+                        }
                     }
                 }
             }

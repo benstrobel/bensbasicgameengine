@@ -38,7 +38,8 @@ public class Example {
     private WindowFocusListener windowFocusListener = new WindowFocusListener();
     private Client client = new Client();
     private Logic logic = new Logic(graphic,physics,null,keyListener,mouse_listener,mouseMove_listener,client);
-    //private Server server = new Server(logic);
+    private boolean isserver = true;
+    private Server server = null;
 
     private String texturepaths [] = {"dude.png"};
     public static BufferedImage textures [];
@@ -60,13 +61,17 @@ public class Example {
         setupWindow();
         //logic.setShowhitbox(true);
         logic.forcecamfollow(player.getPhysicsObject());
-        client.startup(logic);
-        //server.startup();
-        logic.startloop();
+        if(isserver){
+            server = new Server(logic);
+            server.startup();
+        }else{
+            client.startup(logic);
+        }
+        logic.startloop(isserver);
     }
 
     private void setupWindow(){
-        JFrame frame = new JFrame("Bens Basic Game Engine - Example");
+        JFrame frame = new JFrame("Bens Basic Game Engine - Bambule in Bens Bude");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(800,800);
         frame.add(graphic.getPanel());
@@ -108,7 +113,7 @@ public class Example {
     }
 
     private void setupHUD(){
-        testmenu = new HudObject(300,300,300,100, new GraphicShape(new Rectangle2D.Double(300,300,300,100), Color.black, true, 0, true)) {
+        testmenu = new HudObject(300,300,300,100, new GraphicShape(new Rectangle2D.Double(300,300,300,100), Color.black, false, 0, true), "Menu Test") {
             @Override
             public void activationMethod() {
                 System.out.println("Hud Object Clicked");

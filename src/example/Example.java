@@ -12,6 +12,8 @@ import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
 import bensbasicgameengine.Input.WindowFocusListener;
+import bensbasicgameengine.Net.Client.Client;
+import bensbasicgameengine.Net.Server.Server;
 import bensbasicgameengine.Physic.Physics;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
@@ -34,10 +36,12 @@ public class Example {
     private Mouse_Listener mouse_listener = new Mouse_Listener();
     private MouseMove_Listener mouseMove_listener = new MouseMove_Listener();
     private WindowFocusListener windowFocusListener = new WindowFocusListener();
-    private Logic logic = new Logic(graphic,physics,null,keyListener,mouse_listener,mouseMove_listener);
+    private Client client = new Client();
+    private Logic logic = new Logic(graphic,physics,null,keyListener,mouse_listener,mouseMove_listener,client);
+    //private Server server = new Server(logic);
 
     private String texturepaths [] = {"dude.png"};
-    private BufferedImage textures [];
+    public static BufferedImage textures [];
     private GameObject player;
 
     HudObject testmenu;
@@ -56,6 +60,8 @@ public class Example {
         setupWindow();
         //logic.setShowhitbox(true);
         logic.forcecamfollow(player.getPhysicsObject());
+        client.startup(logic);
+        //server.startup();
         logic.startloop();
     }
 
@@ -67,8 +73,8 @@ public class Example {
         frame.addKeyListener(keyListener);
         frame.setResizable(false);
         frame.addWindowFocusListener(windowFocusListener);
-        frame.setUndecorated(true);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //frame.setUndecorated(true);
+        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         graphic.setFrame(frame);
     }

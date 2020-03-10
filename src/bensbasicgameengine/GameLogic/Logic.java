@@ -10,6 +10,7 @@ import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
 import bensbasicgameengine.Lib.Tools;
+import bensbasicgameengine.Net.Client.Client;
 import bensbasicgameengine.Physic.Physics;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
@@ -45,7 +46,10 @@ public class Logic {
     private ArrayList<HudObject> hudObjects;
     private ArrayList<PhysicsObject> triggerObjects;
 
-    public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener){
+    private String transmitstring = "";
+    private Client client;
+
+    public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener, Client client){
         this.graphic = graphic;
         graphic.setCameralocation(camlocation);
         this.physics = physics;
@@ -53,6 +57,7 @@ public class Logic {
         this.keyListener = keyListener;
         this.mouse_listener = mouse_listener;
         this.mouseMove_listener = mouseMove_listener;
+        this.client = client;
         logicEvents = new ArrayList<>();
         gameObjects = new ArrayList<>();
         hudObjects = new ArrayList<>();
@@ -65,6 +70,38 @@ public class Logic {
         }
     }
 
+    public void clearGameObjects(){
+        synchronized (gameObjects){
+            gameObjects.clear();
+        }
+    }
+
+    public String getTransmitData(){
+        return transmitstring;
+    }
+
+    private void updateTransmitData(){
+        String s = "";
+        for(GameObject object : gameObjects){
+            s += object.getTransmissionData(';');
+            s += " ";
+        }
+        transmitstring = s;
+    }
+
+    public void updateFromTransmitData(String data){
+        if(data != null){
+            String [] array = data.split(" ");
+            clearGameObjects();
+            for(String s : array){
+                GameObject go = GameObject.createfromTransmissionData(s,';');
+                synchronized (gameObjects){
+                    gameObjects.add(go);
+                }
+            }
+        }
+    }
+
     public int getNextID(){
         return currentid++;
     }
@@ -73,7 +110,9 @@ public class Logic {
         if(graphic != null){graphic.repaint();}
         if(soundManager != null){soundManager.tick();}
         if(!pause){
-            logictick();
+            //logictick();
+            //updateTransmitData();
+            updateFromTransmitData(client.getConnectionHandler().getData());
         }
         graphictick();
     }

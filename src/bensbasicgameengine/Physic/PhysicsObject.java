@@ -31,9 +31,18 @@ public abstract class PhysicsObject implements Cloneable{
     }
 
     public String getTransmissionData(char delimiter){
-        return "" + position.getX() + delimiter + position.getY() + delimiter + velocityX + delimiter + velocityY + delimiter + orientation + delimiter +
-                tickcounter + delimiter + unmoveable + delimiter + removeflag + delimiter + hypothetical + delimiter + solid + delimiter + textureid +
+        return "" + position.getX() + delimiter + position.getY() + delimiter + velocityX + delimiter + velocityY + delimiter + orientation +delimiter
+                + unmoveable + delimiter + hypothetical + delimiter + solid + delimiter + textureid +
                 delimiter + originalwidth + delimiter + originalheight + delimiter + flag;
+    }
+
+    public static PhysicsObject createfromTransmissionData(String data, char delimiter){
+        String [] array = data.split(""+delimiter);
+        if(array[0].equals("c")){
+            return PhysicsCircle.createfromTransmissionData(data,delimiter);
+        }else if(array[0].equals("r")){
+            return PhysicsRectangle.createfromTransmissionData(data,delimiter);
+        }else{return null;}
     }
 
     public void setHypothetical(){
@@ -218,6 +227,11 @@ public abstract class PhysicsObject implements Cloneable{
         //--------------Checking for X
         phyobj0.getPosition().setLocation(phyobj0.getPosition().getX()+phyobj0.getVelocityX(), phyobj0.getPosition().getY());
         phyobj0.updateShape();
+        phyobj00.getPosition().setLocation(phyobj00.getPosition().getX(), phyobj00.getPosition().getY()+phyobj00.getVelocityY());
+        phyobj00.updateShape();
+        if(!phyobj0.getShape().getBounds2D().intersects(stat.getShape().getBounds2D()) && !phyobj00.getShape().getBounds2D().intersects(stat.getShape().getBounds2D())){
+            return false;
+        }
         Area a = new Area(phyobj0.getShape());
         a.intersect(new Area(stat.getShape()));
         if(!a.isEmpty()){
@@ -229,8 +243,6 @@ public abstract class PhysicsObject implements Cloneable{
             return true;
         }
         //------------Checking For Y
-        phyobj00.getPosition().setLocation(phyobj00.getPosition().getX(), phyobj00.getPosition().getY()+phyobj00.getVelocityY());
-        phyobj00.updateShape();
         a = new Area(phyobj00.getShape());
         a.intersect(new Area(stat.getShape()));
         if(!a.isEmpty()){

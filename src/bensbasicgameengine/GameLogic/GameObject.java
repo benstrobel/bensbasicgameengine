@@ -8,6 +8,7 @@ import bensbasicgameengine.Graphic.GraphicObject;
 import bensbasicgameengine.Graphic.GraphicShape;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
+import example.Example;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,15 +26,37 @@ public class GameObject {
     private boolean garbage = false, fill = false;
     private String flag = "";
     private int iD;
+    private int imgid = -1;
 
     public String getTransmissionData(char delimiter){
         String c;
         if(graphicshapecolor == null){
             c = "0";
         }else{
-            c = graphicshapecolor.toString();
+            c = Integer.toString(graphicshapecolor.getRGB());
         }
-        return iD + delimiter + orientation + delimiter + c + delimiter + garbage + delimiter + fill + delimiter + flag + delimiter + physicsObject.getTransmissionData(delimiter) + delimiter + getTransmissionData(logicEvents,delimiter);
+        return "" + iD + delimiter + imgid + delimiter + orientation + delimiter + c  + delimiter + fill + delimiter + flag + delimiter + physicsObject.getTransmissionData('_') + delimiter;
+    }
+
+    public static GameObject createfromTransmissionData(String data, char delimiter){
+        String [] array = data.split(""+delimiter);
+        int iD = Integer.parseInt(array[0]);
+        int imgid = Integer.parseInt(array[1]);
+        BufferedImage img = null;
+        if(imgid != -1 ){
+            img = Example.textures[imgid];
+        }
+        double orientation = Double.parseDouble(array[2]);
+        Color c;
+        if(array[3].equals("0")){
+            c = null;
+        }else{
+            c = new Color(Integer.parseInt(array[3]));
+        }
+        boolean fill = Boolean.parseBoolean(array[4]);
+        String flag = array[5];
+        PhysicsObject phyobj = PhysicsObject.createfromTransmissionData(array[6],'_');
+        return new GameObject(iD, img, orientation, c, fill, flag, phyobj, Integer.parseInt(array[1]));
     }
 
     public String getTransmissionData(ArrayList<LogicEvent> logicEvents, char delimiter){
@@ -47,10 +70,28 @@ public class GameObject {
         return s.substring(0,s.length()-1);
     }
 
+    public GameObject(int iD, BufferedImage bufferedImage, double orientation, Color c, boolean fill, String flag, PhysicsObject physicsObject, int imgid){
+        this.iD = iD;
+        this.bufferedImage = bufferedImage;
+        this.orientation = orientation;
+        this.graphicshapecolor = c;
+        this.fill = fill;
+        this.flag = flag;
+        this.physicsObject = physicsObject;
+        this.imgid = imgid;
+        physicsObject.setParent(this);
+    }
+
     public GameObject(int iD, PhysicsObject physicsObject, BufferedImage bufferedImage){
         this.physicsObject = physicsObject;
         this.bufferedImage = bufferedImage;
         this.iD = iD;
+        for(int i = 0; i < Example.textures.length; i++){
+            if(Example.textures[i] == bufferedImage){
+                imgid = i;
+                break;
+            }
+        }
     }
 
     public GameObject(int iD, PhysicsObject physicsObject, Color graphicshapecolor, boolean fill){

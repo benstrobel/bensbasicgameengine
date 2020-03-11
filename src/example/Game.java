@@ -8,10 +8,7 @@ import bensbasicgameengine.GameLogic.Logic;
 import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Graphic.Graphic;
 import bensbasicgameengine.Graphic.GraphicShape;
-import bensbasicgameengine.Input.KeyListener;
-import bensbasicgameengine.Input.MouseMove_Listener;
-import bensbasicgameengine.Input.Mouse_Listener;
-import bensbasicgameengine.Input.WindowFocusListener;
+import bensbasicgameengine.Input.*;
 import bensbasicgameengine.Net.Client.Client;
 import bensbasicgameengine.Net.Server.Server;
 import bensbasicgameengine.Physic.Physics;
@@ -41,12 +38,15 @@ public class Game {
     private WindowFocusListener windowFocusListener = new WindowFocusListener();
     private Client client = new Client();
     private Logic logic = new Logic(graphic,physics,null,keyListener,mouse_listener,mouseMove_listener,client,menustatus);
-    private boolean isserver = false;
+    private boolean isserver = true;
     private Server server = null;
 
     private String texturepaths [] = {"dude.png"};
     public static BufferedImage textures [];
     private GameObject player;
+    private StringContainer inputstring = new StringContainer();
+    HudObject enterip;
+    KeyEvent keyEvent;
 
 
     public static void main(String[] args) {
@@ -60,7 +60,78 @@ public class Game {
         setupInGameHUD();
         setupDeadZones();
         setupEvents();
+        setupMainMenu();
         setupInGame();
+    }
+
+    private void setupMainMenu(){
+        logic.menustatus.set(2);
+        HudObject host = new HudObject(300,200,300,100, new GraphicShape(new Rectangle2D.Double(300,200,300,100), Color.black, false, 0, true), "Host", 2) {
+            @Override
+            public void activationMethod() {
+                System.out.println("Hud Object Clicked (Host)");
+                isserver = true;
+                menustatus.set(0);
+                logic.updateHUDObjects();
+                logic.mainmenu = false;
+            }
+        };
+        LogicEvent hosthudclick = new HudClickEvent(host,mouse_listener);
+        logic.registerLogicEvent(hosthudclick);
+        logic.addHudObject(host);
+
+        HudObject join = new HudObject(300,400,300,100, new GraphicShape(new Rectangle2D.Double(300,400,300,100), Color.black, false, 0, true), "Join", 2) {
+            @Override
+            public void activationMethod() {
+                System.out.println("Hud Object Clicked (Join)");
+                isserver = false;
+                menustatus.set(3);
+                logic.updateHUDObjects();
+            }
+        };
+        LogicEvent joinhudclick = new HudClickEvent(join,mouse_listener);
+        logic.registerLogicEvent(joinhudclick);
+        logic.addHudObject(join);
+        //--------------------------------------------------------- Join Menu (3)-----------------------------------------------
+        enterip = new HudObject(300,200,300,20, new GraphicShape(new Rectangle2D.Double(300,200,300,20), Color.black, false, 0, true), "Enter IP: " + inputstring.getString(), 3) {
+            @Override
+            public void activationMethod() {
+            }
+        };
+        logic.addHudObject(enterip);
+        keyEvent.setEnterip(enterip);
+
+        HudObject okay = new HudObject(550,250,50,30, new GraphicShape(new Rectangle2D.Double(550,250,50,30), Color.black, false, 0, true), "Okay", 3) {
+            @Override
+            public void activationMethod() {
+                System.out.println("Hud Object Clicked (Okay)");
+                logic.setIp(inputstring);
+                menustatus.set(0);
+                logic.updateHUDObjects();
+                logic.mainmenu = false;
+            }
+        };
+        LogicEvent okayclick = new HudClickEvent(okay,mouse_listener);
+        logic.registerLogicEvent(okayclick);
+        logic.addHudObject(okay);
+
+        HudObject localhost = new HudObject(350,250,150,30, new GraphicShape(new Rectangle2D.Double(350,250,150,30), Color.black, false, 0, true), "Localhost", 3) {
+            @Override
+            public void activationMethod() {
+                System.out.println("Hud Object Clicked (Localhost)");
+                menustatus.set(0);
+                logic.updateHUDObjects();
+                inputstring.setString("127.0.0.1");
+                logic.setIp(inputstring);
+                logic.mainmenu = false;
+            }
+        };
+        LogicEvent localhostclick = new HudClickEvent(localhost,mouse_listener);
+        logic.registerLogicEvent(localhostclick);
+        logic.addHudObject(localhost);
+
+        logic.updateHUDObjects();
+        logic.mainmenuloop();
     }
 
     private void setupInGame(){
@@ -71,13 +142,13 @@ public class Game {
             server.startup();
             logic.setServer(server);
         }else{
-            client.startup(logic);
+            client.startup(logic, inputstring.getString());
         }
         logic.startloop(isserver);
     }
 
     private void setupWindow(){
-        JFrame frame = new JFrame("Bens Basic Game Engine - Bambule in Bens Bude");
+        JFrame frame = new JFrame("Bens Basic Game Engine - Bambule in Bens Butze");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(800,800);
         frame.add(graphic.getPanel());
@@ -91,7 +162,7 @@ public class Game {
     }
 
     private void setupEvents(){
-        LogicEvent keyEvent = new KeyEvent(keyListener,player,graphic,menustatus,logic);
+        keyEvent = new KeyEvent(keyListener,player,graphic,menustatus,logic,inputstring,enterip);
         logic.registerLogicEvent(keyEvent);
         LogicEvent mouseEvent = new MouseEvent(mouse_listener,logic,player,logic.getCamlocation(),menustatus);
         logic.registerLogicEvent(mouseEvent);

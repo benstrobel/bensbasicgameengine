@@ -56,10 +56,12 @@ public class KeyListener extends KeyAdapter {
     public static final int UP = 44;
     public static final int RIGHT = 45;
     public static final int DOWN = 46;
+    public static final int DOT = 47;
+    public static final int BACKSPACE = 48;
 
 
     public KeyListener(){
-        key = new boolean [47];
+        key = new boolean [49];
     }
 
     public void keyPressed(KeyEvent e){
@@ -112,6 +114,8 @@ public class KeyListener extends KeyAdapter {
             case KeyEvent.VK_UP:{key[UP] = true; keyupdate = true; break;}
             case KeyEvent.VK_RIGHT:{key[RIGHT] = true; keyupdate = true; break;}
             case KeyEvent.VK_DOWN:{key[DOWN] = true; keyupdate = true; break;}
+            case KeyEvent.VK_PERIOD:{key[DOT] = true; keyupdate = true; break;}
+            case KeyEvent.VK_BACK_SPACE:{key[BACKSPACE] = true; keyupdate = true; break;}
         }
     }
 
@@ -165,6 +169,8 @@ public class KeyListener extends KeyAdapter {
             case KeyEvent.VK_UP:{key[UP] = false; keyupdate = true; break;}
             case KeyEvent.VK_RIGHT:{key[RIGHT] = false; keyupdate = true; break;}
             case KeyEvent.VK_DOWN:{key[DOWN] = false; keyupdate = true; break;}
+            case KeyEvent.VK_PERIOD:{key[DOT] = false; keyupdate = true; break;}
+            case KeyEvent.VK_BACK_SPACE:{key[BACKSPACE] = false; keyupdate = true; break;}
         }
     }
 

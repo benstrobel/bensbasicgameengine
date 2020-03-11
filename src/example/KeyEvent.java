@@ -7,8 +7,14 @@ import bensbasicgameengine.GameLogic.HudObject;
 import bensbasicgameengine.GameLogic.Logic;
 import bensbasicgameengine.Graphic.Graphic;
 import bensbasicgameengine.Input.KeyListener;
+import bensbasicgameengine.Input.StringContainer;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class KeyEvent extends LogicEvent {
@@ -17,14 +23,22 @@ public class KeyEvent extends LogicEvent {
     GameObject player;
     Graphic graphic;
     private AtomicInteger menustatus;
+    private StringContainer inputstring;
     private Logic logic;
+    private HudObject enterip;
 
-    public KeyEvent(KeyListener keyListener, GameObject player, Graphic graphic, AtomicInteger menustatus, Logic logic){
+    public KeyEvent(KeyListener keyListener, GameObject player, Graphic graphic, AtomicInteger menustatus, Logic logic, StringContainer inputstring, HudObject enterip){
         this.keyListener = keyListener;
         this.player = player;
         this.graphic = graphic;
         this.menustatus = menustatus;
         this.logic = logic;
+        this.inputstring = inputstring;
+        this.enterip = enterip;
+    }
+
+    public void setEnterip(HudObject enterip){
+        this.enterip = enterip;
     }
 
     @Override
@@ -105,6 +119,87 @@ public class KeyEvent extends LogicEvent {
                 }else{
                     menustatus.set(0);
                 }
+                logic.updateHUDObjects();
+            }
+        } else if (menustatus.get() == 3){
+            if(keys[KeyListener.ONE]){
+                inputstring.add("1");
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.TWO]){
+                inputstring.add("2");
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.THREE]){
+                inputstring.add("3");
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.FOUR]){
+                inputstring.add("4");
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.FIVE]){
+                inputstring.add("5");
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.SIX]){
+                inputstring.add("6");
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.SEVEN]){
+                inputstring.add("7");
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.EIGHT]){
+                inputstring.add("8");
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.NINE]){
+                inputstring.add("9");
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.ZERO]){
+                inputstring.add("0");
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.DOT]){
+                inputstring.add(".");
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.BACKSPACE]){
+                inputstring.setString(inputstring.getString().substring(0,inputstring.getString().length()-1));
+                enterip.setText("Enter IP: " + inputstring.getString());
+                logic.updateHUDObjects();
+            }
+            if(keys[KeyListener.ENTER]){
+                System.out.println("Hud Object Clicked (Okay)");
+                logic.setIp(inputstring);
+                menustatus.set(0);
+                logic.updateHUDObjects();
+                logic.mainmenu = false;
+            }
+            if(keys[KeyListener.CTRL] && keys[KeyListener.V]){
+                String s = "";
+                try {
+                    s = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+                } catch (UnsupportedFlavorException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                inputstring.add(s);
+                enterip.setText("Enter IP: " + inputstring.getString());
                 logic.updateHUDObjects();
             }
         }

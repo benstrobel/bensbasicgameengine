@@ -10,6 +10,7 @@ import bensbasicgameengine.Graphic.GraphicString;
 import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.MouseMove_Listener;
 import bensbasicgameengine.Input.Mouse_Listener;
+import bensbasicgameengine.Input.StringContainer;
 import bensbasicgameengine.Lib.Tools;
 import bensbasicgameengine.Net.Client.Client;
 import bensbasicgameengine.Net.Server.Server;
@@ -53,7 +54,10 @@ public class Logic {
     private Client client;
     private Server server;
     private boolean isserver;
-    private AtomicInteger menustatus;
+    public AtomicInteger menustatus;
+
+    public boolean mainmenu = true;
+    private String ip;
 
     public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener, Client client, AtomicInteger menustatus){
         this.menustatus = menustatus;
@@ -74,6 +78,18 @@ public class Logic {
         }
         if(mouseMove_listener != null){
             graphic.getPanel().addMouseMotionListener(mouseMove_listener);
+        }
+    }
+
+    public void setIp(StringContainer ip){
+        this.ip = ip.getString();
+    }
+
+    public void mainmenuloop(){
+        while(mainmenu){
+            handleGlobalEvents();
+            mouse_listener.resetAll();
+            graphictick();
         }
     }
 

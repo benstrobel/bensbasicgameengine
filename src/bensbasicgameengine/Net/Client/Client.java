@@ -8,10 +8,10 @@ public class Client {
     private ConnectionHandler connectionHandler;
 
 
-    public void startup(Logic gamelogic){
+    public void startup(Logic gamelogic, String ip){
         this.gamelogic = gamelogic;
         System.out.println("Trying to connect");
-        connectionHandler = new ConnectionHandler("127.0.0.1", 56850, gamelogic);
+        connectionHandler = new ConnectionHandler(ip, 56850, gamelogic);
         connectionHandler.start();
         System.out.println("Started");
    }

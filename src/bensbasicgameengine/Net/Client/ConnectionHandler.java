@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 public class ConnectionHandler extends Thread{
@@ -42,7 +41,7 @@ public class ConnectionHandler extends Thread{
                     //e.printStackTrace();
                 }
                 try {
-                    Thread.sleep(30);
+                    Thread.sleep(15);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

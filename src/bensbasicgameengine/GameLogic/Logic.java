@@ -144,11 +144,11 @@ public class Logic {
         if(!pause){
             if(isserver){
                 logictick();
-                if(tickcounter%2 == 0){
+                if(tickcounter%1 == 0){
                     updateTransmitData();
                 }
             }else{
-                if(tickcounter%2 == 0){
+                if(tickcounter%1 == 0){
                     updateFromTransmitData(client.getConnectionHandler().getData());
                     camtick();
                 }else{

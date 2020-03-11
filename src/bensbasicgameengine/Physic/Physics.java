@@ -19,7 +19,7 @@ public class Physics {
                 obj.detectCollision(iobj);
             }
         }
-        objectlist.forEach(obj -> {obj.getPosition().setLocation(obj.getPosition().getX()+obj.getVelocityX(), obj.getPosition().getY()+obj.getVelocityY()); obj.updateShape(); obj.tick();});
+        objectlist.forEach(obj -> {obj.setLocation(obj.getPosition().getX()+obj.getVelocityX(), obj.getPosition().getY()+obj.getVelocityY()); obj.updateShape(); obj.tick();});
     }
 
     private void printObjVel(PhysicsObject physicsObject){

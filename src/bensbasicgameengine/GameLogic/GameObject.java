@@ -27,6 +27,7 @@ public class GameObject {
     private String flag = "";
     private int iD;
     private int imgid = -1;
+    private boolean changed = false;
 
     public String getTransmissionData(char delimiter){
         String c;
@@ -148,6 +149,7 @@ public class GameObject {
     public void rotate(double angle){
         physicsObject.setOrientation(angle);
         orientation = angle;
+        changed = true;
     }
 
     private void handleLocalEvents(){
@@ -191,5 +193,17 @@ public class GameObject {
 
     public void setFill(boolean fill) {
         this.fill = fill;
+    }
+
+    public boolean isChanged(){
+        return changed;
+    }
+
+    public void setChanged(boolean changed){
+            this.changed = changed;
+    }
+
+    public int getiD(){
+        return iD;
     }
 }

@@ -49,12 +49,17 @@ public abstract class PhysicsObject implements Cloneable{
         hypothetical = true;
     }
 
+    public void setHypothetical(boolean state){
+        hypothetical = state;
+    }
+
     public boolean isSolid() {
         return solid;
     }
 
     public void setSolid(boolean solid) {
         this.solid = solid;
+        parent.setChanged(true);
     }
 
     public boolean isHypothetical(){
@@ -136,7 +141,14 @@ public abstract class PhysicsObject implements Cloneable{
 
     public double getOrientation() {return orientation; }
 
-    public void setOrientation(double orientation) { this.orientation = orientation; }
+    public void setOrientation(double orientation) { this.orientation = orientation; parent.setChanged(true);}
+
+    public void setLocation(double x, double y){
+        if(x != position.getX() || y != position.getY()){
+            parent.setChanged(true);
+        }
+        position.setLocation(x,y);
+    }
 
     public void setPosition(Point2D position) {
         this.position = position;
@@ -144,23 +156,27 @@ public abstract class PhysicsObject implements Cloneable{
 
     public void setMass(double mass) {
         this.mass = mass;
+        parent.setChanged(true);
     }
 
     public void setVelocityX(double velocityX) {
         this.velocityX = velocityX;
+        parent.setChanged(true);
     }
 
     public void setVelocityY(double velocityY) {
-
         this.velocityY = velocityY;
+        parent.setChanged(true);
     }
 
     public void addVelocityX(double velocityX){
         this.velocityX+=velocityX;
+        parent.setChanged(true);
     }
 
     public void addVelocityY(double velocityY){
         this.velocityY+=velocityY;
+        parent.setChanged(true);
     }
 
     public abstract Point2D getCenterPosition();
@@ -279,7 +295,9 @@ public abstract class PhysicsObject implements Cloneable{
 
     public Object clone() throws CloneNotSupportedException {
         PhysicsObject c = (PhysicsObject) super.clone();
+        c.setHypothetical(true);
         c.setPosition((Point2D) position.clone());
+        c.setHypothetical(false);
         return c;
     }
 }

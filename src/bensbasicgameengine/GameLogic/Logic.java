@@ -104,20 +104,30 @@ public class Logic {
     private void updateTransmitData(){
         String s = "";
         for(GameObject object : gameObjects){
-            s += object.getTransmissionData(';');
-            s += " ";
+            if(object.isChanged()){
+                s += object.getTransmissionData(';');
+                s += " ";
+                object.setChanged(false);
+            }
+        }        if(s.equals("")){
+            transmitstring = "-";
+        }else{
+            transmitstring = s;
         }
-        transmitstring = s;
         server.publish(transmitstring);
     }
 
     public void updateFromTransmitData(String data){
         if(data != null){
+            if(data.equals("-")){
+                logictick();
+                return;
+            }
             String [] array = data.split(" ");
-            clearGameObjects();
             for(String s : array){
                 GameObject go = GameObject.createfromTransmissionData(s,';');
                 synchronized (gameObjects){
+                    gameObjects.removeIf(g -> g.getiD() == go.getiD());
                     gameObjects.add(go);
                 }
             }
@@ -134,11 +144,16 @@ public class Logic {
         if(!pause){
             if(isserver){
                 logictick();
-                if(tickcounter%1 == 0){
+                if(tickcounter%2 == 0){
                     updateTransmitData();
                 }
             }else{
-                updateFromTransmitData(client.getConnectionHandler().getData());
+                if(tickcounter%2 == 0){
+                    updateFromTransmitData(client.getConnectionHandler().getData());
+                    camtick();
+                }else{
+                    logictick();
+                }
             }
         }
         graphictick();
@@ -157,15 +172,24 @@ public class Logic {
         loop();
     }
 
-    private void logictick(){
-        handleGlobalEvents();
-        handleLocalEventsAndCollectGarbage();
-        physics.tick();
+    private void camtick(){
+        for(GameObject o : gameObjects){
+            if(o.getiD() == 0){
+                camfollowobject = o.getPhysicsObject();
+            }
+        }
         if(camfollowobject != null){
             Dimension framedim = graphic.getFramedimension();
             camlocation.setLocation(camfollowobject.getCenterPosition().getX()-framedim.width/2,camfollowobject.getCenterPosition().getY()-framedim.height/2);
             graphic.setCameralocation(new Point2D.Double(-camfollowobject.getCenterPosition().getX()+framedim.width/2,-camfollowobject.getCenterPosition().getY()+framedim.height/2));
         }
+    }
+
+    private void logictick(){
+        handleGlobalEvents();
+        handleLocalEventsAndCollectGarbage();
+        physics.tick();
+        camtick();
         mouse_listener.resetAll();
         tickcounter++;
     }
@@ -259,7 +283,6 @@ public class Logic {
             tick();
             timepassed = System.currentTimeMillis() - time;
             if(waittime < timepassed){System.out.println("Can't keep up, timediff: " + (waittime-timepassed));}
-            System.out.println(timepassed);
             Tools.threadsleep(waittime-timepassed);
         }
     }

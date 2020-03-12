@@ -38,7 +38,7 @@ public class ConnectionHandler extends Thread{
                     if(id.equals("U")){ //update
                         data = dat.substring(2);
                     }else if(id.equals("F")){   //focus
-                        //TODO
+                        gamelogic.focusid = Integer.parseInt(dat.split(" ")[1]);
                         data = "-";
                     }else{
                         data = "-";

@@ -59,6 +59,7 @@ public class Logic {
 
     public boolean mainmenu = true;
     private String ip;
+    public int focusid = 0;
 
     public Logic(Graphic graphic, Physics physics, SoundManager soundManager, KeyListener keyListener, Mouse_Listener mouse_listener, MouseMove_Listener mouseMove_listener, Client client, AtomicInteger menustatus){
         this.menustatus = menustatus;
@@ -216,7 +217,7 @@ public class Logic {
 
     private void camtick(){
         for(GameObject o : gameObjects){
-            if(o.getiD() == 0){
+            if(o.getiD() == focusid){
                 camfollowobject = o.getPhysicsObject();
             }
         }

@@ -49,6 +49,7 @@ public class ClientHandler extends Thread{
             clientobject.setGraphiclayerid(0);
             gamelogic.addGameObject(clientobject);
             ingameiD = clientobject.getiD();
+            sendMsg("F " + ingameiD);
             //---------------------------Done-----------------------
             listen();
         }

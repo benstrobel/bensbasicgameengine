@@ -55,6 +55,7 @@ public class Logic {
     private Server server;
     private boolean isserver;
     public AtomicInteger menustatus;
+    private ArrayList<Integer> deletedIDs = new ArrayList<>();
 
     public boolean mainmenu = true;
     private String ip;
@@ -124,12 +125,27 @@ public class Logic {
                 s += object.getTransmissionData(';');
                 s += " ";
                 object.setChanged(false);
+            } else{
+                if(object.isPoschange()){
+                    s += object.getPosTransmissionData(';');
+                    s+= " ";
+                }
+                if(object.isRotchange()){
+                    s += object.getRotTransmissionData(';');
+                    s+= " ";
+                }
             }
-        }        if(s.equals("")){
+        }
+        for(int iD : deletedIDs){
+            s += GameObject.getDelTransmissionData(';', iD);
+            s += " ";
+        }
+        if(s.equals("")){
             transmitstring = "-";
         }else{
             transmitstring = s;
         }
+        deletedIDs.clear();
         server.publish(transmitstring);
     }
 
@@ -141,10 +157,12 @@ public class Logic {
             }
             String [] array = data.split(" ");
             for(String s : array){
-                GameObject go = GameObject.createfromTransmissionData(s,';');
-                synchronized (gameObjects){
-                    gameObjects.removeIf(g -> g.getiD() == go.getiD());
-                    gameObjects.add(go);
+                GameObject go = GameObject.createfromTransmissionData(s,';', gameObjects);
+                if(go != null){
+                    synchronized (gameObjects){
+                        gameObjects.removeIf(g -> g.getiD() == go.getiD());
+                        gameObjects.add(go);
+                    }
                 }
             }
         }
@@ -160,16 +178,10 @@ public class Logic {
         if(!pause){
             if(isserver){
                 logictick();
-                if(tickcounter%1 == 0){
-                    updateTransmitData();
-                }
+                updateTransmitData();
             }else{
-                if(tickcounter%1 == 0){
-                    updateFromTransmitData(client.getConnectionHandler().getData());
-                    camtick();
-                }else{
-                    logictick();
-                }
+                updateFromTransmitData(client.getConnectionHandler().getData());
+                camtick();
             }
         }
         graphictick();
@@ -216,6 +228,7 @@ public class Logic {
                 GameObject gameObject = (GameObject) i.next();
                 gameObject.tick();
                 if(gameObject.isGarbage()){
+                    deletedIDs.add(gameObject.getiD());
                     physics.removeObject(gameObject.getPhysicsObject());
                     i.remove();
                 }

@@ -141,11 +141,11 @@ public abstract class PhysicsObject implements Cloneable{
 
     public double getOrientation() {return orientation; }
 
-    public void setOrientation(double orientation) { this.orientation = orientation; parent.setChanged(true);}
+    public void setOrientation(double orientation) { this.orientation = orientation;}
 
     public void setLocation(double x, double y){
         if(x != position.getX() || y != position.getY()){
-            parent.setChanged(true);
+            parent.setPoschange(true);
         }
         position.setLocation(x,y);
     }
@@ -160,23 +160,31 @@ public abstract class PhysicsObject implements Cloneable{
     }
 
     public void setVelocityX(double velocityX) {
-        this.velocityX = velocityX;
-        parent.setChanged(true);
+        if(velocityX != this.velocityX){
+            this.velocityX = velocityX;
+            //parent.setChanged(true);
+        }
     }
 
     public void setVelocityY(double velocityY) {
-        this.velocityY = velocityY;
-        parent.setChanged(true);
+        if(velocityY != this.velocityY){
+            this.velocityY = velocityY;
+            //parent.setChanged(true);
+        }
     }
 
     public void addVelocityX(double velocityX){
         this.velocityX+=velocityX;
-        parent.setChanged(true);
+        if(velocityX != 0){
+            //parent.setChanged(true);
+        }
     }
 
     public void addVelocityY(double velocityY){
         this.velocityY+=velocityY;
-        parent.setChanged(true);
+        if(velocityY != 0){
+            //parent.setChanged(true);
+        }
     }
 
     public abstract Point2D getCenterPosition();

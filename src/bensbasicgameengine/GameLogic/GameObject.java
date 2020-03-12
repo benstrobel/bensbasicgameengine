@@ -27,7 +27,60 @@ public class GameObject {
     private String flag = "";
     private int iD;
     private int imgid = -1;
-    private boolean changed = false;
+    private boolean changed = true, poschange = false, rotchange = false, velchange = false;
+
+    public boolean isPoschange() {
+        return poschange;
+    }
+
+    public boolean isRotchange() {
+        return rotchange;
+    }
+
+    public String getPosTransmissionData(char delimiter){
+        poschange = false;
+        return "p" + delimiter + iD + delimiter + physicsObject.getPosition().getX() + delimiter + physicsObject.getPosition().getY();
+    }
+
+    public static void applyPosTransmissionData(String data, char delimiter, ArrayList<GameObject> gameObjects){
+        String [] array = data.split(""+delimiter);
+        for(GameObject gameObject : gameObjects){
+            if(gameObject.getiD() == Integer.parseInt(array[1])){
+                gameObject.getPhysicsObject().setLocation(Double.parseDouble(array[2]), Double.parseDouble(array[3]));
+                gameObject.physicsObject.updateShape();
+                break;
+            }
+        }
+    }
+
+    public String getRotTransmissionData(char delimiter){
+        rotchange = false;
+        return "r" + delimiter + iD + delimiter + physicsObject.getOrientation();
+    }
+
+    public static void applyRotTransmissionData(String data, char delimiter, ArrayList<GameObject> gameObjects){
+        String [] array = data.split(""+delimiter);
+        for(GameObject gameObject : gameObjects){
+            if(gameObject.getiD() == Integer.parseInt(array[1])){
+                gameObject.rotate(Double.parseDouble(array[2]));
+                break;
+            }
+        }
+    }
+
+    public String getDelTransmissionData(char delimiter){
+        return "d" + delimiter + iD;
+    }
+    public static String getDelTransmissionData(char delimiter, int iD){
+        return "d" + delimiter + iD;
+    }
+
+    public static void applyDelTransmissionData(String data, char delimiter, ArrayList<GameObject> gameObjects){
+        String [] array = data.split(""+delimiter);
+        synchronized (gameObjects){
+            gameObjects.removeIf(o -> o.getiD() == Integer.parseInt(array[1]));
+        }
+    }
 
     public String getTransmissionData(char delimiter){
         String c;
@@ -36,10 +89,28 @@ public class GameObject {
         }else{
             c = Integer.toString(graphicshapecolor.getRGB());
         }
-        return "" + iD + delimiter + imgid + delimiter + orientation + delimiter + c  + delimiter + fill + delimiter + flag + delimiter + physicsObject.getTransmissionData('_') + delimiter;
+        return "n" + delimiter + iD + delimiter + imgid + delimiter + orientation + delimiter + c  + delimiter + fill + delimiter + flag + delimiter + physicsObject.getTransmissionData('_') + delimiter;
     }
 
-    public static GameObject createfromTransmissionData(String data, char delimiter){
+    public static GameObject createfromTransmissionData(String data, char delimiter, ArrayList<GameObject> gameObjects){
+        String [] array = data.split(""+delimiter);
+        if(array[0].equals("n")){
+            return createnewfromTransmissionData(data.substring(2),delimiter);
+        } else if(array[0].equals("d")) {
+            applyDelTransmissionData(data,delimiter,gameObjects);
+            return null;
+        } else if (array[0].equals("r")){
+            applyRotTransmissionData(data,delimiter,gameObjects);
+            return null;
+        } else if (array[0].equals("p")){
+            applyPosTransmissionData(data,delimiter,gameObjects);
+            return null;
+        } else {
+            return null;
+        }
+    }
+
+    public static GameObject createnewfromTransmissionData(String data, char delimiter){
         String [] array = data.split(""+delimiter);
         int iD = Integer.parseInt(array[0]);
         int imgid = Integer.parseInt(array[1]);
@@ -149,7 +220,7 @@ public class GameObject {
     public void rotate(double angle){
         physicsObject.setOrientation(angle);
         orientation = angle;
-        changed = true;
+        rotchange = true;
     }
 
     private void handleLocalEvents(){
@@ -200,10 +271,18 @@ public class GameObject {
     }
 
     public void setChanged(boolean changed){
-            this.changed = changed;
+        this.changed = changed;
     }
 
     public int getiD(){
         return iD;
+    }
+
+    public void setPoschange(boolean poschange){
+        this.poschange = poschange;
+    }
+
+    public void setVelchange(boolean velchange){
+        this.velchange = velchange;
     }
 }

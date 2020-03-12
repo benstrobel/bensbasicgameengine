@@ -1,11 +1,14 @@
 package bensbasicgameengine.Net.Server;
 
+import bensbasicgameengine.GameLogic.Events.DeleteProjectilesEvent;
 import bensbasicgameengine.GameLogic.GameObject;
 import bensbasicgameengine.GameLogic.Logic;
+import bensbasicgameengine.Lib.Tools;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
 import example.Game;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -125,8 +128,21 @@ public class ClientHandler extends Thread{
             clientobject.rotate(clientobject.getOrientation()-5);
         }else if(action.equals("E")){
             clientobject.rotate(clientobject.getOrientation()+5);
-        }else if(action.equals("C")){
-
+        }else if(action.startsWith("C")){
+            String [] array = action.split(" ");
+            Point2D mousePos = new Point2D.Double(Double.parseDouble(array[1]), Double.parseDouble(array[2]));
+            PhysicsObject projectilerectangle = new PhysicsRectangle(Tools.getMiddle(gamelogic.getGameObjectwithID(ingameiD).getPhysicsObject()), 1, 10, 5);
+            GameObject projectile = new GameObject(gamelogic.getNextID(),projectilerectangle, Color.black, true);
+            projectilerectangle.setParent(projectile);
+            Point2D direction = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),mousePos,20);
+            Point2D adddirection = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),mousePos,60);
+            projectilerectangle.getPosition().setLocation(Tools.addVector(projectilerectangle.getPosition(),adddirection));
+            projectile.getPhysicsObject().updateShape();
+            projectilerectangle.setVelocityX(direction.getX());
+            projectilerectangle.setVelocityY(direction.getY());
+            projectilerectangle.setOrientation(Tools.getDegree(direction));
+            projectile.registerLogicEvent(new DeleteProjectilesEvent(projectile));
+            gamelogic.addGameObject(projectile);
         }
     }
 

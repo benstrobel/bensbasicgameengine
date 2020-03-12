@@ -164,7 +164,7 @@ public class Game {
     private void setupEvents(){
         keyEvent = new KeyEvent(keyListener,player,graphic,menustatus,logic,inputstring,enterip,client);
         logic.registerLogicEvent(keyEvent);
-        LogicEvent mouseEvent = new MouseEvent(mouse_listener,logic,player,logic.getCamlocation(),menustatus);
+        LogicEvent mouseEvent = new MouseEvent(mouse_listener,logic,player,logic.getCamlocation(),menustatus, client);
         logic.registerLogicEvent(mouseEvent);
         LogicEvent windowFocusEvent = new WindowFocusEvent(windowFocusListener,keyListener);
         logic.registerLogicEvent(windowFocusEvent);

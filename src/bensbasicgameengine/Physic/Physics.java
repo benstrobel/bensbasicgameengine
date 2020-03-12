@@ -13,13 +13,15 @@ public class Physics {
     }
 
     public void tick(){
-        objectlist.forEach(obj -> obj.resetColliding());
-        for(PhysicsObject obj : objectlist){
-            for(PhysicsObject iobj : objectlist){
-                obj.detectCollision(iobj);
+        synchronized (objectlist){
+            objectlist.forEach(obj -> obj.resetColliding());
+            for(PhysicsObject obj : objectlist){
+                for(PhysicsObject iobj : objectlist){
+                    obj.detectCollision(iobj);
+                }
             }
+            objectlist.forEach(obj -> {obj.setLocation(obj.getPosition().getX()+obj.getVelocityX(), obj.getPosition().getY()+obj.getVelocityY()); obj.updateShape(); obj.tick();});
         }
-        objectlist.forEach(obj -> {obj.setLocation(obj.getPosition().getX()+obj.getVelocityX(), obj.getPosition().getY()+obj.getVelocityY()); obj.updateShape(); obj.tick();});
     }
 
     private void printObjVel(PhysicsObject physicsObject){

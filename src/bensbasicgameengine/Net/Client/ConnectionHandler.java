@@ -33,7 +33,16 @@ public class ConnectionHandler extends Thread{
             System.out.println("Connected");
             while(true){
                 try {
-                    data = in.readLine();
+                    String dat = in.readLine();
+                    String id = dat.split(" ")[0];
+                    if(id.equals("U")){ //update
+                        data = dat.substring(2);
+                    }else if(id.equals("F")){   //focus
+                        //TODO
+                        data = "-";
+                    }else{
+                        data = "-";
+                    }
                 } catch(SocketTimeoutException ex){
                     data = "-";
                 }
@@ -48,6 +57,10 @@ public class ConnectionHandler extends Thread{
             }
         }
         System.out.println("Not Connected");
+    }
+
+    public void send(String msg){
+        out.println(msg);
     }
 
     public String getData() {

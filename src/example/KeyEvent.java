@@ -8,6 +8,7 @@ import bensbasicgameengine.GameLogic.Logic;
 import bensbasicgameengine.Graphic.Graphic;
 import bensbasicgameengine.Input.KeyListener;
 import bensbasicgameengine.Input.StringContainer;
+import bensbasicgameengine.Net.Client.Client;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -26,8 +27,9 @@ public class KeyEvent extends LogicEvent {
     private StringContainer inputstring;
     private Logic logic;
     private HudObject enterip;
+    private Client client;
 
-    public KeyEvent(KeyListener keyListener, GameObject player, Graphic graphic, AtomicInteger menustatus, Logic logic, StringContainer inputstring, HudObject enterip){
+    public KeyEvent(KeyListener keyListener, GameObject player, Graphic graphic, AtomicInteger menustatus, Logic logic, StringContainer inputstring, HudObject enterip, Client client){
         this.keyListener = keyListener;
         this.player = player;
         this.graphic = graphic;
@@ -35,6 +37,7 @@ public class KeyEvent extends LogicEvent {
         this.logic = logic;
         this.inputstring = inputstring;
         this.enterip = enterip;
+        this.client = client;
     }
 
     public void setEnterip(HudObject enterip){
@@ -45,72 +48,138 @@ public class KeyEvent extends LogicEvent {
     public void eventmethod() {
         boolean keys [] = keyListener.getKeysAndReset();
         if(menustatus.get() == 0){
-            if(keys[KeyListener.W]){
-                if(keys[KeyListener.S]){
-                    player.getPhysicsObject().setVelocityY(0);
-                }else{
-                    player.getPhysicsObject().setVelocityY(-5);
+            if(logic.isserver()){
+                if(keys[KeyListener.W]){
+                    if(keys[KeyListener.S]){
+                        player.getPhysicsObject().setVelocityY(0);
+                    }else{
+                        player.getPhysicsObject().setVelocityY(-5);
+                    }
+                }else {
+                    if(keys[KeyListener.S]){
+                        player.getPhysicsObject().setVelocityY(5);
+                    }else{
+                        player.getPhysicsObject().setVelocityY(0);
+                    }
                 }
-            }else {
-                if(keys[KeyListener.S]){
-                    player.getPhysicsObject().setVelocityY(5);
+                if(keys[KeyListener.A]){
+                    if(keys[KeyListener.D]){
+                        player.getPhysicsObject().setVelocityX(0);
+                    }else{
+                        player.getPhysicsObject().setVelocityX(-5);
+                    }
                 }else{
-                    player.getPhysicsObject().setVelocityY(0);
+                    if(keys[KeyListener.D]){
+                        player.getPhysicsObject().setVelocityX(5);
+                    }else{
+                        player.getPhysicsObject().setVelocityX(0);
+                    }
                 }
-            }
-            if(keys[KeyListener.A]){
-                if(keys[KeyListener.D]){
-                    player.getPhysicsObject().setVelocityX(0);
+                if(keys[KeyListener.Q]){
+                    if(!keys[KeyListener.E]){
+                        player.rotate(player.getOrientation()-5);
+                    }
                 }else{
-                    player.getPhysicsObject().setVelocityX(-5);
+                    if(keys[KeyListener.E]){
+                        player.rotate(player.getOrientation()+5);
+                    }
+                }
+                if(keys[KeyListener.LEFT]){
+                    if(!keys[KeyListener.RIGHT]){
+                        Point2D g = Graphic.getCameralocation();
+                        graphic.setCameralocation(new Point2D.Double(g.getX()+5,g.getY()));
+                    }
+                }
+                if(keys[KeyListener.RIGHT]){
+                    if(!keys[KeyListener.LEFT]){
+                        Point2D g = Graphic.getCameralocation();
+                        graphic.setCameralocation(new Point2D.Double(g.getX()-5,g.getY()));
+                    }
+                }
+                if(keys[KeyListener.UP]){
+                    if(!keys[KeyListener.DOWN]){
+                        Point2D g = Graphic.getCameralocation();
+                        graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()+5));
+                    }
+                }
+                if(keys[KeyListener.DOWN]){
+                    if(!keys[KeyListener.UP]){
+                        Point2D g = Graphic.getCameralocation();
+                        graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()-5));
+                    }
+                }
+                if(keys[KeyListener.ESC]){
+                    if(menustatus.get() == 0){
+                        menustatus.set(1);
+                    }else{
+                        menustatus.set(0);
+                    }
+                    logic.updateHUDObjects();
                 }
             }else{
-                if(keys[KeyListener.D]){
-                    player.getPhysicsObject().setVelocityX(5);
+                if(keys[KeyListener.W]){
+                    if(keys[KeyListener.S]){
+                        client.send("A WS");
+                    }else{
+                        client.send("A W");
+                    }
+                }else {
+                    if(keys[KeyListener.S]){
+                        client.send("A S");
+                    }else{
+                        client.send("A WS");
+                    }
+                }
+                if(keys[KeyListener.A]){
+                    if(keys[KeyListener.D]){
+                        client.send("A AD");
+                    }else{
+                        client.send("A A");
+                    }
                 }else{
-                    player.getPhysicsObject().setVelocityX(0);
+                    if(keys[KeyListener.D]){
+                        client.send("A D");
+                    }else{
+                        client.send("A AD");
+                    }
                 }
-            }
-            if(keys[KeyListener.Q]){
-                if(!keys[KeyListener.E]){
-                    player.rotate(player.getOrientation()-5);
-                }
-            }else{
-                if(keys[KeyListener.E]){
-                    player.rotate(player.getOrientation()+5);
-                }
-            }
-            if(keys[KeyListener.LEFT]){
-                if(!keys[KeyListener.RIGHT]){
-                    Point2D g = Graphic.getCameralocation();
-                    graphic.setCameralocation(new Point2D.Double(g.getX()+5,g.getY()));
-                }
-            }
-            if(keys[KeyListener.RIGHT]){
-                if(!keys[KeyListener.LEFT]){
-                    Point2D g = Graphic.getCameralocation();
-                    graphic.setCameralocation(new Point2D.Double(g.getX()-5,g.getY()));
-                }
-            }
-            if(keys[KeyListener.UP]){
-                if(!keys[KeyListener.DOWN]){
-                    Point2D g = Graphic.getCameralocation();
-                    graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()+5));
-                }
-            }
-            if(keys[KeyListener.DOWN]){
-                if(!keys[KeyListener.UP]){
-                    Point2D g = Graphic.getCameralocation();
-                    graphic.setCameralocation(new Point2D.Double(g.getX(),g.getY()-5));
-                }
-            }
-            if(keys[KeyListener.ESC]){
-                if(menustatus.get() == 0){
-                    menustatus.set(1);
+                if(keys[KeyListener.Q]){
+                    if(!keys[KeyListener.E]){
+                        client.send("A Q");
+                    }
                 }else{
-                    menustatus.set(0);
+                    if(keys[KeyListener.E]){
+                        client.send("A E");
+                    }
                 }
-                logic.updateHUDObjects();
+                if(keys[KeyListener.LEFT]){
+                    if(!keys[KeyListener.RIGHT]){
+
+                    }
+                }
+                if(keys[KeyListener.RIGHT]){
+                    if(!keys[KeyListener.LEFT]){
+
+                    }
+                }
+                if(keys[KeyListener.UP]){
+                    if(!keys[KeyListener.DOWN]){
+
+                    }
+                }
+                if(keys[KeyListener.DOWN]){
+                    if(!keys[KeyListener.UP]){
+
+                    }
+                    }
+                }
+                if(keys[KeyListener.ESC]){
+                    if(menustatus.get() == 0){
+                        menustatus.set(1);
+                    }else{
+                        menustatus.set(0);
+                    }
+                    logic.updateHUDObjects();
             }
         } else if (menustatus.get() == 1){
             if(keys[KeyListener.ESC]){

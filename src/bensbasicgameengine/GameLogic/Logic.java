@@ -119,7 +119,7 @@ public class Logic {
     }
 
     private void updateTransmitData(){
-        String s = "";
+        String s = "U ";
         for(GameObject object : gameObjects){
             if(object.isChanged()){
                 s += object.getTransmissionData(';');
@@ -149,6 +149,12 @@ public class Logic {
         server.publish(transmitstring);
     }
 
+    public void deleteObjectWithId(int iD){
+        synchronized (gameObjects){
+            gameObjects.removeIf(g -> g.getiD() == iD);
+        }
+    }
+
     public void updateFromTransmitData(String data){
         if(data != null){
             if(data.equals("-")){
@@ -172,6 +178,13 @@ public class Logic {
         return currentid++;
     }
 
+    public GameObject getGameObjectwithID(int iD){
+        for(GameObject gameObject : gameObjects){
+            if(gameObject.getiD() == iD){return gameObject;}
+        }
+        return null;
+    }
+
     private void tick(){
         if(graphic != null){graphic.repaint();}
         if(soundManager != null){soundManager.tick();}
@@ -180,6 +193,7 @@ public class Logic {
                 logictick();
                 updateTransmitData();
             }else{
+                handleGlobalEvents();
                 updateFromTransmitData(client.getConnectionHandler().getData());
                 camtick();
             }
@@ -404,5 +418,9 @@ public class Logic {
 
     public Point2D getCamlocation(){
         return camlocation;
+    }
+
+    public boolean isserver() {
+        return isserver;
     }
 }

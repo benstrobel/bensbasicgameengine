@@ -8,11 +8,17 @@ public class Client {
 
     private int id, status = 0;
     private ClientHandler clientHandler;
+    private int ingameiD = -1;
 
     public Client(int id, Socket socket, Logic gamelogic){
         this.id = id;
         clientHandler = new ClientHandler(socket,gamelogic);
         clientHandler.start();
+    }
+
+    public void setIngameiD(int ingameiD) {
+        this.ingameiD = ingameiD;
+        getClientHandler().setIngameiD(ingameiD);
     }
 
     public void sendMsg(String msg){

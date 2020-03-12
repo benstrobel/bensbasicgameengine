@@ -1,7 +1,12 @@
 package bensbasicgameengine.Net.Server;
 
+import bensbasicgameengine.GameLogic.GameObject;
 import bensbasicgameengine.GameLogic.Logic;
+import bensbasicgameengine.Physic.PhysicsObject;
+import bensbasicgameengine.Physic.PhysicsRectangle;
+import example.Game;
 
+import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,6 +22,7 @@ public class ClientHandler extends Thread{
     private PrintWriter out;
 
     private Logic gamelogic;
+    private int ingameiD = -1;
 
     private int status = 0;
     //-2 = Unknown Error
@@ -36,8 +42,20 @@ public class ClientHandler extends Thread{
     public void run(){
         if(setup()){
             System.out.println("ClientHandler set up");
+            //-----------------Adding Client representation to world
+            PhysicsObject clientrectangle = new PhysicsRectangle(new Point2D.Double(100,100), 1, 80, 60);
+            GameObject clientobject = new GameObject(gamelogic.getNextID(),clientrectangle,Game.textures[0]);
+            clientrectangle.setParent(clientobject);
+            clientobject.setGraphiclayerid(0);
+            gamelogic.addGameObject(clientobject);
+            ingameiD = clientobject.getiD();
+            //---------------------------Done-----------------------
             listen();
         }
+    }
+
+    public void setIngameiD(int ingameiD) {
+        this.ingameiD = ingameiD;
     }
 
     private boolean setup(){
@@ -78,22 +96,47 @@ public class ClientHandler extends Thread{
 
     private void handleMsg(String msg){
         if(msg == null){return;}
-        if(msg.equals("update")){
-            out.println(gamelogic.getTransmitData());
-        } else if(msg.equals("quit")){
-            disconnected();
+        String [] array = msg.split(" ");
+        if(array[0].equals("A")){
+            handleAction(msg.substring(2));
         }else{
             System.out.println(msg);
         }
         //TODO
     }
 
+    private void handleAction(String action){
+        GameObject clientobject = gamelogic.getGameObjectwithID(ingameiD);
+        if(clientobject == null){return;}
+        if(action.equals("W")){
+            clientobject.getPhysicsObject().setVelocityY(-5);
+        }else if(action.equals("S")){
+            clientobject.getPhysicsObject().setVelocityY(5);
+        }else if(action.equals("WS")){
+            clientobject.getPhysicsObject().setVelocityY(0);
+        }else if(action.equals("A")){
+            clientobject.getPhysicsObject().setVelocityX(-5);
+        }else if(action.equals("D")){
+            clientobject.getPhysicsObject().setVelocityX(5);
+        }else if(action.equals("AD")){
+            clientobject.getPhysicsObject().setVelocityX(0);
+        }else if(action.equals("Q")){
+            clientobject.rotate(clientobject.getOrientation()-5);
+        }else if(action.equals("E")){
+            clientobject.rotate(clientobject.getOrientation()+5);
+        }else if(action.equals("C")){
+
+        }
+    }
+
     private void connectionlost(){
         status = 2;
+        gamelogic.deleteObjectWithId(ingameiD);
     }
 
     private void disconnected(){
         status = 3;
+        gamelogic.deleteObjectWithId(ingameiD);
     }
 
 }

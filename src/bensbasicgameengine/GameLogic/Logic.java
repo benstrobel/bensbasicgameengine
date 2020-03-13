@@ -157,7 +157,12 @@ public class Logic {
 
     public void deleteObjectWithId(int iD){
         synchronized (gameObjects){
-            gameObjects.removeIf(g -> g.getiD() == iD);
+            for(GameObject gameObject : gameObjects){
+                if(gameObject.getiD() == iD){
+                    gameObject.setGarbage(true);
+                    break;
+                }
+            }
         }
     }
 
@@ -185,10 +190,12 @@ public class Logic {
     }
 
     public GameObject getGameObjectwithID(int iD){
-        for(GameObject gameObject : gameObjects){
-            if(gameObject.getiD() == iD){return gameObject;}
+        synchronized (gameObjects){
+            for(GameObject gameObject : gameObjects){
+                if(gameObject.getiD() == iD){return gameObject;}
+            }
+            return null;
         }
-        return null;
     }
 
     private void tick(){
@@ -361,8 +368,7 @@ public class Logic {
 
     public void removeGameObject(GameObject gameObject){
         synchronized (gameObjects){
-            gameObjects.remove(gameObject);
-            physics.removeObject(gameObject.getPhysicsObject());
+            gameObject.setGarbage(true);
         }
     }
 

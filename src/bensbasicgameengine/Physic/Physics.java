@@ -31,11 +31,15 @@ public class Physics {
     }
 
     public boolean addObject(PhysicsObject obj){
-        return objectlist.add(obj);
+        synchronized (objectlist){
+            return objectlist.add(obj);
+        }
     }
 
     public boolean removeObject(PhysicsObject obj){
-        return objectlist.remove(obj);
+        synchronized (objectlist){
+            return objectlist.remove(obj);
+        }
     }
 
     public ArrayList<PhysicsObject> getObjectList(){

@@ -53,6 +53,8 @@ public class ClientHandler extends Thread{
             gamelogic.addGameObject(clientobject);
             ingameiD = clientobject.getiD();
             sendMsg("F " + ingameiD);
+            //-------------------------Requesting GameObjects-------
+            gamelogic.sendAllGameObjects();
             //---------------------------Done-----------------------
             listen();
         }
@@ -143,6 +145,9 @@ public class ClientHandler extends Thread{
             projectilerectangle.setOrientation(Tools.getDegree(direction));
             projectile.registerLogicEvent(new DeleteProjectilesEvent(projectile));
             gamelogic.addGameObject(projectile);
+        }else if(action.startsWith("T")){
+            String [] array = action.split(" ");
+            gamelogic.getGameObjectwithID(ingameiD).setBufferedImage(Game.textures[Integer.parseInt(array[1])]);
         }
     }
 

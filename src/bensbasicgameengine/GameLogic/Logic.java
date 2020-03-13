@@ -100,6 +100,10 @@ public class Logic {
         this.server = server;
     }
 
+    public void sendAllGameObjects(){
+        gameObjects.forEach(o -> o.setChanged(true));
+    }
+
     public void updateHUDObjects(){
         for(HudObject hudObject : hudObjects){
             if(hudObject.getMenuid() == menustatus.get()){

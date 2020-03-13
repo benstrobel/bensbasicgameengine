@@ -131,7 +131,7 @@ public class GameObject {
         return new GameObject(iD, img, orientation, c, fill, flag, phyobj, Integer.parseInt(array[1]));
     }
 
-    public String getTransmissionData(ArrayList<LogicEvent> logicEvents, char delimiter){
+    /*public String getTransmissionData(ArrayList<LogicEvent> logicEvents, char delimiter){
         String s = "";
         for(LogicEvent logicEvent : logicEvents){
             String logs = logicEvent.getTransmissionData();
@@ -140,7 +140,7 @@ public class GameObject {
             }
         }
         return s.substring(0,s.length()-1);
-    }
+    }*/
 
     public GameObject(int iD, BufferedImage bufferedImage, double orientation, Color c, boolean fill, String flag, PhysicsObject physicsObject, int imgid){
         this.iD = iD;
@@ -288,5 +288,12 @@ public class GameObject {
 
     public void setBufferedImage(BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;
+        for(int i = 0; i < Game.textures.length; i++){
+            if(Game.textures[i] == bufferedImage){
+                imgid = i;
+                break;
+            }
+        }
+        changed = true;
     }
 }

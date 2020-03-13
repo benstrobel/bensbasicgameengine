@@ -31,6 +31,7 @@ public class ConnectionHandler extends Thread{
         System.out.println("Connecting");
         if(setup()){
             System.out.println("Connected");
+            out.println("A T " + gamelogic.clienttextureid);
             while(true){
                 try {
                     String dat = in.readLine();

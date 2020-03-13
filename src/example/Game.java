@@ -23,6 +23,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Game {
@@ -41,8 +42,41 @@ public class Game {
     private boolean isserver = true;
     private Server server = null;
 
-    private String texturepaths [] = {"dude.png","dudealex.png","dudearne.png","dudeben.png","dudecheesn.png", "dudehinze.png", "dudekai.png", "dudemanu.png", "dudemarius.png", "dudetim.png","dudetorsten.png"};
-    private final int floortextstart = 11;
+    private int [][] background = {{25,19,14,19,19,19,19,14,14,19,19,19,19,19,14,14,19,19,19,19,19,14,14,14,19,19,19,19,19,26},
+    {22,11,6,16,6,11,11,11,6,11,6,6,6,6,16,11,16,11,6,16,11,6,16,16,16,6,11,11,16,2},
+    {23,16,16,16,11,11,16,11,11,6,6,11,6,6,16,6,11,16,11,6,6,6,16,11,11,6,6,11,16,2},
+    {23,16,16,6,16,11,16,11,11,11,6,6,16,6,6,6,16,16,16,6,11,11,11,16,6,6,6,11,6,3},
+    {23,16,16,6,11,11,6,11,16,11,11,11,16,6,11,16,11,6,16,16,16,6,11,11,6,16,6,6,11,3},
+    {22,6,6,6,6,6,6,11,16,11,11,16,16,6,6,11,16,6,6,11,16,16,6,6,11,6,16,16,6,2},
+    {22,16,6,6,11,6,6,11,11,16,16,6,16,6,16,16,6,11,6,16,16,6,16,11,16,16,11,16,6,1},
+    {22,16,6,6,16,6,11,11,11,11,16,16,16,16,16,16,16,11,11,6,11,16,6,6,16,16,16,11,16,3},
+    {21,6,16,16,11,16,16,16,16,11,11,16,6,16,16,6,16,11,11,6,11,16,6,11,11,16,16,11,11,2},
+    {22,11,11,11,16,11,11,6,16,16,16,11,6,16,11,16,11,11,16,6,11,6,11,6,11,11,11,16,16,2},
+    {22,16,6,16,16,11,6,16,16,6,16,11,16,6,16,16,16,16,6,11,6,11,11,11,11,16,16,16,16,2},
+    {23,16,16,6,11,16,6,6,16,11,6,16,16,11,11,16,16,6,11,6,11,6,11,11,6,16,16,16,6,1},
+    {21,6,16,16,11,11,6,11,16,11,16,16,16,6,16,6,11,11,11,11,6,16,16,11,16,16,6,11,16,1},
+    {22,11,16,6,6,6,6,6,16,11,6,16,11,16,16,16,16,16,6,11,16,11,6,16,16,11,16,16,6,1},
+    {23,16,6,6,6,16,6,6,16,6,6,16,11,6,6,6,6,16,6,6,6,6,16,16,11,6,11,16,11,2},
+    {23,11,6,11,16,11,6,11,6,11,16,16,6,16,16,6,6,16,6,11,11,11,11,11,16,6,16,11,16,3},
+    {21,6,11,16,6,6,11,11,11,16,16,11,6,6,16,6,11,11,16,16,11,16,11,16,16,11,6,11,16,3},
+    {21,6,6,16,6,16,11,6,11,16,11,6,6,11,16,11,16,6,16,11,16,16,11,16,6,6,16,16,16,3},
+    {23,6,6,16,16,16,11,16,11,16,16,16,6,16,6,6,6,16,11,11,16,16,16,6,11,16,16,6,16,1},
+    {21,16,6,11,6,6,16,6,16,11,11,16,6,6,16,6,6,6,6,11,11,11,11,11,11,6,6,6,11,3},
+    {23,6,6,11,16,11,6,6,11,11,11,6,11,11,11,16,16,11,11,11,16,16,16,6,11,16,6,11,16,3},
+    {21,6,6,11,16,6,6,6,11,16,6,6,6,16,16,6,16,16,16,11,11,6,6,6,16,16,6,6,6,1},
+    {23,11,6,11,16,16,16,11,16,11,11,16,11,16,11,16,16,11,6,16,16,11,16,6,6,6,6,6,6,2},
+    {21,6,11,6,11,6,6,11,16,6,11,11,6,6,16,16,11,6,11,6,11,16,11,6,16,11,16,6,11,2},
+    {23,16,11,6,11,6,6,16,11,11,16,16,11,6,6,11,6,11,11,11,11,6,16,11,6,16,6,6,16,1},
+    {21,11,16,6,11,11,16,6,16,6,11,6,6,11,16,16,16,6,6,11,6,11,11,11,16,11,16,6,16,1},
+    {23,16,11,16,16,6,16,16,11,6,16,16,6,11,16,11,16,16,11,11,6,6,11,11,6,11,11,11,11,3},
+    {21,16,6,6,16,6,16,6,6,16,11,6,11,11,6,11,11,6,6,6,16,16,6,6,11,6,16,16,6,1},
+    {22,11,11,11,6,6,16,16,16,16,16,11,11,11,16,16,16,16,11,16,11,11,11,6,16,16,16,11,11,1},
+    {27,5,5,5,10,5,10,10,5,10,5,5,5,10,5,5,5,5,5,5,10,5,5,5,10,5,5,5,5,28}};
+
+    private String texturepaths [] = {"dude.png","dudealex.png","dudearne.png","dudeben.png","dudecheesn.png", "dudehinze.png", "dudekai.png", "dudemanu.png", "dudemarius.png", "dudetim.png","dudetorsten.png","0.png","1.png","2.png","3.png","4.png","5.png","6.png","7.png","8.png","9.png","10.png",
+            "11.png","12.png","13.png","14.png","15.png","16.png","17.png","18.png","19.png","20.png",
+            "21.png","22.png","23.png","24.png","25.png","26.png","27.png","28.png","bg.png"};
+    public static final int floortextstart = 11;
     public static BufferedImage textures [];
     private GameObject player;
     private StringContainer inputstring = new StringContainer();
@@ -63,6 +97,73 @@ public class Game {
         setupEvents();
         setupMainMenu();
         setupInGame();
+    }
+
+    public static void printBackground(int array[][]){
+        for(int i = 0; i < array.length; i++){
+            for(int j = 0; j < array[0].length; j++){
+                System.out.print(array[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void backgroundtoString(int array[][]){
+        for(int i = 0; i < array.length; i++){
+            System.out.print("{");
+            for(int j = 0; j < array[0].length; j++){
+                if(j == 29){
+                    System.out.print(array[i][j]);
+                }else{
+                    System.out.print(array[i][j] + ",");
+                }
+            }
+            if(i == 29){
+                System.out.println("}");
+            }else{
+                System.out.println("},");
+            }
+        }
+    }
+
+    public static int [] [] generateBackground(){
+        Random random = new Random();
+        int [] [] background = new int [30][30];
+        //Setting corners
+        background [0][0] = 0;
+        background [29][29] = 24;
+        background[0][29] = 20;
+        background[29][0] = 4;
+        setupRow(1,29,19,14,19,background,0,random);
+        setupRow(1,29,5,10,5,background,29,random);
+        setupColum(1,29,3,2,1,background,29,random);
+        setupColum(1,29,21,22,23,background,0,random);
+        for(int i = 1; i < 29; i++){
+            setupRow(1,29,6,11,16,background,i,random);
+        }
+        return background;
+    }
+
+    private static void setupRow(int from, int to, int option1, int option2, int option3, int [][] array, int y, Random random){
+        for(int i = from; i < to; i++){
+            int j = random.nextInt(3);
+            switch (j){
+                case 0:{array[y][i] = option1; break;}
+                case 1:{array[y][i] = option2;break;}
+                case 2:{array[y][i] = option3;break;}
+            }
+        }
+    }
+
+    private static void setupColum(int from, int to, int option1, int option2, int option3, int [][] array, int x, Random random){
+        for(int i = from; i < to; i++){
+            int j = random.nextInt(3);
+            switch (j){
+                case 0:{array[i][x] = option1; break;}
+                case 1:{array[i][x] = option2;break;}
+                case 2:{array[i][x] = option3;break;}
+            }
+        }
     }
 
     private void setupMainMenu(){
@@ -186,8 +287,8 @@ public class Game {
         frame.addKeyListener(keyListener);
         frame.setResizable(false);
         frame.addWindowFocusListener(windowFocusListener);
-        //frame.setUndecorated(true);
-        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         graphic.setFrame(frame);
     }
@@ -207,14 +308,10 @@ public class Game {
         playerrectangle.setParent(player);
         player.setGraphiclayerid(0);
         logic.addGameObject(player);
-        PhysicsObject targetrectangle = new PhysicsRectangle(new Point2D.Double(300,300), 1, 50, 50);
-        GameObject target = new GameObject(logic.getNextID(),targetrectangle,null);
-        targetrectangle.setParent(target);
-        logic.addGameObject(target);
-        logic.addWall(0,0,1000,30);
-        logic.addWall(0,970, 30, 1000);
-        logic.addWall(0,0,30,1000);
-        logic.addWall(970,0,1000,30);
+        logic.addWall(-30,0,1950,30);
+        logic.addWall(0,1920, 30, 1950);
+        logic.addWall(-30,-30, 30, 1980);
+        logic.addWall(1920,0,1950,30);
     }
 
     private void setupInGameHUD(){
@@ -230,10 +327,10 @@ public class Game {
     }
 
     private void setupDeadZones(){
-        logic.addDeadZone(-100,-100,50,1200);
-        logic.addDeadZone(-100,-100,1200,50);
-        logic.addDeadZone(-100,1050,50,1200);
-        logic.addDeadZone(1050,-100, 1200, 50);
+        logic.addDeadZone(-100,-100,50,2100);
+        logic.addDeadZone(-100,-100,2100,50);
+        logic.addDeadZone(-100,1980,50,2100);
+        logic.addDeadZone(1980,-100, 2100, 50);
     }
 
     private void setupGraphics(){
@@ -250,5 +347,6 @@ public class Game {
             }
         }
         logic.addGraphicLayer();
+        graphic.setBackground(background);
     }
 }

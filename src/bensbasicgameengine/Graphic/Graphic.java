@@ -3,6 +3,8 @@
 package bensbasicgameengine.Graphic;
 
 
+import example.Game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -13,7 +15,7 @@ public class Graphic {
 
     private JPanel panel;
     private ArrayList<ArrayList<GraphicObject>> objectlist = new ArrayList<>();
-    private BufferedImage[][] background;
+    private int[][] background;
     private final int tilesize = 64;
     private GraphicImage cursor = null;
     private JFrame frame;
@@ -35,12 +37,11 @@ public class Graphic {
                     }
                     try {
                         Graphics2D g2d = ((Graphics2D) g);
+                        g2d.drawImage(Game.textures[40], 0, 0, null);
                         if(background != null){
                             for (int y = 0; y < background.length; y++) {
                                 for (int x = 0; x < background[0].length; x++) {
-                                    if (background[y][x] != null) {
-                                        g2d.drawImage(background[y][x], x * tilesize, y * tilesize, null);
-                                    }
+                                    g2d.drawImage(Game.textures[background[y][x]+Game.floortextstart], (int)((x * tilesize) + getCameralocation().getX()), (int)((y * tilesize)+getCameralocation().getY()), null);
                                 }
                             }
                         }
@@ -70,7 +71,7 @@ public class Graphic {
         }
     }
 
-    public void setBackground(BufferedImage[][] background) {
+    public void setBackground(int[][] background) {
         this.background = background;
     }
 

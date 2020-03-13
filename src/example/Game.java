@@ -41,7 +41,8 @@ public class Game {
     private boolean isserver = true;
     private Server server = null;
 
-    private String texturepaths [] = {"dude.png"};
+    private String texturepaths [] = {"dude.png","dudealex.png","dudearne.png","dudeben.png","dudecheesn.png", "dudehinze.png", "dudekai.png", "dudemanu.png", "dudemarius.png", "dudetim.png","dudetorsten.png"};
+    private final int floortextstart = 11;
     public static BufferedImage textures [];
     private GameObject player;
     private StringContainer inputstring = new StringContainer();
@@ -92,6 +93,36 @@ public class Game {
         LogicEvent joinhudclick = new HudClickEvent(join,mouse_listener);
         logic.registerLogicEvent(joinhudclick);
         logic.addHudObject(join);
+
+        HudObject charselectleft = new HudObject(80,200, 50, 50, new GraphicShape(new Rectangle2D.Double(80,200,50,50), Color.black, false, 0, true), "<-", 2) {
+            @Override
+            public void activationMethod() {
+                if(logic.clienttextureid > 0){
+                    logic.clienttextureid--;
+                }else{
+                    logic.clienttextureid = floortextstart-1;
+                }
+                player.setBufferedImage(textures[logic.clienttextureid]);
+            }
+        };
+        LogicEvent charleftclick = new HudClickEvent(charselectleft, mouse_listener);
+        logic.registerLogicEvent(charleftclick);
+        logic.addHudObject(charselectleft);
+
+        HudObject charselectright = new HudObject(130,200,50,50, new GraphicShape(new Rectangle2D.Double(130,200,50,50), Color.black, false, 0, true), "->", 2) {
+            @Override
+            public void activationMethod() {
+                if(logic.clienttextureid < floortextstart-1){
+                    logic.clienttextureid++;
+                }else{
+                    logic.clienttextureid = 0;
+                }
+                player.setBufferedImage(textures[logic.clienttextureid]);
+            }
+        };
+        LogicEvent charrightclick = new HudClickEvent(charselectright,mouse_listener);
+        logic.registerLogicEvent(charrightclick);
+        logic.addHudObject(charselectright);
         //--------------------------------------------------------- Join Menu (3)-----------------------------------------------
         enterip = new HudObject(300,200,300,20, new GraphicShape(new Rectangle2D.Double(300,200,300,20), Color.black, false, 0, true), "Enter IP: " + inputstring.getString(), 3) {
             @Override
@@ -172,7 +203,7 @@ public class Game {
 
     private void setupPlayer(){
         PhysicsObject playerrectangle = new PhysicsRectangle(new Point2D.Double(100,100), 1, 80, 60);
-        player = new GameObject(logic.getNextID(),playerrectangle,textures[0]);
+        player = new GameObject(logic.getNextID(),playerrectangle,textures[logic.clienttextureid]);
         playerrectangle.setParent(player);
         player.setGraphiclayerid(0);
         logic.addGameObject(player);
@@ -209,7 +240,7 @@ public class Game {
         textures = new BufferedImage[texturepaths.length];
         URL toload;
         for(int i = 0; i < texturepaths.length; i++){
-            toload = this.getClass().getResource(texturepaths[i]);
+            toload = this.getClass().getResource("/" + texturepaths[i]);
             if(toload != null){
                 try {
                     textures [i] = ImageIO.read(toload);

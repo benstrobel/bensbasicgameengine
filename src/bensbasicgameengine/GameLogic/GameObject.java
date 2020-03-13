@@ -285,4 +285,8 @@ public class GameObject {
     public void setVelchange(boolean velchange){
         this.velchange = velchange;
     }
+
+    public void setBufferedImage(BufferedImage bufferedImage) {
+        this.bufferedImage = bufferedImage;
+    }
 }

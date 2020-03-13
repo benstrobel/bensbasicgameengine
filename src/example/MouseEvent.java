@@ -32,24 +32,29 @@ public class MouseEvent extends LogicEvent {
         this.client = client;
     }
 
+    private void createProjectile(GameObject source, Point2D target, String flag){
+        PhysicsObject projectilerectangle = new PhysicsRectangle(Tools.getMiddle(source.getPhysicsObject()), 1, 10, 5);
+        GameObject projectile = new GameObject(logic.getNextID(),projectilerectangle, Color.black, true);
+        projectile.setFlag(flag);
+        projectilerectangle.setParent(projectile);
+        target.setLocation(target.getX()+camlocation.getX(),target.getY()+camlocation.getY());
+        Point2D direction = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),target,20);
+        Point2D adddirection = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),target,60);
+        projectilerectangle.getPosition().setLocation(Tools.addVector(projectilerectangle.getPosition(),adddirection));
+        projectile.getPhysicsObject().updateShape();
+        projectilerectangle.setVelocityX(direction.getX());
+        projectilerectangle.setVelocityY(direction.getY());
+        projectilerectangle.setOrientation(Tools.getDegree(direction));
+        projectile.registerLogicEvent(new DeleteProjectilesEvent(projectile));
+        logic.addGameObject(projectile);
+    }
+
     @Override
     public void eventmethod() {
         if(menustatus.get() == 0){
             if(logic.isserver()){
-                PhysicsObject projectilerectangle = new PhysicsRectangle(Tools.getMiddle(player.getPhysicsObject()), 1, 10, 5);
-                GameObject projectile = new GameObject(logic.getNextID(),projectilerectangle, Color.black, true);
-                projectilerectangle.setParent(projectile);
                 Point2D mousePos = (Point2D) mouse_listener.getPos().clone();
-                mousePos.setLocation(mousePos.getX()+camlocation.getX(),mousePos.getY()+camlocation.getY());
-                Point2D direction = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),mousePos,20);
-                Point2D adddirection = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),mousePos,60);
-                projectilerectangle.getPosition().setLocation(Tools.addVector(projectilerectangle.getPosition(),adddirection));
-                projectile.getPhysicsObject().updateShape();
-                projectilerectangle.setVelocityX(direction.getX());
-                projectilerectangle.setVelocityY(direction.getY());
-                projectilerectangle.setOrientation(Tools.getDegree(direction));
-                projectile.registerLogicEvent(new DeleteProjectilesEvent(projectile));
-                logic.addGameObject(projectile);
+                createProjectile(player,mousePos,"");
             }else{
                 Point2D mousePos = (Point2D) mouse_listener.getPos().clone();
                 mousePos.setLocation(mousePos.getX()+camlocation.getX(),mousePos.getY()+camlocation.getY());

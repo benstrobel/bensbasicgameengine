@@ -441,15 +441,17 @@ public class Logic {
     public void entityClick(GameObject entity, Point2D position){
         Weapon weapon = entity.getWeapon();
         if(weapon != null){
-            if(weapon.shoot()){
                 if(entity.getlastclickedintick() == tickcounter-1){
                     if(weapon.isFullautocapable() && weapon.isFullautoenabled()){
-                        createProjectile(entity,position,(int)weapon.getDamage());
+                        if(weapon.shoot()){
+                            createProjectile(entity,position,(int)weapon.getDamage());
+                        }
                     }
                 }else{
-                    createProjectile(entity,position,(int)weapon.getDamage());
+                    if(weapon.shoot()){
+                        createProjectile(entity,position,(int)weapon.getDamage());
+                    }
                 }
-            }
         }
         entity.setlastclickedintick(tickcounter);
     }

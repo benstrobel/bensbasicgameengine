@@ -14,6 +14,7 @@ import bensbasicgameengine.Net.Server.Server;
 import bensbasicgameengine.Physic.Physics;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
+import example.Weapons.Pistol;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -282,13 +283,13 @@ public class Game {
     private void setupWindow(){
         JFrame frame = new JFrame("Bens Basic Game Engine - Bambule in Bens Butze");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(800,800);
+        frame.setSize(1000,1000);
         frame.add(graphic.getPanel());
         frame.addKeyListener(keyListener);
         frame.setResizable(false);
         frame.addWindowFocusListener(windowFocusListener);
-        frame.setUndecorated(true);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //frame.setUndecorated(true);
+        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         graphic.setFrame(frame);
     }
@@ -307,6 +308,8 @@ public class Game {
         player = new GameObject(logic.getNextID(),playerrectangle,textures[logic.clienttextureid]);
         playerrectangle.setParent(player);
         player.setGraphiclayerid(0);
+        player.setHealth(100);
+        player.giveWeapon(new Pistol());
         logic.addGameObject(player);
         logic.addWall(-30,0,1950,30);
         logic.addWall(0,1920, 30, 1950);

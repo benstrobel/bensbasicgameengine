@@ -3,6 +3,7 @@
 package bensbasicgameengine.GameLogic;
 
 import bensbasicgameengine.GameLogic.Events.CollisionDeleteEvent;
+import bensbasicgameengine.GameLogic.Events.DeleteProjectilesEvent;
 import bensbasicgameengine.GameLogic.Events.LogicEvent;
 import bensbasicgameengine.Graphic.Graphic;
 import bensbasicgameengine.Graphic.GraphicShape;
@@ -18,6 +19,8 @@ import bensbasicgameengine.Physic.Physics;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
 import bensbasicgameengine.Sound.SoundManager;
+import example.ProjectileDealDamageEvent;
+import example.Weapons.Weapon;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -434,5 +437,37 @@ public class Logic {
 
     public boolean isserver() {
         return isserver;
+    }
+
+    public void entityClick(GameObject entity, Point2D position){
+        Weapon weapon = entity.getWeapon();
+        if(weapon != null){
+            if(weapon.shoot()){
+                createProjectile(entity,position,(int)weapon.getDamage());
+            }
+        }
+    }
+
+    public void entityreload(GameObject entity){
+        Weapon weapon = entity.getWeapon();
+        if(weapon != null){
+            weapon.reload();
+        }
+    }
+
+    public void createProjectile(GameObject source, Point2D target, int damage){
+        PhysicsObject projectilerectangle = new PhysicsRectangle(Tools.getMiddle(source.getPhysicsObject()), 1, 10, 5);
+        GameObject projectile = new GameObject(getNextID(),projectilerectangle, Color.black, true);
+        projectilerectangle.setParent(projectile);
+        Point2D direction = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),target,20);
+        Point2D adddirection = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),target,60);
+        projectilerectangle.getPosition().setLocation(Tools.addVector(projectilerectangle.getPosition(),adddirection));
+        projectile.getPhysicsObject().updateShape();
+        projectilerectangle.setVelocityX(direction.getX());
+        projectilerectangle.setVelocityY(direction.getY());
+        projectilerectangle.setOrientation(Tools.getDegree(direction));
+        projectile.registerLogicEvent(new DeleteProjectilesEvent(projectile));
+        projectile.registerLogicEvent(new ProjectileDealDamageEvent(projectile,damage));
+        addGameObject(projectile);
     }
 }

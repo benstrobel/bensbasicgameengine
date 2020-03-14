@@ -9,6 +9,7 @@ import bensbasicgameengine.Graphic.GraphicShape;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
 import example.Game;
+import example.Weapons.Weapon;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,8 +26,10 @@ public class GameObject {
     private Color graphicshapecolor;
     private boolean garbage = false, fill = false;
     private String flag = "";
+    private Weapon weapon;
     private int iD;
     private int imgid = -1;
+    private int health = -1;
     private boolean changed = true, poschange = false, rotchange = false, velchange = false;
 
     public boolean isPoschange() {
@@ -37,9 +40,42 @@ public class GameObject {
         return rotchange;
     }
 
+    public void setHealth(int amount){
+        health = amount;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void addHealth(int amount){
+        if(health != -1){
+            if(health+amount < 0){
+                health = 0;
+                physicsObject.setLocation(100,100);
+            }else{
+                health += amount;
+            }
+        }
+    }
+
+    public void giveWeapon(Weapon weapon){
+        this.weapon = weapon;
+        changed = true;
+    }
+
+    public void removeWeapon(){
+        weapon = null;
+        changed = true;
+    }
+
     public String getPosTransmissionData(char delimiter){
         poschange = false;
         return "p" + delimiter + iD + delimiter + physicsObject.getPosition().getX() + delimiter + physicsObject.getPosition().getY();
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
     }
 
     public static void applyPosTransmissionData(String data, char delimiter, ArrayList<GameObject> gameObjects){
@@ -89,7 +125,9 @@ public class GameObject {
         }else{
             c = Integer.toString(graphicshapecolor.getRGB());
         }
-        return "n" + delimiter + iD + delimiter + imgid + delimiter + orientation + delimiter + c  + delimiter + fill + delimiter + flag + delimiter + physicsObject.getTransmissionData('_') + delimiter;
+        String weaponstring = "-";
+        if(weapon != null){weaponstring = weapon.getTransmissionData();}
+        return "n" + delimiter + iD + delimiter + imgid + delimiter + orientation + delimiter + c  + delimiter + fill + delimiter + flag + delimiter + physicsObject.getTransmissionData('_') + delimiter + weaponstring + delimiter + health;
     }
 
     public static GameObject createfromTransmissionData(String data, char delimiter, ArrayList<GameObject> gameObjects){
@@ -128,7 +166,13 @@ public class GameObject {
         boolean fill = Boolean.parseBoolean(array[4]);
         String flag = array[5];
         PhysicsObject phyobj = PhysicsObject.createfromTransmissionData(array[6],'_');
-        return new GameObject(iD, img, orientation, c, fill, flag, phyobj, Integer.parseInt(array[1]));
+        Weapon weapon;
+        if(!array[7].equals("-")){
+            weapon = Weapon.createFromTransmission(array[7]);
+        }else{
+            weapon = null;
+        }
+        return new GameObject(iD, img, orientation, c, fill, flag, phyobj, Integer.parseInt(array[1]), weapon, Integer.parseInt(array[8]));
     }
 
     /*public String getTransmissionData(ArrayList<LogicEvent> logicEvents, char delimiter){
@@ -142,7 +186,7 @@ public class GameObject {
         return s.substring(0,s.length()-1);
     }*/
 
-    public GameObject(int iD, BufferedImage bufferedImage, double orientation, Color c, boolean fill, String flag, PhysicsObject physicsObject, int imgid){
+    public GameObject(int iD, BufferedImage bufferedImage, double orientation, Color c, boolean fill, String flag, PhysicsObject physicsObject, int imgid, Weapon weapon, int health){
         this.iD = iD;
         this.bufferedImage = bufferedImage;
         this.orientation = orientation;
@@ -151,6 +195,8 @@ public class GameObject {
         this.flag = flag;
         this.physicsObject = physicsObject;
         this.imgid = imgid;
+        this.weapon = weapon;
+        this.health = health;
         physicsObject.setParent(this);
     }
 

@@ -116,6 +116,9 @@ public class KeyEvent extends LogicEvent {
                     }
                     logic.updateHUDObjects();
                 }
+                if(keys[KeyListener.R]){
+                    logic.entityreload(player);
+                }
             }else{
                 if(keys[KeyListener.W]){
                     if(keys[KeyListener.S]){
@@ -172,6 +175,9 @@ public class KeyEvent extends LogicEvent {
 
                     }
                     }
+                if(keys[KeyListener.R]){
+                    client.send("A R");
+                }
                 }
                 if(keys[KeyListener.ESC]){
                     if(menustatus.get() == 0){

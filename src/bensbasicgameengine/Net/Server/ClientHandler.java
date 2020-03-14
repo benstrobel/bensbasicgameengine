@@ -7,6 +7,7 @@ import bensbasicgameengine.Lib.Tools;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
 import example.Game;
+import example.Weapons.Pistol;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -50,6 +51,8 @@ public class ClientHandler extends Thread{
             GameObject clientobject = new GameObject(gamelogic.getNextID(),clientrectangle,Game.textures[0]);
             clientrectangle.setParent(clientobject);
             clientobject.setGraphiclayerid(0);
+            clientobject.setHealth(100);
+            clientobject.giveWeapon(new Pistol());
             gamelogic.addGameObject(clientobject);
             ingameiD = clientobject.getiD();
             sendMsg("F " + ingameiD);
@@ -133,21 +136,12 @@ public class ClientHandler extends Thread{
         }else if(action.startsWith("C")){
             String [] array = action.split(" ");
             Point2D mousePos = new Point2D.Double(Double.parseDouble(array[1]), Double.parseDouble(array[2]));
-            PhysicsObject projectilerectangle = new PhysicsRectangle(Tools.getMiddle(gamelogic.getGameObjectwithID(ingameiD).getPhysicsObject()), 1, 10, 5);
-            GameObject projectile = new GameObject(gamelogic.getNextID(),projectilerectangle, Color.black, true);
-            projectilerectangle.setParent(projectile);
-            Point2D direction = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),mousePos,20);
-            Point2D adddirection = Tools.calculateDirection(Tools.getMiddle(projectilerectangle),mousePos,60);
-            projectilerectangle.getPosition().setLocation(Tools.addVector(projectilerectangle.getPosition(),adddirection));
-            projectile.getPhysicsObject().updateShape();
-            projectilerectangle.setVelocityX(direction.getX());
-            projectilerectangle.setVelocityY(direction.getY());
-            projectilerectangle.setOrientation(Tools.getDegree(direction));
-            projectile.registerLogicEvent(new DeleteProjectilesEvent(projectile));
-            gamelogic.addGameObject(projectile);
+            gamelogic.entityClick(gamelogic.getGameObjectwithID(ingameiD),mousePos);
         }else if(action.startsWith("T")){
             String [] array = action.split(" ");
             gamelogic.getGameObjectwithID(ingameiD).setBufferedImage(Game.textures[Integer.parseInt(array[1])]);
+        }else if(action.equals("R")){
+            gamelogic.entityreload(gamelogic.getGameObjectwithID(ingameiD));
         }
     }
 

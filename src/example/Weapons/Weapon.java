@@ -6,37 +6,59 @@ public abstract class Weapon {
     private double damage;
     private double spray;
     private double barrellength;
-    private int reloadtime;
-    private int shotcooldown;
+    private int reloadtime, currentreloadtime = 0;
+    private int shotcooldown, currentshotcooldown = 0;
+    private boolean fullautocapable, fullautoenabled;
 
-    public Weapon(int maxammo, double damage, double spray, double barrellength, int reloadtime, int shotcooldown){
+    public Weapon(int maxammo, double damage, double spray, double barrellength, int reloadtime, int shotcooldown, boolean fullautocapable, boolean fullautoenabled){
         this.maxammo = maxammo;
         this.damage = damage;
         this.spray = spray;
         this.barrellength = barrellength;
         this.reloadtime = reloadtime;
         this.shotcooldown = shotcooldown;
+        this.fullautocapable = fullautocapable;
+        this.fullautoenabled = fullautoenabled;
         currentammo = maxammo;
     }
 
     public abstract String getTransmissionData();
+
+    public void tick(){
+        if(currentreloadtime > 0){currentreloadtime--;}
+        if(currentshotcooldown > 0){currentshotcooldown--;}
+    }
 
     public static Weapon createFromTransmission(String data){
         if(data.equals("p")){
             return new Pistol();
         }else if(data.equals("f")){
             return new Fists();
-        }else{
+        } else if (data.equals("r")) {
+            return new Rifle();
+        }
+        else {
             return null;
         }
     }
 
     public boolean shoot(){
         if(currentammo > 0){
-            currentammo--;
-            return true;
+            if(currentreloadtime == 0 && currentshotcooldown == 0){
+                currentammo--;
+                currentshotcooldown = shotcooldown;
+                return true;
+            }else{
+                return false;
+            }
         }else{
             return false;
+        }
+    }
+
+    public void toggleFullAuto(){
+        if(fullautocapable){
+            fullautoenabled = !fullautoenabled;
         }
     }
 
@@ -70,5 +92,13 @@ public abstract class Weapon {
 
     public int getShotcooldown() {
         return shotcooldown;
+    }
+
+    public boolean isFullautocapable() {
+        return fullautocapable;
+    }
+
+    public boolean isFullautoenabled() {
+        return fullautoenabled;
     }
 }

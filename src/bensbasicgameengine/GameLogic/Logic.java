@@ -94,7 +94,6 @@ public class Logic {
     public void mainmenuloop(){
         while(mainmenu){
             handleGlobalEvents();
-            mouse_listener.resetAll();
             graphictick();
         }
     }
@@ -248,7 +247,7 @@ public class Logic {
         handleLocalEventsAndCollectGarbage();
         physics.tick();
         camtick();
-        mouse_listener.resetAll();
+        mouse_listener.setMousechanged(false);
         tickcounter++;
     }
 
@@ -443,9 +442,16 @@ public class Logic {
         Weapon weapon = entity.getWeapon();
         if(weapon != null){
             if(weapon.shoot()){
-                createProjectile(entity,position,(int)weapon.getDamage());
+                if(entity.getlastclickedintick() == tickcounter-1){
+                    if(weapon.isFullautocapable() && weapon.isFullautoenabled()){
+                        createProjectile(entity,position,(int)weapon.getDamage());
+                    }
+                }else{
+                    createProjectile(entity,position,(int)weapon.getDamage());
+                }
             }
         }
+        entity.setlastclickedintick(tickcounter);
     }
 
     public void entityreload(GameObject entity){

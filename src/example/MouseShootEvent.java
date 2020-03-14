@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MouseEvent extends LogicEvent {
+public class MouseShootEvent extends LogicEvent {
 
     private Mouse_Listener mouse_listener;
     private Logic logic;
@@ -23,7 +23,7 @@ public class MouseEvent extends LogicEvent {
     private AtomicInteger menustatus;
     private Client client;
 
-    public MouseEvent(Mouse_Listener mouse_listener, Logic logic, GameObject player, Point2D camlocation, AtomicInteger menustatus, Client client){
+    public MouseShootEvent(Mouse_Listener mouse_listener, Logic logic, GameObject player, Point2D camlocation, AtomicInteger menustatus, Client client){
         this.mouse_listener = mouse_listener;
         this.logic = logic;
         this.player = player;
@@ -43,7 +43,6 @@ public class MouseEvent extends LogicEvent {
                 Point2D mousePos = (Point2D) mouse_listener.getPos().clone();
                 mousePos.setLocation(mousePos.getX()+camlocation.getX(),mousePos.getY()+camlocation.getY());
                 client.send("A C " + mousePos.getX() + " " + mousePos.getY());
-                mouse_listener.resetAll();
             }
         }
     }

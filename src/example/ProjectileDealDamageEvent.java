@@ -25,6 +25,7 @@ public class ProjectileDealDamageEvent extends LogicEvent {
             if(collidingobject.getParent().getHealth() != -1){
                 collidingobject.getParent().addHealth(-damage);
                 projectile.setGarbage(true);
+                break;
             }
         }
     }

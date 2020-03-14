@@ -12,7 +12,7 @@ public class Mouse_Listener implements MouseListener  {
       This means you should "poll" the MouseState once per tick to ensure no input gets lost.
      */
 
-    private boolean leftmousepressed = false, rightmousepressed = false, middlemousepressed = false, mouseEntered = false, mouseExited = false, mouseReleased = false;
+    private boolean leftmousepressed = false, rightmousepressed = false, middlemousepressed = false, mouseEntered = false, mouseExited = false, mouseReleased = false, mousechanged = false;
     private Point2D pos;
 
     public void resetAll(){
@@ -22,6 +22,7 @@ public class Mouse_Listener implements MouseListener  {
         mouseEntered = false;
         mouseExited = false;
         mouseReleased = false;
+        mousechanged = false;
     }
 
     public void resetLeftMouse(){
@@ -60,17 +61,26 @@ public class Mouse_Listener implements MouseListener  {
         return mouseReleased;
     }
 
+    public boolean isMousechanged() {
+        return mousechanged;
+    }
+
+    public void setMousechanged(boolean mousechanged) {
+        this.mousechanged = mousechanged;
+    }
+
     public Point2D getPos() {
         return pos;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        pos = e.getPoint();
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        boolean ol = leftmousepressed, or = rightmousepressed, om = middlemousepressed;
+        pos = e.getPoint();
         if(e.getButton() == MouseEvent.BUTTON1){
             leftmousepressed = true;
         }else{
@@ -82,12 +92,15 @@ public class Mouse_Listener implements MouseListener  {
                 }
             }
         }
-        pos = e.getPoint();
+        if(ol != leftmousepressed || or != rightmousepressed || om != middlemousepressed){
+            mousechanged = true;
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        mouseReleased = true;
+        boolean ol = leftmousepressed, or = rightmousepressed, om = middlemousepressed;
+        pos = e.getPoint();
         if(e.getButton() == MouseEvent.BUTTON1){
             leftmousepressed = false;
         }else{
@@ -99,7 +112,10 @@ public class Mouse_Listener implements MouseListener  {
                 }
             }
         }
-        pos = e.getPoint();
+        mouseReleased = true;
+        if(ol != leftmousepressed || or != rightmousepressed || om != middlemousepressed){
+            mousechanged = true;
+        }
     }
 
     @Override

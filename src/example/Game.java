@@ -15,6 +15,8 @@ import bensbasicgameengine.Physic.Physics;
 import bensbasicgameengine.Physic.PhysicsObject;
 import bensbasicgameengine.Physic.PhysicsRectangle;
 import example.Weapons.Pistol;
+import example.Weapons.Rifle;
+import example.Weapons.Weapon;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -76,8 +78,9 @@ public class Game {
 
     private String texturepaths [] = {"dude.png","dudealex.png","dudearne.png","dudeben.png","dudecheesn.png", "dudehinze.png", "dudekai.png", "dudemanu.png", "dudemarius.png", "dudetim.png","dudetorsten.png","0.png","1.png","2.png","3.png","4.png","5.png","6.png","7.png","8.png","9.png","10.png",
             "11.png","12.png","13.png","14.png","15.png","16.png","17.png","18.png","19.png","20.png",
-            "21.png","22.png","23.png","24.png","25.png","26.png","27.png","28.png","bg.png"};
+            "21.png","22.png","23.png","24.png","25.png","26.png","27.png","28.png","bg.png","pistol.png","rifle.png"};
     public static final int floortextstart = 11;
+    public static final int weapontextstart = 41;
     public static BufferedImage textures [];
     private GameObject player;
     private StringContainer inputstring = new StringContainer();
@@ -297,7 +300,7 @@ public class Game {
     private void setupEvents(){
         keyEvent = new KeyEvent(keyListener,player,graphic,menustatus,logic,inputstring,enterip,client);
         logic.registerLogicEvent(keyEvent);
-        LogicEvent mouseEvent = new MouseEvent(mouse_listener,logic,player,logic.getCamlocation(),menustatus, client);
+        LogicEvent mouseEvent = new MouseShootEvent(mouse_listener,logic,player,logic.getCamlocation(),menustatus, client);
         logic.registerLogicEvent(mouseEvent);
         LogicEvent windowFocusEvent = new WindowFocusEvent(windowFocusListener,keyListener);
         logic.registerLogicEvent(windowFocusEvent);
@@ -309,12 +312,14 @@ public class Game {
         playerrectangle.setParent(player);
         player.setGraphiclayerid(0);
         player.setHealth(100);
-        player.giveWeapon(new Pistol());
         logic.addGameObject(player);
         logic.addWall(-30,0,1950,30);
         logic.addWall(0,1920, 30, 1950);
         logic.addWall(-30,-30, 30, 1980);
         logic.addWall(1920,0,1950,30);
+
+        addWeaponPickUp(new Pistol(), 1000.0, 800.0);
+        addWeaponPickUp(new Rifle(), 1100.0,800.0);
     }
 
     private void setupInGameHUD(){
@@ -351,5 +356,22 @@ public class Game {
         }
         logic.addGraphicLayer();
         graphic.setBackground(background);
+    }
+
+    public void addWeaponPickUp(Weapon weapon, Double x, Double y){
+        PhysicsObject phyobj = null;
+        int textureid = 0;
+        if(weapon instanceof Pistol){
+            phyobj = new PhysicsRectangle(new Point2D.Double(x,y), 1, 30, 45);
+            textureid = 41;
+        }else if(weapon instanceof Rifle){
+            phyobj = new PhysicsRectangle(new Point2D.Double(x,y), 1, 30, 90);
+            textureid = 42;
+        }
+        GameObject weaponobj = new GameObject(logic.getNextID(),phyobj,textures[textureid]);
+        phyobj.setParent(weaponobj);
+        weaponobj.setGraphiclayerid(0);
+        weaponobj.registerLogicEvent(new PickupWeaponEvent(weaponobj,weapon));
+        logic.addGameObject(weaponobj);
     }
 }

@@ -31,6 +31,7 @@ public class GameObject {
     private int imgid = -1;
     private int health = -1;
     private boolean changed = true, poschange = false, rotchange = false, velchange = false;
+    private long lastclickedintick = -1;
 
     public boolean isPoschange() {
         return poschange;
@@ -38,6 +39,14 @@ public class GameObject {
 
     public boolean isRotchange() {
         return rotchange;
+    }
+
+    public void setlastclickedintick(long lastclickedintick) {
+        this.lastclickedintick = lastclickedintick;
+    }
+
+    public long getlastclickedintick() {
+        return lastclickedintick;
     }
 
     public void setHealth(int amount){
@@ -221,6 +230,10 @@ public class GameObject {
 
     public void tick(){
         handleLocalEvents();
+
+        if(weapon != null){
+            weapon.tick();
+        }
     }
 
     public void setFlag(String flag){
